@@ -16,24 +16,15 @@ record DXHeating_Curve_I "Performance curve DX heating coil I"
 
   annotation (defaultComponentName="per", Documentation(info="<html>
 <p>
-This record declares performance curves for the cooling capacity and the EIR.
-It has been obtained from the EnergyPlus 7.1 example file
-<code>DXCoilSystemAuto.idf</code>.
+This record declares performance curves for the heating capacity and the EIR.
+It has been obtained from the EnergyPlus 9.6 example file
+<code>PackagedTerminalHeatPump.idf</code>.
 </p>
 </html>",
 revisions="<html>
 <ul>
 <li>
-April 9, 2021, by Michael Wetter:<br/>
-Corrected placement of <code>each</code> keyword.<br/>
-See <a href=\"https://github.com/lbl-srg/modelica-buildings/pull/2440\">Buildings, PR #2440</a>.
-</li>
-<li>
-September 25, 2012 by Michael Wetter:<br/>
-Revised documentation.
-</li>
-<li>
-August 15, 2012 by Kaustubh Phalak:<br/>
+March 08, 2023 by Xing Lu:<br/>
 First implementation.
 </li>
 </ul>

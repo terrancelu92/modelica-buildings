@@ -94,27 +94,15 @@ equation
             Documentation(info="<html>
 <p>
 This is a test model for
-<a href=\"modelica://Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.SingleSpeed\">
-Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.SingleSpeed</a>.
+<a href=\"modelica://Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.SingleSpeedDXHeating\">
+Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.SingleSpeedDXHeating</a>.
 The model has open-loop control and time-varying input conditions.
 </p>
 </html>",
 revisions="<html>
 <ul>
 <li>
-January 22, 2016, by Michael Wetter:<br/>
-Corrected type declaration of pressure difference.
-This is
-for <a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/404\">#404</a>.
-</li>
-<li>
-December 22, 2014 by Michael Wetter:<br/>
-Removed <code>Modelica.Fluid.System</code>
-to address issue
-<a href=\"https://github.com/lbl-srg/modelica-buildings/issues/311\">#311</a>.
-</li>
-<li>
-April 12, 2012 by Kaustubh Phalak:<br/>
+March 08, 2023 by Xing Lu:<br/>
 First implementation.
 </li>
 </ul>

@@ -39,26 +39,14 @@ equation
       smooth=Smooth.None));
   annotation (defaultComponentName="sinSpeDX", Documentation(info="<html>
 <p>
-This model can be used to simulate an air-cooled DX cooling coil with single speed compressor.
-</p>
-<p>
-See
-<a href=\"modelica://Buildings.Fluid.HeatExchangers.DXCoils.UsersGuide\">
-Buildings.Fluid.HeatExchangers.DXCoils.UsersGuide</a>
-for an explanation of the model.
+This model can be used to simulate an air-source DX heating coil with single speed compressor.
 </p>
 </html>",
 revisions="<html>
 <ul>
 <li>
-March 7, 2022, by Michael Wetter:<br/>
-Set <code>final massDynamics=energyDynamics</code>.<br/>
-This is for
-<a href=\"https://github.com/ibpsa/modelica-ibpsa/issues/1542\">#1542</a>.
-</li>
-<li>
-April 12, 2012 by Kaustubh Phalak:<br/>
-First implementation.
+March 8, 2023, by Xing Lu:<br/>
+Initial implementation.
 </li>
 </ul>
 </html>"),
