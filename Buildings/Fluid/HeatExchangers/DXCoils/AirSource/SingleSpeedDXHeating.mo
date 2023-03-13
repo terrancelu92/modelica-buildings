@@ -1,4 +1,4 @@
-within Buildings.Fluid.HeatExchangers.DXCoils.AirCooled;
+within Buildings.Fluid.HeatExchangers.DXCoils.AirSource;
 model SingleSpeedDXHeating "Single speed DX cooling coil"
   extends
     Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.PartialDXHeatingCoil(
@@ -9,7 +9,7 @@ model SingleSpeedDXHeating "Single speed DX cooling coil"
           cooCap),
     computeReevaporation=false,
     redeclare
-      Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.Data.Generic.DXCoil
+      Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.DXCoil
       datCoi,
     use_mCon_flow=false);
   Modelica.Blocks.Sources.Constant speRat(final k=1) "Speed ratio"

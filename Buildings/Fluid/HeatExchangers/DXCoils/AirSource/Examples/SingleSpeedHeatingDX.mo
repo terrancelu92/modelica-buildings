@@ -1,4 +1,4 @@
-within Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.Examples;
+within Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Examples;
 model SingleSpeedHeatingDX "Test model for single speed DX coil"
   package Medium = Buildings.Media.Air;
   extends Modelica.Icons.Example;
@@ -27,7 +27,7 @@ model SingleSpeedHeatingDX "Test model for single speed DX coil"
     height=-3,
     offset=273.15 + 23) "Temperature"
     annotation (Placement(transformation(extent={{-100,-40},{-80,-20}})));
-   Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.SingleSpeedDXHeating sinSpeDX(
+   Buildings.Fluid.HeatExchangers.DXCoils.AirSource.SingleSpeedDXHeating sinSpeDX(
     redeclare package Medium = Medium,
     dp_nominal=dp_nominal,
     datCoi=datCoi,
@@ -44,17 +44,17 @@ model SingleSpeedHeatingDX "Test model for single speed DX coil"
     height=dp_nominal,
     offset=101325) "Pressure"
     annotation (Placement(transformation(extent={{-100,0},{-80,20}})));
-  parameter Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.Data.Generic.DXCoil datCoi(sta={
-        Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.Data.Generic.BaseClasses.Stage(
+  parameter Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.DXCoil datCoi(sta={
+        Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.BaseClasses.Stage(
          spe=1800/60, nomVal=
-        Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.Data.Generic.BaseClasses.NominalValues(
+        Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.BaseClasses.NominalValues(
         Q_flow_nominal=16381.47714,
         COP_nominal=3.90494,
         SHR_nominal=1,
         m_flow_nominal=2,
         TEvaIn_nominal=273.15 - 5,
         TConIn_nominal=273.15 + 21),
-        perCur=Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.Examples.PerformanceCurves.DXHeating_Curve_I())},
+        perCur=Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Examples.PerformanceCurves.DXHeating_Curve_I())},
         nSta=1) "Coil data"
     annotation (Placement(transformation(extent={{58,60},{78,80}})));
   Modelica.Blocks.Sources.Constant TEvaIn(k=273.15 + 0)
@@ -88,14 +88,14 @@ equation
     annotation (Line(points={{42,-10},{60,-10}}, color={0,127,255}));
   connect(sinSpeDX.port_a, sou.ports[1]) annotation (Line(points={{-10,12},{-14,
           12},{-14,-10},{-20,-10}}, color={0,127,255}));
-  annotation (             __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Fluid/HeatExchangers/DXCoils/AirCooled/Examples/SingleSpeed.mos"
+  annotation (             __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Fluid/HeatExchangers/DXCoils/AirSource/Examples/SingleSpeed.mos"
         "Simulate and plot"),
     experiment(Tolerance=1e-6, StopTime=3600),
             Documentation(info="<html>
 <p>
 This is a test model for
-<a href=\"modelica://Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.SingleSpeedDXHeating\">
-Buildings.Fluid.HeatExchangers.DXCoils.AirCooled.SingleSpeedDXHeating</a>.
+<a href=\"modelica://Buildings.Fluid.HeatExchangers.DXCoils.AirSource.SingleSpeedDXHeating\">
+Buildings.Fluid.HeatExchangers.DXCoils.AirSource.SingleSpeedDXHeating</a>.
 The model has open-loop control and time-varying input conditions.
 </p>
 </html>",
