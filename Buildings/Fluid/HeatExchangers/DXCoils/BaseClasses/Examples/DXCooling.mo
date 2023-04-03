@@ -14,10 +14,12 @@ model DXCooling "Test model for DXCooling"
    datCoi=datCoi,
    variableSpeedCoil=true,
    use_mCon_flow=false,
-   wetCoi(redeclare Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.CoolingCapacityAirCooled
-        cooCap),
-    dryCoi(redeclare Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.CoolingCapacityAirCooled
-        cooCap))
+   wetCoi(redeclare
+        Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.CoilCapacityAirSource
+        coiCap),
+    dryCoi(redeclare
+        Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.CoilCapacityAirSource
+        coiCap))
     annotation (Placement(transformation(extent={{0,0},{20,20}})));
   Modelica.Blocks.Sources.IntegerStep onOff(
     startTime=600) "Compressor on-off signal"
@@ -48,7 +50,7 @@ model DXCooling "Test model for DXCooling"
   Modelica.Blocks.Sources.TimeTable speRat(table=[0.0,0.0; 900,0.25; 1800,0.50;
         2700,0.75]) "Speed ratio "
     annotation (Placement(transformation(extent={{-80,74},{-60,94}})));
-  parameter AirSource.Data.Generic.DXCoil datCoi(sta={
+  parameter AirSource.Data.Generic.CoolingCoil datCoi(sta={
         Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.BaseClasses.Stage(
         spe=900/60,
         nomVal=

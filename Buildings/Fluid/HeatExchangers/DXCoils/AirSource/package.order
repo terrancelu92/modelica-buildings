@@ -1,7 +1,7 @@
-MultiStageDXCooling
-SingleSpeedDXCooling
-SingleSpeedDXHeating
-VariableSpeedDXCooling
+MultiStageCooling
+SingleSpeedCooling
+SingleSpeedHeating
+VariableSpeedCooling
 Data
 Examples
 Validation

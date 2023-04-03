@@ -1,7 +1,7 @@
 within Buildings.Fluid.HeatExchangers.DXCoils.WaterSource.Data.Generic;
 record DXCoil
   "Performance record for a DX Cooling Coil with one or multiple stages"
-  extends Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.DXCoil(
+  extends Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.CoolingCoil(
   redeclare parameter Buildings.Fluid.HeatExchangers.DXCoils.WaterSource.Data.Generic.BaseClasses.Stage sta[nSta]);
 annotation (preferredView="info",
 defaultComponentName="datCoi",

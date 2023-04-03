@@ -18,7 +18,7 @@ The following six DX coil models are available:
   </tr>
   <tr>
     <td>Air source</td>
-    <td>Buildings.Fluid.HeatExchangers.DXCoils.AirSource.MultiStageDXCooling</td>
+    <td>Buildings.Fluid.HeatExchangers.DXCoils.AirSource.MultiStageCooling</td>
     <td>Cooling coil with multiple operating stages, each stage having a constant speed.
         Each stage has its own performance curve, which may represent
         the coil performance at different compressor speed, or the
@@ -30,13 +30,13 @@ The following six DX coil models are available:
   </tr>
   <tr>
       <td>Air source</td>
-      <td>Buildings.Fluid.HeatExchangers.DXCoils.AirSource.SingleSpeedDXCooling</td>
+      <td>Buildings.Fluid.HeatExchangers.DXCoils.AirSource.SingleSpeedCooling</td>
       <td>Single stage cooling coil with constant compressor speed</td>
       <td>Boolean signal; <code>true</code> if coil is on.</td>
   </tr>
   <tr>
       <td>Air source</td>
-      <td>Buildings.Fluid.HeatExchangers.DXCoils.AirSource.VariableSpeedDXCooling</td>
+      <td>Buildings.Fluid.HeatExchangers.DXCoils.AirSource.VariableSpeedCooling</td>
       <td>Cooling coil with variable speed compressor with lower speed limit. If the control signal
           is below the lower limit, the coil switches off. It switches on if the control
           signal is above the lower limit plus a hysteresis. By default, the minimum speed
@@ -46,7 +46,7 @@ The following six DX coil models are available:
   </tr>
   <tr>
       <td>Air source</td>
-      <td>Buildings.Fluid.HeatExchangers.DXCoils.AirSource.SingleSpeedDXHeating</td>
+      <td>Buildings.Fluid.HeatExchangers.DXCoils.AirSource.SingleSpeedHeating</td>
       <td>Single stage heating coil with constant compressor speed</td>
       <td>Boolean signal; <code>true</code> if coil is on.</td>
   </tr>
@@ -90,8 +90,8 @@ If the supply air temperature is used, then the control algorithm should be such
 For air source DX cooling coils, the steady-state total rate of cooling and the Energy Input Ratio (EIR)
 are computed using polynomials in the air mass flow fraction (relative to the nominal mass flow rate),
 the evaporator air inlet temperature and the outdoor air temperature. These polynomials are explained at
-<a href=\"modelica://Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.CoolingCapacityAirCooled\">
-Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.CoolingCapacityAirCooled</a>.
+<a href=\"modelica://Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.CoilCapacityAirSource\">
+Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.CoilCapacityAirSource</a>.
 </p>
 <p>
 For air source DX heating coils, the steady-state total rate of heating and the Energy Input Ratio (EIR)
@@ -133,8 +133,8 @@ The coils model two separate performances, one assuming a dry coil, and one assu
 The dry coil is modeled using <a href=\"modelica://Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.DryCoil\">Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.DryCoil</a>
 and the wet coil is modeled using <a href=\"modelica://Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.WetCoil\">Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.WetCoil</a>.
 Both use the same model
-<a href=\"modelica://Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.CoolingCapacityAirCooled\">
-Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.CoolingCapacityAirCooled</a>
+<a href=\"modelica://Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.CoilCapacityAirSource\">
+Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.CoilCapacityAirSource</a>
 to compute the cooling capacity, but the wet coil uses the wet-bulb temperature
 of the air inlet instead of the dry bulb temperature to compute the coil performance.
 The wet coil model computes the humidity of the leaving air <i>X<sub>w,o</sub></i>, using the bypass factor model.<br/>

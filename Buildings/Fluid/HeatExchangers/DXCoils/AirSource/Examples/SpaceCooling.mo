@@ -80,7 +80,7 @@ model SpaceCooling "Space cooling with DX coils"
   Modelica.Blocks.Sources.Constant TRooSetPoi(k=TRooSet)
     "Room temperature set point"
     annotation (Placement(transformation(extent={{-120,8},{-100,28}})));
-  Buildings.Fluid.HeatExchangers.DXCoils.AirSource.SingleSpeedDXCooling
+  Buildings.Fluid.HeatExchangers.DXCoils.AirSource.SingleSpeedCooling
     sinSpeDX(
     redeclare package Medium = Medium,
     datCoi=datCoi,
@@ -120,7 +120,7 @@ model SpaceCooling "Space cooling with DX coils"
      m_flow_nominal=mA_flow_nominal)
     "Temperature sensor for supply air"
     annotation (Placement(transformation(extent={{66,-170},{78,-158}})));
-  Buildings.Fluid.HeatExchangers.DXCoils.AirSource.MultiStageDXCooling mulStaDX(
+  Buildings.Fluid.HeatExchangers.DXCoils.AirSource.MultiStageCooling mulStaDX(
     redeclare package Medium = Medium,
     dp_nominal=400,
     datCoi=datCoiMulSpe,
@@ -134,8 +134,9 @@ model SpaceCooling "Space cooling with DX coils"
     mA_flow_nominal=mA_flow_nominal) "Room model connected to multi stage coil"
      annotation (Placement(transformation(extent={{180,40},{200,60}})));
 
-  parameter Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.DXCoil datCoi(
-      sta={Data.Generic.BaseClasses.Stage(
+  parameter
+    Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.CoolingCoil
+    datCoi(sta={Data.Generic.BaseClasses.Stage(
         spe=1800/60,
         nomVal=Data.Generic.BaseClasses.NominalValues(
           Q_flow_nominal=QCoiC_flow_nominal,
@@ -146,7 +147,7 @@ model SpaceCooling "Space cooling with DX coils"
     annotation (Placement(transformation(extent={{0,-40},{20,-20}})));
 
   parameter
-    Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.DXCoil
+    Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.CoolingCoil
     datCoiMulSpe(nSta=2, sta={Data.Generic.BaseClasses.Stage(
         spe=900/60,
         nomVal=Data.Generic.BaseClasses.NominalValues(
@@ -183,7 +184,7 @@ model SpaceCooling "Space cooling with DX coils"
         Medium, m_flow_nominal=mA_flow_nominal)
     "Temperature sensor for supply air"
     annotation (Placement(transformation(extent={{64,-246},{76,-234}})));
-  Buildings.Fluid.HeatExchangers.DXCoils.AirSource.VariableSpeedDXCooling
+  Buildings.Fluid.HeatExchangers.DXCoils.AirSource.VariableSpeedCooling
     varSpeDX(
     redeclare package Medium = Medium,
     dp_nominal=400,

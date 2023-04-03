@@ -1,7 +1,9 @@
 ApparatusDewPoint
 ApparatusDryPoint
+CoilCapacityAirSource
+CoilDefrostCapacity
+CoilDefrostTimeCalculations
 Condensation
-CoolingCapacityAirCooled
 CoolingCapacityWaterCooled
 DXCooling
 DryCoil
@@ -9,9 +11,9 @@ DryWetSelector
 EssentialParameters
 Evaporation
 InputPower
+PartialCoilCapacity
 PartialCoilCondition
 PartialCoilInterface
-PartialCoolingCapacity
 PartialDXCoil
 PartialDXCoolingCoil
 PartialDXHeatingCoil
@@ -23,4 +25,5 @@ SpeedShift
 UACp
 WetCoil
 Functions
+Types
 Examples

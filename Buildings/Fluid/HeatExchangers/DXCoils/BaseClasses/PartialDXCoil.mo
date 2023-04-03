@@ -1,53 +1,53 @@
 within Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses;
 partial model PartialDXCoil "Partial model for DX coil"
-  extends
-    Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.EssentialParameters;
+  extends Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.EssentialParameters;
   extends Buildings.Fluid.Interfaces.TwoPortHeatMassExchanger(
     redeclare replaceable package Medium =
         Modelica.Media.Interfaces.PartialCondensingGases,
     final m_flow_nominal = datCoi.sta[nSta].nomVal.m_flow_nominal);
 
-  constant Boolean use_mCon_flow "Set to true to enable connector for the condenser mass flow rate";
+  constant Boolean use_mCon_flow
+    "Set to true to enable connector for the condenser mass flow rate";
 
-  parameter Boolean activate_CooCoi "= false, if DX coil is in the heating operation";
+  parameter Boolean activate_CooCoi
+    "= false, if DX coil is in the heating operation";
 
-  parameter String substanceName="water" "Name of species substance";
+  parameter Boolean computeReevaporation=true
+    "Set to true to compute reevaporation of water that accumulated on coil"
+    annotation (Evaluate=true, Dialog(tab="Dynamics", group="Moisture balance"));
 
-  Modelica.Blocks.Interfaces.RealInput TOut(unit="K", displayUnit="degC")
+  parameter String substanceName="water"
+    "Name of species substance";
+
+  Modelica.Blocks.Interfaces.RealInput TOut(
+    final unit="K",
+    displayUnit="degC")
     "Outside air dry bulb temperature for an air cooled condenser or wetbulb temperature for an evaporative cooled condenser"
     annotation (Placement(transformation(extent={{-120,20},{-100,40}})));
 
   Modelica.Blocks.Interfaces.RealInput mCon_flow(
-    quantity="MassFlowRate",
-    unit="kg/s") if use_mCon_flow
+    final quantity="MassFlowRate",
+    final unit="kg/s") if use_mCon_flow
     "Water mass flow rate for condenser"
     annotation (Placement(transformation(extent={{-120,-40},{-100,-20}})));
 
   Modelica.Blocks.Interfaces.RealOutput P(
-    quantity="Power",
-    unit="W") "Electrical power consumed by the unit"
+    final quantity="Power",
+    final unit="W")
+    "Electrical power consumed by the unit"
     annotation (Placement(transformation(extent={{100,80},{120,100}})));
-  Modelica.Blocks.Interfaces.RealOutput QSen_flow(quantity="Power", unit="W")
+
+  Modelica.Blocks.Interfaces.RealOutput QSen_flow(
+    final quantity="Power",
+    final unit="W")
     "Sensible heat flow rate"
     annotation (Placement(transformation(extent={{100,60},{120,80}})));
-  Modelica.Blocks.Interfaces.RealOutput QLat_flow(quantity="Power", unit="W") if activate_CooCoi
-    "Latent heat flow rate"
-    annotation (Placement(transformation(extent={{100,40},{120,60}})));
 
-  replaceable
-    Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.PartialCoilInterface dxCoi(datCoi=
-        datCoi, use_mCon_flow=use_mCon_flow) "DX coil"
+  replaceable Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.PartialCoilInterface dxCoi(
+    final datCoi=datCoi,
+    final use_mCon_flow=use_mCon_flow)
+    "DX coil"
     annotation (Placement(transformation(extent={{-20,42},{0,62}})));
-
-  Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.Evaporation eva(redeclare
-      package  Medium = Medium,
-                  nomVal=datCoi.sta[nSta].nomVal,
-                  computeReevaporation = computeReevaporation) if activate_CooCoi
-    "Model that computes evaporation of water that accumulated on the coil surface"
-    annotation (Placement(transformation(extent={{-8,-80},{12,-60}})));
-  parameter Boolean computeReevaporation=true
-    "Set to true to compute reevaporation of water that accumulated on coil"
-    annotation (Evaluate=true, Dialog(tab="Dynamics", group="Moisture balance"));
 
   // Flow reversal is not needed. Also, if ff < ffMin/4, then
   // Q_flow and EIR are set the zero. Hence, it is safe to assume
@@ -55,30 +55,41 @@ partial model PartialDXCoil "Partial model for DX coil"
 
   Modelica.Units.SI.SpecificEnthalpy hIn=inStream(port_a.h_outflow)
     "Enthalpy of air entering the DX coil";
+
   Modelica.Units.SI.Temperature TIn=Medium.temperature_phX(
-      p=port_a.p,
-      h=hIn,
-      X=XIn) "Dry bulb temperature of air entering the DX coil";
-  Modelica.Units.SI.MassFraction XIn[Medium.nXi]=inStream(port_a.Xi_outflow)
+    p=port_a.p,
+    h=hIn,
+    X=XIn)
+    "Dry bulb temperature of air entering the DX coil";
+
+  Modelica.Units.SI.MassFraction XIn[Medium.nXi]=inStream(
+    port_a.Xi_outflow)
     "Mass fraction/absolute humidity of air entering the DX coil";
 
-  Modelica.Blocks.Sources.RealExpression T(final y=TIn)
+  Modelica.Blocks.Sources.RealExpression T(
+    final y=TIn)
     "Inlet air temperature"
     annotation (Placement(transformation(extent={{-90,18},{-70,38}})));
-  Modelica.Blocks.Sources.RealExpression m(final y=port_a.m_flow)
-    "Inlet air mass flow rate"
+
+  Modelica.Blocks.Sources.RealExpression m(
+    final y=port_a.m_flow) "Inlet air mass flow rate"
     annotation (Placement(transformation(extent={{-90,34},{-70,54}})));
 
-  Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.InputPower pwr(activate_CooCoi=activate_CooCoi)
-                             "Electrical power consumed by the unit"
+  Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.InputPower pwr(
+    final activate_CooCoi=activate_CooCoi)
+    "Electrical power consumed by the unit"
     annotation (Placement(transformation(extent={{20,60},{40,80}})));
 
 protected
-  parameter Integer i_x(fixed=false) "Index of substance";
+  parameter Integer i_x(fixed=false)
+    "Index of substance";
+
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TVol
     "Temperature of the control volume"
     annotation (Placement(transformation(extent={{66,16},{78,28}})));
-  Buildings.HeatTransfer.Sources.PrescribedHeatFlow q "Heat extracted by coil"
+
+  Buildings.HeatTransfer.Sources.PrescribedHeatFlow q
+    "Heat extracted by coil"
     annotation (Placement(transformation(extent={{42,44},{62,64}})));
 
 initial algorithm
@@ -124,35 +135,15 @@ equation
       points={{62,54},{66,54},{66,22},{-12,22},{-12,-10},{-9,-10}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(pwr.P, P)    annotation (Line(
-      points={{41,76},{50.5,76},{50.5,90},{110,90}},
-      color={0,0,127},
-      smooth=Smooth.None));
-  connect(dxCoi.Q_flow, q.Q_flow) annotation (Line(
-      points={{1,56},{22,56},{22,54},{42,54}},
-      color={0,0,127},
-      smooth=Smooth.None));
   connect(TVol.port, q.port) annotation (Line(
       points={{66,22},{66,54},{62,54}},
       color={191,0,0},
-      smooth=Smooth.None));
-  connect(pwr.QSen_flow, QSen_flow) annotation (Line(
-      points={{41,70},{110,70}},
-      color={0,0,127},
       smooth=Smooth.None));
 
   connect(mCon_flow,dxCoi. mCon_flow) annotation (Line(points={{-110,-30},{-24,
           -30},{-24,42},{-21,42}}, color={0,0,127}));
 
   if activate_CooCoi then
-    connect(m.y, eva.mAir_flow) annotation (Line(
-      points={{-69,44},{-66,44},{-66,-76},{-10,-76}},
-      color={0,0,127},
-      smooth=Smooth.None));
-    connect(TVol.T, eva.TEvaOut) annotation (Line(
-      points={{78.6,22},{88,22},{88,-94},{8,-94},{8,-82}},
-      color={0,0,127},
-      smooth=Smooth.None));
 
   end if;
 
