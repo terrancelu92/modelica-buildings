@@ -1,9 +1,5 @@
 within Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Validation;
-<<<<<<<< HEAD:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/Validation/SingleSpeedEnergyPlus.mo
-model SingleSpeedEnergyPlus
-========
 model SingleSpeedCooling
->>>>>>>> modelica-buildings/issue3327_SPAWN_PTHPdevelopment:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/Validation/SingleSpeedCooling.mo
   "Validation model for single speed DX coil with PLR=1"
   extends Modelica.Icons.Example;
 
@@ -18,42 +14,12 @@ model SingleSpeedCooling
 
   parameter Modelica.Units.SI.PressureDifference dp_nominal=1141
     "Pressure drop at m_flow_nominal";
-<<<<<<<< HEAD:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/Validation/SingleSpeedEnergyPlus.mo
-  Buildings.Fluid.Sources.Boundary_pT sin(
-    redeclare package Medium = Medium,
-    p(displayUnit="Pa") = 101325,
-    nPorts=1,
-    T=303.15) "Sink"
-    annotation (Placement(transformation(extent={{40,-20},{20,0}})));
-  Buildings.Fluid.Sources.Boundary_pT sou(
-    redeclare package Medium = Medium,
-    p(displayUnit="Pa") = 101325 + dp_nominal,
-    use_T_in=true,
-    nPorts=1,
-    use_p_in=true,
-    use_X_in=true,
-    T=299.85) "Source"
-    annotation (Placement(transformation(extent={{-40,-20},{-20,0}})));
-  Buildings.Fluid.HeatExchangers.DXCoils.AirSource.SingleSpeed sinSpeDX(
-    redeclare package Medium = Medium,
-    dp_nominal=dp_nominal,
-    datCoi=datCoi,
-    T_start=datCoi.sta[1].nomVal.TEvaIn_nominal,
-    from_dp=true,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
-    "Single speed DX coil"
-    annotation (Placement(transformation(extent={{-10,0},{10,20}})));
-
-  parameter Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.DXCoil datCoi(
-       nSta=1, sta={Data.Generic.BaseClasses.Stage(
-========
 
   parameter
     Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.CoolingCoil
     datCoi(nSta=1,
       sta={
       Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.BaseClasses.Stage(
->>>>>>>> modelica-buildings/issue3327_SPAWN_PTHPdevelopment:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/Validation/SingleSpeedCooling.mo
         spe=1800/60,
         nomVal=Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.BaseClasses.NominalValues(
           Q_flow_nominal=-10500,

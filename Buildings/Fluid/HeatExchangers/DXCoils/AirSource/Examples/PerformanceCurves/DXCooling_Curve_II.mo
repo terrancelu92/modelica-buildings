@@ -1,9 +1,5 @@
 within Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Examples.PerformanceCurves;
-<<<<<<<< HEAD:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/Examples/PerformanceCurves/Curve_II.mo
-record Curve_II "Performance curve II"
-========
 record DXCooling_Curve_II "DX cooling coil performance curve II"
->>>>>>>> modelica-buildings/issue3327_SPAWN_PTHPdevelopment:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/Examples/PerformanceCurves/DXCooling_Curve_II.mo
   extends
     Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.BaseClasses.PerformanceCurve(
     capFunT={0.766956,0.0107756,-0.0000414703,0.00134961,-0.000261144,

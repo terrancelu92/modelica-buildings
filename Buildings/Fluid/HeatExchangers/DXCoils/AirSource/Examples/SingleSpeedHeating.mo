@@ -48,6 +48,7 @@ model SingleSpeedHeating "Test model for single speed DX heating coil"
 
   Buildings.Fluid.HeatExchangers.DXCoils.AirSource.SingleSpeedHeating sinSpeDX(
     datCoi(
+      is_CooCoi=false,
       final nSta=datCoi.nSta,
       final minSpeRat=datCoi.minSpeRat,
       final sta=datCoi.sta),

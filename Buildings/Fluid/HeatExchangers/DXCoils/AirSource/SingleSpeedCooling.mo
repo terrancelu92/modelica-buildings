@@ -1,14 +1,4 @@
 within Buildings.Fluid.HeatExchangers.DXCoils.AirSource;
-<<<<<<<< HEAD:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/SingleSpeed.mo
-model SingleSpeed "Single speed DX cooling coil"
-  extends Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.PartialDXCoil(
-      dxCoo(final variableSpeedCoil=false,
-            wetCoi(redeclare Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.CoolingCapacityAirCooled cooCap),
-            dryCoi(redeclare Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.CoolingCapacityAirCooled cooCap)),
-      redeclare Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.DXCoil datCoi,
-      use_mCon_flow=false);
-  Modelica.Blocks.Sources.Constant speRat(final k=1) "Speed ratio"
-========
 model SingleSpeedCooling "Single speed DX cooling coil"
   extends
     Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.PartialDXCoolingCoil(
@@ -28,7 +18,6 @@ model SingleSpeedCooling "Single speed DX cooling coil"
   Modelica.Blocks.Sources.Constant speRat(
     final k=1)
     "Speed ratio"
->>>>>>>> modelica-buildings/issue3327_SPAWN_PTHPdevelopment:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/SingleSpeedCooling.mo
     annotation (Placement(transformation(extent={{-56,58},{-44,70}})));
 
   Modelica.Blocks.Interfaces.BooleanInput on

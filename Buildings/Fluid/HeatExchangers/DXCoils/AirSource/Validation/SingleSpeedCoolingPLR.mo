@@ -1,9 +1,5 @@
 within Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Validation;
-<<<<<<<< HEAD:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/Validation/SingleSpeedPLREnergyPlus.mo
-model SingleSpeedPLREnergyPlus
-========
 model SingleSpeedCoolingPLR
->>>>>>>> modelica-buildings/issue3327_SPAWN_PTHPdevelopment:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/Validation/SingleSpeedCoolingPLR.mo
   "Validation model for single speed DX coil with PLR=1"
   extends Modelica.Icons.Example;
 
@@ -53,13 +49,8 @@ model SingleSpeedCoolingPLR
     final T=299.85)
     "Source"
     annotation (Placement(transformation(extent={{-40,-20},{-20,0}})));
-<<<<<<<< HEAD:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/Validation/SingleSpeedPLREnergyPlus.mo
-  Buildings.Fluid.HeatExchangers.DXCoils.AirSource.SingleSpeed sinSpeDX(
-========
-
   Buildings.Fluid.HeatExchangers.DXCoils.AirSource.SingleSpeedCooling
     sinSpeDX(
->>>>>>>> modelica-buildings/issue3327_SPAWN_PTHPdevelopment:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/Validation/SingleSpeedCoolingPLR.mo
     redeclare package Medium = Medium,
     final dp_nominal=dp_nominal,
     final datCoi=datCoi,
@@ -378,24 +369,9 @@ model SingleSpeedCoolingPLR
         82800,0; 86400,0])
     "EnergyPlus result: heat flow"
     annotation (Placement(transformation(extent={{40,-140},{60,-120}})));
-<<<<<<<< HEAD:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/Validation/SingleSpeedPLREnergyPlus.mo
-  parameter AirSource.Data.Generic.DXCoil datCoi(nSta=1, sta={Data.Generic.BaseClasses.Stage(
-        spe=1800/60,
-        nomVal=Data.Generic.BaseClasses.NominalValues(
-          Q_flow_nominal=-25237.66,
-          COP_nominal=3,
-          SHR_nominal=0.775047,
-          m_flow_nominal=1.72,
-          tWet=1000,
-          gamma=1.5),
-        perCur=Examples.PerformanceCurves.Curve_II())}) "Coil data"
-    annotation (Placement(transformation(extent={{80,40},{100,60}})));
-  Modelica.Blocks.Math.Add QCoo_flow "Total cooling heat flow rate"
-========
 
   Modelica.Blocks.Math.Add QCoo_flow
     "Total cooling heat flow rate"
->>>>>>>> modelica-buildings/issue3327_SPAWN_PTHPdevelopment:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/Validation/SingleSpeedCoolingPLR.mo
     annotation (Placement(transformation(extent={{-40,80},{-20,100}})));
 
   UnitDelay PEPlu(
@@ -575,11 +551,7 @@ equation
       smooth=Smooth.None));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-160,-140},
             {160,140}})),
-<<<<<<<< HEAD:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/Validation/SingleSpeedPLREnergyPlus.mo
-             __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Fluid/HeatExchangers/DXCoils/AirSource/Validation/SingleSpeedPLREnergyPlus.mos"
-========
              __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Fluid/HeatExchangers/DXCoils/AirSource/Validation/SingleSpeedCoolingPLR.mos"
->>>>>>>> modelica-buildings/issue3327_SPAWN_PTHPdevelopment:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/Validation/SingleSpeedCoolingPLR.mo
         "Simulate and plot"),
     experiment(Tolerance=1e-6, StopTime=86400),
             Documentation(info="<html>

@@ -1,12 +1,6 @@
-<<<<<<<< HEAD:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/Data/Generic/DXCoil.mo
-within Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic;
-record DXCoil
-  "Performance record for a DX Cooling Coil with one or multiple stages"
-========
 within Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.BaseClasses;
 record CoilHeatTransfer
   "Heat transfer performance record for a DX coil with one or multiple stages"
->>>>>>>> modelica-buildings/issue3327_SPAWN_PTHPdevelopment:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/Data/Generic/BaseClasses/CoilHeatTransfer.mo
   extends Modelica.Icons.Record;
 
   parameter Boolean is_CooCoi
@@ -29,12 +23,8 @@ record CoilHeatTransfer
 
   replaceable parameter
     Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.BaseClasses.Stage
-<<<<<<<< HEAD:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/Data/Generic/DXCoil.mo
-    sta[nSta]
-========
     sta[nSta](
     is_CooCoi=fill(is_CooCoi,nSta))
->>>>>>>> modelica-buildings/issue3327_SPAWN_PTHPdevelopment:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/Data/Generic/BaseClasses/CoilHeatTransfer.mo
     constrainedby
     Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.BaseClasses.Stage
     "Data record for coil performance at each stage";
@@ -48,12 +38,8 @@ defaultComponentName="datCoi",
 defaultComponentPrefixes="parameter",
 Documentation(info="<html>
 <p>
-<<<<<<<< HEAD:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/Data/Generic/DXCoil.mo
-This record declares the performance data for the air source DX cooling coil model.
-========
 This record declares the heat transfer performance data for an air source DX 
 cooling coil or heating coil model.
->>>>>>>> modelica-buildings/issue3327_SPAWN_PTHPdevelopment:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/Data/Generic/BaseClasses/CoilHeatTransfer.mo
 The performance data are structured as follows:
 </p>
 <pre>

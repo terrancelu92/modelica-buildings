@@ -1,11 +1,6 @@
 within Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Examples;
-<<<<<<<< HEAD:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/Examples/MultiStage.mo
-model MultiStage "Test model for multi stage DX coil"
-  package Medium = Buildings.Media.Air;
-========
 model MultiStageCooling
   "Test model for multi stage DX cooling coil"
->>>>>>>> modelica-buildings/issue3327_SPAWN_PTHPdevelopment:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/Examples/MultiStageCooling.mo
   extends Modelica.Icons.Example;
   package Medium = Buildings.Media.Air
     "Fluid medium for the model";
@@ -18,35 +13,12 @@ model MultiStageCooling
 
   Buildings.Fluid.HeatExchangers.DXCoils.AirSource.MultiStageCooling mulStaDX(
     redeclare package Medium = Medium,
-<<<<<<<< HEAD:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/Examples/MultiStage.mo
-    nPorts=1,
-    p(displayUnit="Pa") = 101325,
-    T=293.15) "Sink"
-    annotation (Placement(transformation(extent={{40,-20},{20,0}})));
-  Buildings.Fluid.Sources.Boundary_pT sou(
-    redeclare package Medium = Medium,
-    nPorts=1,
-    p(displayUnit="Pa") = 101325 + dp_nominal,
-    use_T_in=true,
-    use_p_in=true,
-    T=299.85) "Source"
-    annotation (Placement(transformation(extent={{-40,-20},{-20,0}})));
-  Buildings.Fluid.HeatExchangers.DXCoils.AirSource.MultiStage mulStaDX(
-    redeclare package Medium = Medium,
-    dp_nominal=dp_nominal,
-    datCoi=datCoi,
-    T_start=datCoi.sta[1].nomVal.TEvaIn_nominal,
-    show_T=true,
-    from_dp=true,
-    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
-========
     final dp_nominal=dp_nominal,
     final datCoi=datCoi,
     final T_start=datCoi.sta[1].nomVal.TEvaIn_nominal,
     final show_T=true,
     final from_dp=true,
     final energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial)
->>>>>>>> modelica-buildings/issue3327_SPAWN_PTHPdevelopment:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/Examples/MultiStageCooling.mo
     "Multispeed DX coil"
     annotation (Placement(transformation(extent={{-10,0},{10,20}})));
 
@@ -83,17 +55,12 @@ model MultiStageCooling
     final offset=101325)
     "Pressure"
     annotation (Placement(transformation(extent={{-100,0},{-80,20}})));
-<<<<<<<< HEAD:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/Examples/MultiStage.mo
-  parameter Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.DXCoil datCoi(
-        nSta=4, sta={Data.Generic.BaseClasses.Stage(
-========
 
   parameter
     Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.CoolingCoil
     datCoi(
       nSta=4,
       sta={Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.BaseClasses.Stage(
->>>>>>>> modelica-buildings/issue3327_SPAWN_PTHPdevelopment:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/Examples/MultiStageCooling.mo
         spe=900/60,
         nomVal=Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.BaseClasses.NominalValues(
           Q_flow_nominal=-12000,
@@ -169,23 +136,14 @@ equation
       points={{-79,50},{-46,50},{-46,13},{-11,13}},
       color={0,0,127},
       smooth=Smooth.None));
-<<<<<<<< HEAD:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/Examples/MultiStage.mo
-  annotation (             __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Fluid/HeatExchangers/DXCoils/AirSource/Examples/MultiStage.mos"
-========
   annotation (             __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Fluid/HeatExchangers/DXCoils/AirSource/Examples/MultiStageCooling.mos"
->>>>>>>> modelica-buildings/issue3327_SPAWN_PTHPdevelopment:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/Examples/MultiStageCooling.mo
         "Simulate and plot"),
     experiment(Tolerance=1e-6, StopTime=3600),
             Documentation(info="<html>
 <p>
 This is a test model for
-<<<<<<<< HEAD:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/Examples/MultiStage.mo
-<a href=\"modelica://Buildings.Fluid.HeatExchangers.DXCoils.AirSource.MultiStage\">
-Buildings.Fluid.HeatExchangers.DXCoils.AirSource.MultiStage</a>.
-========
 <a href=\"modelica://Buildings.Fluid.HeatExchangers.DXCoils.AirSource.MultiStageCooling\">
 Buildings.Fluid.HeatExchangers.DXCoils.AirSource.MultiStageCooling</a>.
->>>>>>>> modelica-buildings/issue3327_SPAWN_PTHPdevelopment:Buildings/Fluid/HeatExchangers/DXCoils/AirSource/Examples/MultiStageCooling.mo
 The model has open-loop control and time-varying input conditions.
 </p>
 </html>",

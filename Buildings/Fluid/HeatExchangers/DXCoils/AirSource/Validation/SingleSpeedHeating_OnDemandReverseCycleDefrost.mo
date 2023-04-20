@@ -45,6 +45,7 @@ model SingleSpeedHeating_OnDemandReverseCycleDefrost
 
   Buildings.Fluid.HeatExchangers.DXCoils.AirSource.SingleSpeedHeating sinSpeDX(
     datCoi(
+      is_CooCoi=false,
       final nSta=datCoi.nSta,
       final minSpeRat=datCoi.minSpeRat,
       final sta=datCoi.sta),

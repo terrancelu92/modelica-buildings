@@ -47,6 +47,7 @@ model SingleSpeedHeating_TimedReverseCycleDefrost
     redeclare package Medium = Medium,
     final dp_nominal=dp_nominal,
     datCoi(
+      is_CooCoi=false,
       final nSta=datCoi.nSta,
       final minSpeRat=datCoi.minSpeRat,
       final sta=datCoi.sta),
