@@ -1,5 +1,5 @@
 within Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses;
-partial block PartialCoolingCapacity
+partial block PartialCoilCapacity
   "Calculates performance curve value at given temperature and mass flow rate"
   extends Modelica.Blocks.Icons.Block;
 
@@ -230,8 +230,8 @@ cap<sub>FF </sub> accounts for a performance change due to different air flow ra
 relative to the nominal condition.
 These cooling capacity modifiers are multiplied with nominal cooling capacity
 to obtain the cooling capacity of the coil at given inlet temperatures and mass flow rate.
-See<a href=\"modelica://Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.CoolingCapacityAirCooled\">
-Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.CoolingCapacityAirCooled</a>.
+See<a href=\"modelica://Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.CoilCapacityAirSource\">
+Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.CoilCapacityAirSource</a>.
 <p>
 The temperature dependent cooling capacity modifier function is</p>
 <p align=\"center\" style=\"font-style:italic;\" >
@@ -400,6 +400,11 @@ so that both are zero if <i>ff &lt; ff<sub>min</sub>/4</i>, where
 revisions="<html>
 <ul>
 <li>
+April 5, 2023, by Xing Lu:<br/>
+Changed class name from <code>PartialCoolingCapacity</code> to
+<code>PartialCoilCapacity</code>.
+</li>
+<li>
 November 8, 2022, by Michael Wetter:<br/>
 Corrected calculation of performance which used the wrong upper bound.<br/>
 This is for
@@ -441,4 +446,4 @@ First implementation.
 </ul>
 
 </html>"));
-end PartialCoolingCapacity;
+end PartialCoilCapacity;

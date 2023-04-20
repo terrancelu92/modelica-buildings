@@ -1,11 +1,9 @@
 within Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.Examples;
-model CoolingCapacityAirCooled "Test model for CoolingCapacityAirCooled"
+model CoilCapacityAirSource "Test model for CoilCapacityAirSource"
   extends Modelica.Icons.Example;
   package Medium = Buildings.Media.Air;
-  Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.CoolingCapacityAirCooled
-    cooCap(
-    sta={sta},
-    nSta=1) "Cooling capacity calculation"
+  Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.CoilCapacityAirSource
+    cooCap(sta={sta}, nSta=1) "Cooling capacity calculation"
     annotation (Placement(transformation(extent={{-20,-10},{0,10}})));
   Modelica.Blocks.Sources.Ramp m_flow(
     duration=2400,
@@ -53,21 +51,29 @@ equation
       color={0,0,127},
       smooth=Smooth.None));
   annotation (experiment(Tolerance=1e-6, StopTime=3600),
-__Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Fluid/HeatExchangers/DXCoils/BaseClasses/Examples/CoolingCapacityAirCooled.mos"
+__Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Fluid/HeatExchangers/DXCoils/BaseClasses/Examples/CoilCapacityAirSource.mos"
         "Simulate and plot"),
           Documentation(info="<html>
 <p>
 This example illustrates working of cooling capacity function
-<a href=\"modelica://Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.CoolingCapacityAirCooled\">
-Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.CoolingCapacityAirCooled</a>.
+<a href=\"modelica://Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.CoilCapacityAirSource\">
+Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.CoilCapacityAirSource</a>.
 </p>
 </html>",
 revisions="<html>
 <ul>
+<li>
+April 5, 2023, by Xing Lu and Karthik Devaprasad:<br/>
+Updated name of class from <code>CoolingCapacityAirCooled</code> to 
+<code>CoilCapacityAirSource</code>.<br/>
+Updated class for <code>cooCap</code> from <code>CoolingCapacityAirCooled</code>
+to <a href=\"Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.CoilCapacityAirSource\">
+Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.CoilCapacityAirSource</a>.
+</li>
 <li>
 February 28, 2017 by Yangyang Fu:<br/>
 First implementation.
 </li>
 </ul>
 </html>"));
-end CoolingCapacityAirCooled;
+end CoilCapacityAirSource;

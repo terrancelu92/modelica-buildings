@@ -1,8 +1,8 @@
 within Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses;
-block CoolingCapacityAirCooled
+block CoilCapacityAirSource
   "Calculates cooling capacity at given temperature and flow fraction for air source coils"
   extends
-    Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.PartialCoolingCapacity(
+    Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.PartialCoilCapacity(
   redeclare replaceable Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.BaseClasses.Stage sta[nSta],
   use_mCon_flow=false);
 
@@ -64,10 +64,19 @@ the cooling capacity of the coil at given inlet temperatures and mass flow rate 
 revisions="<html>
 <ul>
 <li>
+April 3, 2023 by Karthik Devaprasad and Xing Lu:<br/>
+Updated class name from <code>CoolingCapacityAirCooled</code> to <code>CoilCapacityAirSource</code>, since
+the class is used in both heating coil and cooling coil calculations for air-source
+DX coils.<br/>
+Updated class being extended from <code>PartialCoolingCapacity</code> to 
+<a href=\"Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.PartialCoilCapacity\">
+Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.PartialCoilCapacity</a>.
+</li>
+<li>
 February 17, 2017 by Yangyang Fu:<br/>
 First implementation.
 </li>
 </ul>
 
 </html>"));
-end CoolingCapacityAirCooled;
+end CoilCapacityAirSource;
