@@ -119,7 +119,7 @@ the maximum value from the performance data record.
   replaceable parameter
     Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.SingleSpeed.Carrier_Centurion_50PG06 datCoi
     constrainedby
-    Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.DXCoil
+    Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.CoolingCoil
     "Performance data record of evaporator coil"
     annotation(choicesAllMatching=true, Dialog(
       enable=typ==Buildings.Templates.Components.Types.HeatExchanger.DXMultiStage or
