@@ -81,27 +81,10 @@ model CoolingModeSimpleInput
   Modelica.Blocks.Sources.Constant Xi(k=0.0123)
     "Fixed Xi value"
     annotation (Placement(transformation(extent={{0,38},{20,58}})));
-  Modelica.Blocks.Sources.Pulse p(
-    nperiod=1,
-    offset=101325,
-    width=100,
-    period=864000,
-    startTime=18144000,
-    amplitude=1086) "Pressure"
-    annotation (Placement(transformation(extent={{0,110},{20,130}})));
-  Modelica.Blocks.Sources.CombiTimeTable datRea(
-    final tableOnFile=true,
-    final fileName=ModelicaServices.ExternalReferences.loadResource("modelica://Buildings/Resources/Data/Fluid/ZoneEquipment/WindowAC/WindACFanOnOff.dat"),
-    final columns=2:20,
-    final tableName="EnergyPlus",
-    final smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments)
-    "Reader for \"FanCoilAutoSize_ConstantFlowVariableFan.idf\" energy plus example results"
-    annotation (Placement(transformation(extent={{-80,-80},{-60,-60}})));
 
-  .Buildings.Controls.OBC.CDL.Continuous.GreaterThreshold greThr
-    annotation (Placement(transformation(extent={{-40,-80},{-20,-60}})));
-  .Buildings.Controls.OBC.CDL.Conversions.BooleanToReal booToRea
-    annotation (Placement(transformation(extent={{-10,-80},{10,-60}})));
+  Buildings.Controls.OBC.CDL.Logical.Sources.Constant uCooEna(k=true)
+    "Availability signal"
+    annotation (Placement(transformation(extent={{-80,-80},{-60,-60}})));
 equation
   connect(weaDat.weaBus, winAC.weaBus) annotation (Line(
       points={{-60,78},{-15.8,78},{-15.8,18}},
@@ -109,8 +92,6 @@ equation
       thickness=0.5));
   connect(damPos.y, winAC.uEco)
     annotation (Line(points={{-58,18},{-22,18}}, color={0,0,127}));
-  connect(onFanCoil.y, winAC.uCoo) annotation (Line(points={{-58,-30},{-40,-30},
-          {-40,-9.8},{-22,-9.8}}, color={0,0,127}));
   connect(souAir.ports[1], winAC.port_Air_a2) annotation (Line(points={{72,36},
           {78,36},{78,4},{20,4}}, color={0,127,255}));
   connect(sinAir.ports[1], winAC.port_Air_b2) annotation (Line(points={{72,-44},
@@ -121,10 +102,8 @@ equation
           32},{50,32}}, color={0,0,127}));
   connect(onFanCoil.y, winAC.uFan) annotation (Line(points={{-58,-30},{-42,-30},
           {-42,10},{-22,10}}, color={0,0,127}));
-  connect(datRea.y[4], greThr.u)
-    annotation (Line(points={{-59,-70},{-42,-70}}, color={0,0,127}));
-  connect(greThr.y, booToRea.u)
-    annotation (Line(points={{-18,-70},{-12,-70}}, color={255,0,255}));
+  connect(uCooEna.y, winAC.uCooEna) annotation (Line(points={{-58,-70},{-38,-70},
+          {-38,-9.8},{-22,-9.8}}, color={255,0,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,
             -100},{100,140}})),
       Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},{

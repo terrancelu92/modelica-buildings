@@ -17,35 +17,29 @@ partial model EquipmentInterfaces
 
   parameter Modelica.Units.SI.MassFlowRate mChiWat_flow_nominal = 0.1
     "Nominal mass flow rate of chilled water"
-    annotation(Dialog(enable=cooCoiTyp ==Buildings.Fluid.ZoneEquipment.BaseClasses.Types.CooSou.chiWat, group="Cooling coil parameters"));
+    annotation(Dialog(enable=cooCoiTyp == Buildings.Fluid.ZoneEquipment.BaseClasses.Types.CooSou.chiWat,group="Cooling coil parameters"));
 
   parameter Modelica.Units.SI.MassFlowRate mAirOut_flow_nominal
     "Nominal mass flow rate of outdoor air"
-    annotation(Dialog(enable=((oaPorTyp ==Buildings.Fluid.ZoneEquipment.BaseClasses.Types.OAPorts.oaMix) or
-    (oaPorTyp ==Buildings.Fluid.ZoneEquipment.BaseClasses.Types.OAPorts.oaPorts)), group="System parameters"));
+    annotation(Dialog(enable=((oaPorTyp == Buildings.Fluid.ZoneEquipment.BaseClasses.Types.OAPorts.oaMix)
+           or (oaPorTyp == Buildings.Fluid.ZoneEquipment.BaseClasses.Types.OAPorts.oaPorts)),
+                                                                                   group="System parameters"));
 
   parameter Modelica.Units.SI.MassFlowRate mAir_flow_nominal
     "Nominal mass flow rate of supply air"
     annotation(Dialog(group="System parameters"));
 
-  parameter Buildings.Fluid.ZoneEquipment.BaseClasses.Types.HeaSou
-    heaCoiTyp=Buildings.Fluid.ZoneEquipment.BaseClasses.Types.HeaSou.hotWat
-    "Type of heating coil used"
-    annotation (Dialog(group="System parameters"));
+  parameter Buildings.Fluid.ZoneEquipment.BaseClasses.Types.HeaSou heaCoiTyp=Buildings.Fluid.ZoneEquipment.BaseClasses.Types.HeaSou.hotWat
+    "Type of heating coil used" annotation (Dialog(group="System parameters"));
 
-  parameter Buildings.Fluid.ZoneEquipment.BaseClasses.Types.CooSou
-    cooCoiTyp=Buildings.Fluid.ZoneEquipment.BaseClasses.Types.CooSou.chiWat
-    "Type of cooling coil used"
-    annotation (Dialog(group="System parameters"));
+  parameter Buildings.Fluid.ZoneEquipment.BaseClasses.Types.CooSou cooCoiTyp=Buildings.Fluid.ZoneEquipment.BaseClasses.Types.CooSou.chiWat
+    "Type of cooling coil used" annotation (Dialog(group="System parameters"));
 
-  parameter Buildings.Fluid.ZoneEquipment.BaseClasses.Types.OAPorts
-    oaPorTyp=Buildings.Fluid.ZoneEquipment.BaseClasses.Types.OAPorts.oaPorts
-    "Type of OA port"
-    annotation (Dialog(group="System parameters"));
+  parameter Buildings.Fluid.ZoneEquipment.BaseClasses.Types.OAPorts oaPorTyp=Buildings.Fluid.ZoneEquipment.BaseClasses.Types.OAPorts.oaPorts
+    "Type of OA port" annotation (Dialog(group="System parameters"));
 
   Modelica.Blocks.Interfaces.RealInput uHea(
-    final unit="1") if has_varHea and has_hea
-    "Heating loop signal"
+    final unit="1") if has_varHea and has_hea "Heating loop signal"
     annotation(Placement(transformation(extent={{-400,-100},{-360,-60}}),
       iconTransformation(extent={{-240,-198},{-200,-158}})));
 
@@ -128,7 +122,7 @@ partial model EquipmentInterfaces
     annotation (Placement(transformation(extent={{360,70},{380,90}}),
       iconTransformation(extent={{200,90},{220,110}})));
 
-  Actuators.Valves.TwoWayLinear valHW(
+  Buildings.Fluid.Actuators.Valves.TwoWayLinear valHW(
     redeclare final package Medium = MediumHW,
     final m_flow_nominal=mHotWat_flow_nominal,
     final dpValve_nominal=50) if has_HW
@@ -137,7 +131,7 @@ partial model EquipmentInterfaces
       rotation=90,
       origin={-36,-80})));
 
-  Sensors.VolumeFlowRate VHW_flow(
+  Buildings.Fluid.Sensors.VolumeFlowRate VHW_flow(
     redeclare final package Medium = MediumHW,
     final m_flow_nominal=mHotWat_flow_nominal) if has_HW
     "Hot water volume flowrate sensor"
@@ -145,7 +139,7 @@ partial model EquipmentInterfaces
       rotation=90,
       origin={4,-90})));
 
-  Sensors.TemperatureTwoPort THWRet(
+  Buildings.Fluid.Sensors.TemperatureTwoPort THWRet(
     redeclare final package Medium = MediumHW,
     final m_flow_nominal=mHotWat_flow_nominal) if has_HW
     "Hot water return temperature sensor"
@@ -153,7 +147,7 @@ partial model EquipmentInterfaces
       rotation=-90,
       origin={-36,-110})));
 
-  Sensors.TemperatureTwoPort THWSup(
+  Buildings.Fluid.Sensors.TemperatureTwoPort THWSup(
     redeclare final package Medium = MediumHW,
     final m_flow_nominal=mHotWat_flow_nominal) if has_HW
     "Hot water supply temperature sensor"
@@ -161,7 +155,7 @@ partial model EquipmentInterfaces
       rotation=90,
       origin={4,-120})));
 
-  Actuators.Valves.TwoWayLinear valCHW(
+  Buildings.Fluid.Actuators.Valves.TwoWayLinear valCHW(
     redeclare final package Medium = MediumCHW,
     final m_flow_nominal=mChiWat_flow_nominal,
     final dpValve_nominal=50) if has_CHW
@@ -169,7 +163,7 @@ partial model EquipmentInterfaces
     annotation(Placement(transformation(extent={{-10,-10},{10,10}},
       rotation=90,
       origin={104,-80})));
-  Sensors.TemperatureTwoPort TCHWLvg(
+  Buildings.Fluid.Sensors.TemperatureTwoPort TCHWLvg(
     redeclare final package Medium = MediumCHW,
     final m_flow_nominal=mChiWat_flow_nominal) if has_CHW
     "Chilled-water return temperature sensor"
@@ -177,7 +171,7 @@ partial model EquipmentInterfaces
       rotation=-90,
       origin={104,-110})));
 
-  Sensors.VolumeFlowRate VCHW_flow(
+  Buildings.Fluid.Sensors.VolumeFlowRate VCHW_flow(
     redeclare final package Medium = MediumCHW,
     final m_flow_nominal=mChiWat_flow_nominal) if has_CHW
     "Chilled-water volume flowrate sensor"
@@ -185,7 +179,7 @@ partial model EquipmentInterfaces
       rotation=90,
       origin={144,-90})));
 
-  Sensors.TemperatureTwoPort TCHWEnt(
+  Buildings.Fluid.Sensors.TemperatureTwoPort TCHWEnt(
     redeclare final package Medium = MediumCHW,
     final m_flow_nominal=mChiWat_flow_nominal) if has_CHW
     "Chilled-water supply temperature sensor"
@@ -205,41 +199,41 @@ partial model EquipmentInterfaces
     annotation (Placement(transformation(extent={{-370,70},{-350,90}}),
       iconTransformation(extent={{-210,30},{-190,50}})));
 
-  BoundaryConditions.WeatherData.Bus weaBus "if not has_extOAPor and has_ven"
+  Buildings.BoundaryConditions.WeatherData.Bus weaBus "if not has_extOAPor and has_ven"
     annotation (Placement(transformation(extent={{-350,10},{-310,50}}),
       iconTransformation(extent={{-168,170},{-148,190}})));
 
-  Sources.Outside out(
+  Buildings.Fluid.Sources.Outside out(
     redeclare final package Medium = MediumA,
-    final nPorts=2) if not has_extOAPor and has_ven
+    nPorts=2) if not has_extOAPor and has_ven
     "Boundary conditions for outside air"
-    annotation (Placement(transformation(extent={{-300,20},{-280,40}})));
+    annotation (Placement(transformation(extent={{-300,40},{-280,20}})));
 
-  Sensors.VolumeFlowRate vAirOut(
+  Buildings.Fluid.Sensors.VolumeFlowRate vAirOut(
     redeclare final package Medium = MediumA,
     final m_flow_nominal=mAirOut_flow_nominal) if not has_extOAPor and has_ven
     "Outdoor air volume flowrate"
-    annotation (Placement(transformation(extent={{-260,40},{-240,60}})));
+    annotation (Placement(transformation(extent={{-260,-2},{-240,18}})));
 
-  Sensors.VolumeFlowRate VAirExh_flow(
+  Buildings.Fluid.Sensors.VolumeFlowRate VAirExh_flow(
     redeclare final package Medium = MediumA,
     final m_flow_nominal=mAirOut_flow_nominal) if not has_extOAPor and has_ven
     "Exhaust air volume flowrate"
-    annotation (Placement(transformation(extent={{-240,0},{-260,20}})));
+    annotation (Placement(transformation(extent={{-240,40},{-260,60}})));
 
   Sensors.TemperatureTwoPort TAirOut(
     redeclare final package Medium = MediumA,
     final m_flow_nominal=mAirOut_flow_nominal) if not has_extOAPor and has_ven
     "Outdoor air temperature sensor"
-    annotation (Placement(transformation(extent={{-230,40},{-210,60}})));
+    annotation (Placement(transformation(extent={{-230,-2},{-210,18}})));
 
-  Sensors.TemperatureTwoPort TAirExh(
+  Buildings.Fluid.Sensors.TemperatureTwoPort TAirExh(
     redeclare final package Medium = MediumA,
     final m_flow_nominal=mAirOut_flow_nominal) if not has_extOAPor and has_ven
     "Return air temperature sensor"
-    annotation (Placement(transformation(extent={{-210,0},{-230,20}})));
+    annotation (Placement(transformation(extent={{-210,40},{-230,60}})));
 
-  Actuators.Dampers.MixingBox eco(
+  Buildings.Fluid.Actuators.Dampers.MixingBox eco(
     redeclare final package Medium = MediumA,
     final mOut_flow_nominal=mAirOut_flow_nominal,
     final dpDamOut_nominal=50,
@@ -248,39 +242,38 @@ partial model EquipmentInterfaces
     final mExh_flow_nominal=mAirOut_flow_nominal,
     final dpDamExh_nominal=50) if not has_extOAPor and has_ven
     "Outdoor air economizer"
-    annotation (Placement(transformation(extent={{-200,20},{-180,40}})));
+    annotation (Placement(transformation(extent={{-200,40},{-180,20}})));
 
-  Sensors.TemperatureTwoPort TAirRet(
+  Buildings.Fluid.Sensors.TemperatureTwoPort TAirRet(
     redeclare final package Medium = MediumA,
     final m_flow_nominal=mAir_flow_nominal) if has_ven
     "Return air temperature sensor"
     annotation (Placement(transformation(extent={{-140,40},{-120,60}})));
 
-  Sensors.VolumeFlowRate vAirRet(
+  Buildings.Fluid.Sensors.VolumeFlowRate vAirRet(
     redeclare final package Medium = MediumA,
     m_flow_nominal=mAir_flow_nominal) if has_ven
     "Return air volume flowrate"
     annotation (Placement(transformation(extent={{-110,40},{-90,60}})));
 
-  Sensors.VolumeFlowRate vAirMix(
+  Buildings.Fluid.Sensors.VolumeFlowRate vAirMix(
     redeclare final package Medium = MediumA,
     final m_flow_nominal=mAir_flow_nominal)
     "Mixed air volume flowrate"
     annotation (Placement(transformation(extent={{-100,-10},{-80,10}})));
 
-  Sensors.TemperatureTwoPort TAirMix(
+  Buildings.Fluid.Sensors.TemperatureTwoPort TAirMix(
     redeclare final package Medium = MediumA,
     final m_flow_nominal=mAir_flow_nominal)
     "Mixed air temperature sensor"
     annotation (Placement(transformation(extent={{-130,-10},{-110,10}})));
 
-  Sensors.TemperatureTwoPort TAirLvg(
+  Buildings.Fluid.Sensors.TemperatureTwoPort TAirLvg(
     redeclare final package Medium = MediumA,
-    final m_flow_nominal=mAir_flow_nominal)
-    "Supply air temperature sensor"
+    final m_flow_nominal=mAir_flow_nominal) "Supply air temperature sensor"
     annotation (Placement(transformation(extent={{240,-10},{260,10}})));
 
-  Sensors.VolumeFlowRate vAirSup(
+  Buildings.Fluid.Sensors.VolumeFlowRate vAirSup(
     redeclare final package Medium = MediumA,
     final m_flow_nominal=mAir_flow_nominal)
     "Supply air volume flow rate"
@@ -335,34 +328,34 @@ equation
   connect(TCHWEnt.port_a, port_CHW_a)
     annotation (Line(points={{144,-130},{144,-180}}, color={0,127,255}));
   connect(weaBus, out.weaBus) annotation (Line(
-      points={{-330,30},{-316,30},{-316,30.2},{-300,30.2}},
+      points={{-330,30},{-316,30},{-316,29.8},{-300,29.8}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%first",
       index=-1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-  connect(out.ports[1], vAirOut.port_a) annotation (Line(points={{-280,32},{-270,
-          32},{-270,50},{-260,50}}, color={0,127,255}));
-  connect(out.ports[2], VAirExh_flow.port_b) annotation (Line(points={{-280,28},
-          {-270,28},{-270,10},{-260,10}},    color={0,127,255}));
+  connect(out.ports[1], vAirOut.port_a) annotation (Line(points={{-280,28},{-270,
+          28},{-270,8},{-260,8}},   color={0,127,255}));
+  connect(out.ports[2], VAirExh_flow.port_b) annotation (Line(points={{-280,32},
+          {-270,32},{-270,50},{-260,50}},    color={0,127,255}));
   connect(vAirOut.port_b, TAirOut.port_a)
-    annotation (Line(points={{-240,50},{-230,50}}, color={0,127,255}));
-  connect(TAirOut.port_b, eco.port_Out) annotation (Line(points={{-210,50},{-206,
-          50},{-206,36},{-200,36}},
-                                  color={0,127,255}));
-  connect(TAirExh.port_a, eco.port_Exh) annotation (Line(points={{-210,10},{-206,
-          10},{-206,24},{-200,24}},  color={0,127,255}));
+    annotation (Line(points={{-240,8},{-230,8}},   color={0,127,255}));
+  connect(TAirOut.port_b, eco.port_Out) annotation (Line(points={{-210,8},{-206,
+          8},{-206,24},{-200,24}},color={0,127,255}));
+  connect(TAirExh.port_a, eco.port_Exh) annotation (Line(points={{-210,50},{-206,
+          50},{-206,36},{-200,36}},  color={0,127,255}));
   connect(VAirExh_flow.port_a, TAirExh.port_b)
-    annotation (Line(points={{-240,10},{-230,10}},   color={0,127,255}));
-  connect(uEco, eco.y) annotation (Line(points={{-380,160},{-190,160},{-190,42}},
+    annotation (Line(points={{-240,50},{-230,50}},   color={0,127,255}));
+  connect(uEco, eco.y) annotation (Line(points={{-380,160},{-314,160},{-314,-8},
+          {-190,-8},{-190,18}},
         color={0,0,127}));
-  connect(eco.port_Ret, TAirMix.port_a)
+  connect(eco.port_Sup, TAirMix.port_a)
     annotation (Line(points={{-180,24},{-170,24},{-170,0},{-130,0}},
                                                    color={0,127,255}));
   connect(TAirRet.port_b, vAirRet.port_a)
     annotation (Line(points={{-120,50},{-110,50}}, color={0,127,255}));
-  connect(vAirRet.port_b, eco.port_Sup) annotation (Line(points={{-90,50},{-80,
+  connect(vAirRet.port_b, eco.port_Ret) annotation (Line(points={{-90,50},{-80,
           50},{-80,98},{-180,98},{-180,36}},
                                         color={0,127,255}));
   connect(TAirMix.port_b, vAirMix.port_a) annotation (Line(points={{-110,0},{-100,
@@ -399,7 +392,13 @@ equation
           textColor={0,0,255})}),
     Diagram(coordinateSystem(preserveAspectRatio=false,
       extent={{-360,-180},{360,180}})),
-    Documentation(revisions="<html>
+    Documentation(
+    info="
+    <html>
+    Baseclass containing control signals, measured outputs and fluid ports used 
+    for constructing the zone HVAC equipment system models.
+    </html>",
+    revisions="<html>
     <ul>
     <li>
     August 03, 2022 by Karthik Devaprasad, Sen Huang:<br/>

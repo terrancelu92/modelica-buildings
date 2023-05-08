@@ -1,5 +1,5 @@
 within Buildings.Fluid.ZoneEquipment.WindowAC;
-package Controls "Package with unit heater control modules"
+package Controls "Package with window AC control modules"
 
   annotation (Icon(graphics={
         Rectangle(
