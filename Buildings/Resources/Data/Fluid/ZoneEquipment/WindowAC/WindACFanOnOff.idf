@@ -730,9 +730,7 @@ OutdoorAir:Mixer,
 
 NodeList,
     OutsideAirInletNodes,    !- Name
-    Zone1WindACOAInNode,     !- Node 1 Name
-    Zone2WindACOAInNode,     !- Node 2 Name
-    Zone3WindACOAInNode;     !- Node 3 Name
+    Zone1WindACOAInNode;     !- Node 1 Name
 
 NodeList,
     Zone1Inlets,             !- Name
@@ -851,9 +849,7 @@ Output:Meter:MeterFileOnly,Electricity:Facility,monthly;
 Output:Meter:MeterFileOnly,Electricity:Building,monthly;
 Output:Meter:MeterFileOnly,InteriorLights:Electricity,monthly;
 Output:Meter:MeterFileOnly,Electricity:HVAC,monthly;
-Output:Meter:MeterFileOnly,Electricity:Plant,monthly;
 Output:Meter:MeterFileOnly,Electricity:Facility,runperiod;
 Output:Meter:MeterFileOnly,Electricity:Building,runperiod;
 Output:Meter:MeterFileOnly,InteriorLights:Electricity,runperiod;
 Output:Meter:MeterFileOnly,Electricity:HVAC,runperiod;
-Output:Meter:MeterFileOnly,Electricity:Plant,runperiod;
