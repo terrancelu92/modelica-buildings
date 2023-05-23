@@ -6,9 +6,9 @@ record Generic "Base classes for DX dehumidifier model"
     annotation (Dialog(group="Performance curves"));
   constant Integer nEneFac = 6 "Number of coefficients for eneFac"
     annotation (Dialog(group="Performance curves"));
-  parameter Real watRem[nWatRem] = {2.521130E-01,1.324053E-02,-8.637329E-03,8.581056E-02,-4.261176E-03,8.661899E-03} "Biquadratic coefficients for water removal modifier curve"
+  parameter Real watRem[nWatRem] = {-2.72487866408,0.100711983591,-9.90538285E-04,0.050053043874,-2.03629282E-04,-3.41750531E-04} "Biquadratic coefficients for water removal modifier curve"
     annotation (Dialog(group="Performance curves"));
-  parameter Real eneFac[nEneFac] = {2.521130E-01,1.324053E-02,-8.637329E-03,8.581056E-02,-4.261176E-03,8.661899E-03} "Biquadratic coefficients for energy factor modifier curve"
+  parameter Real eneFac[nEneFac] = {-2.38831907E+00,0.093047739452,-1.36970033E-03,0.066533716758,-3.43198063E-04,-5.62490295E-04} "Biquadratic coefficients for energy factor modifier curve"
     annotation (Dialog(group="Performance curves"));
 
   annotation (preferredView="info",
