@@ -50,16 +50,11 @@ model DXDehumidifier "DX dehumidifier"
   Modelica.Blocks.Sources.RealExpression Pdeh(y=if uEna == true then
         V_flow_nominal*watRemMod/eneFac_nominal/eneFacMod*1000*1000*3600 else 0)
     annotation (Placement(transformation(extent={{-80,-70},{-60,-50}})));
-  Modelica.Blocks.Interfaces.RealInput phi "Inlet air relative humidity"
-    annotation (Placement(transformation(extent={{-120,10},{-100,30}}),
-        iconTransformation(extent={{-120,10},{-100,30}})));
 
-  Modelica.Blocks.Interfaces.RealInput TIn(
-    final unit="K",
-    displayUnit="K",
-    final quantity="ThermodynamicTemperature") "Inlet air temperature"
-    annotation (Placement(transformation(extent={{-120,30},{-100,50}}),
-        iconTransformation(extent={{-120,30},{-100,50}})));
+  Sensors.Temperature senTIn(redeclare package Medium = Medium)
+    annotation (Placement(transformation(extent={{-100,22},{-80,42}})));
+  Sensors.RelativeHumidity senRelHum(redeclare package Medium = Medium)
+    annotation (Placement(transformation(extent={{-80,22},{-60,42}})));
 protected
   constant Modelica.Units.SI.SpecificEnthalpy h_fg= 2501014.5
        "2501014.5 Buildings.Utilities.Psychrometrics.Constants.h_fg Latent heat of water vapor";
@@ -80,15 +75,15 @@ equation
     watRemMod =Buildings.Utilities.Math.Functions.smoothMax(
         x1=Buildings.Utilities.Math.Functions.biquadratic(
           a=per.watRem,
-          x1=Modelica.Units.Conversions.to_degC(TIn),
-          x2=phi*100),
+          x1=Modelica.Units.Conversions.to_degC(senTIn.T),
+          x2=senRelHum.phi*100),
         x2=0.001,
         deltaX=0.0001);
     eneFacMod =Buildings.Utilities.Math.Functions.smoothMax(
         x1=Buildings.Utilities.Math.Functions.biquadratic(
           a=per.eneFac,
-          x1=Modelica.Units.Conversions.to_degC(TIn),
-          x2=phi*100),
+          x1=Modelica.Units.Conversions.to_degC(senTIn.T),
+          x2=senRelHum.phi*100),
         x2=0.001,
         deltaX=0.0001);
 
@@ -107,10 +102,15 @@ equation
     annotation (Line(points={{-59,60},{-50,60}}, color={0,0,127}));
   connect(Pdeh.y, P) annotation (Line(points={{-59,-60},{20,-60},{20,-20},{110,-20}},
         color={0,0,127}));
-  connect(Q_flow, QHea.y) annotation (Line(points={{110,20},{-56,20},{-56,60},{-59,
-          60}}, color={0,0,127}));
+  connect(Q_flow, QHea.y) annotation (Line(points={{110,20},{-54,20},{-54,60},{
+          -59,60}},
+                color={0,0,127}));
   connect(mWat_flow.y, vol.mWat_flow) annotation (Line(points={{-59,-40},{-36,
           -40},{-36,-18},{-11,-18}}, color={0,0,127}));
+  connect(senTIn.port, port_a)
+    annotation (Line(points={{-90,22},{-90,0},{-100,0}}, color={0,127,255}));
+  connect(senRelHum.port, port_a)
+    annotation (Line(points={{-70,22},{-70,0},{-100,0}}, color={0,127,255}));
   annotation (
 defaultComponentName="dxDeh",
 Documentation(info="<html>

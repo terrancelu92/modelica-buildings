@@ -44,7 +44,7 @@ model DXDehumidifier
     m_flow_nominal=m_flow_nominal,
     dp_nominal=100,
     per=per)
-    annotation (Placement(transformation(extent={{28,-68},{48,-48}})));
+    annotation (Placement(transformation(extent={{30,-42},{50,-22}})));
   Modelica.Blocks.Sources.Constant phiSet(k=0.45)
                                                  "Set point for RH"
     annotation (Placement(transformation(extent={{-160,-66},{-140,-46}})));
@@ -68,12 +68,6 @@ model DXDehumidifier
   Controls.OBC.CDL.Continuous.Subtract phiSub
     "Find difference between zone RH and setpoint"
     annotation (Placement(transformation(extent={{-130,-60},{-110,-40}})));
-  Sensors.TemperatureTwoPort senTem(redeclare package Medium = Medium,
-      m_flow_nominal=m_flow_nominal)
-    annotation (Placement(transformation(extent={{-38,-22},{-18,-42}})));
-  Sensors.RelativeHumidityTwoPort senRelHum(redeclare package Medium = Medium,
-      m_flow_nominal=m_flow_nominal)
-    annotation (Placement(transformation(extent={{-68,-22},{-48,-42}})));
   Controls.OBC.CDL.Continuous.MultiplyByParameter gai(final k=m_flow_nominal)
                                                                  "Gain factor"
     annotation (Placement(transformation(extent={{-38,-2},{-26,10}})));
@@ -156,7 +150,7 @@ equation
     annotation (Line(points={{-108,-50},{-102,-50}},
                                                    color={0,0,127}));
   connect(hysModCoo.y, dxDeh.uEna)
-    annotation (Line(points={{-78,-50},{-58,-50},{-58,-63},{26.8,-63}},
+    annotation (Line(points={{-78,-50},{-58,-50},{-58,-37},{28.8,-37}},
                                                    color={255,0,255}));
   connect(hysModCoo.y, booToReaFanEna.u) annotation (Line(points={{-78,-50},{-76,
           -50},{-76,4},{-70,4}},     color={255,0,255}));
@@ -164,24 +158,10 @@ equation
     annotation (Line(points={{-139,-56},{-132,-56}}, color={0,0,127}));
   connect(zon.phi, phiSub.u1) annotation (Line(points={{-43,50},{-82,50},{-82,-26},
           {-136,-26},{-136,-44},{-132,-44}}, color={0,0,127}));
-  connect(senTem.port_b, fan.port_a)
-    annotation (Line(points={{-18,-32},{-2,-32}},
-                                                color={0,127,255}));
-  connect(senRelHum.port_b, senTem.port_a)
-    annotation (Line(points={{-48,-32},{-38,-32}}, color={0,127,255}));
-  connect(senRelHum.port_a, zon.ports[1]) annotation (Line(points={{-68,-32},{-72,
-          -32},{-72,-24},{-20,-24},{-20,20.9}},
-                                           color={0,127,255}));
-  connect(fan.port_b, dxDeh.port_a) annotation (Line(points={{18,-32},{22,-32},{
-          22,-58},{28,-58}}, color={0,127,255}));
-  connect(senRelHum.phi, dxDeh.phi) annotation (Line(points={{-57.9,-43},{-58,-43},
-          {-58,-55.5},{27,-55.5}},
-                               color={0,0,127}));
-  connect(senTem.T, dxDeh.TIn)
-    annotation (Line(points={{-28,-43},{-28,-53},{27,-53}},
-                                                          color={0,0,127}));
-  connect(dxDeh.port_b, zon.ports[2]) annotation (Line(points={{48,-58},{58,-58},
-          {58,12},{-24,12},{-24,20.9}},
+  connect(fan.port_b, dxDeh.port_a) annotation (Line(points={{18,-32},{30,-32}},
+                             color={0,127,255}));
+  connect(dxDeh.port_b, zon.ports[1]) annotation (Line(points={{50,-32},{54,-32},
+          {54,12},{-20,12},{-20,20.9}},
                                      color={0,127,255}));
   connect(booToReaFanEna.y, gai.u)
     annotation (Line(points={{-46,4},{-39.2,4}},     color={0,0,127}));
@@ -211,6 +191,8 @@ equation
     annotation (Line(points={{87,-90},{102,-90}}, color={0,0,127}));
   connect(realExpression12.y, phiZonAirEP.u)
     annotation (Line(points={{165,-90},{178,-90}}, color={0,0,127}));
+  connect(fan.port_a, zon.ports[2]) annotation (Line(points={{-2,-32},{-24,-32},
+          {-24,20.9}}, color={0,127,255}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-140,-120},
             {100,80}})),  Diagram(coordinateSystem(preserveAspectRatio=false,
           extent={{-160,-100},{200,100}})),

@@ -22,10 +22,11 @@ package Examples
       height=1,
       offset=273.15 + 25,
       startTime=7200) "Inlet temperature"
-      annotation (Placement(transformation(extent={{-90,10},{-70,30}})));
+      annotation (Placement(transformation(extent={{-90,-6},{-70,14}})));
     Modelica.Fluid.Sources.MassFlowSource_T sou(
       use_T_in=true,
       redeclare package Medium = Medium,
+      use_X_in=false,
       m_flow=0.1,
       use_m_flow_in=false,
       nPorts=1) "Flow source"
@@ -36,27 +37,19 @@ package Examples
       redeclare package Medium = Medium, nPorts=1)
                 "Sink"
            annotation (Placement(transformation(extent={{82,-10},{62,10}})));
-    Modelica.Blocks.Sources.Ramp phi(
-      final duration=7200,
-      final height=-5,
-      final offset=65)   "Relative humidity"
-      annotation (Placement(transformation(extent={{-50,40},{-30,60}})));
     Modelica.Blocks.Sources.BooleanStep on(startTime=7200, startValue=true)
       annotation (Placement(transformation(extent={{-50,-50},{-30,-30}})));
   equation
     connect(TIn.y, sou.T_in)
-      annotation (Line(points={{-69,20},{-56,20},{-56,4},{-48,4}},
-                                                 color={0,0,127}));
-    connect(phi.y, dxDeh.phi) annotation (Line(points={{-29,50},{-20,50},{-20,4},{
-            -11,4}},color={0,0,127}));
+      annotation (Line(points={{-69,4},{-48,4}}, color={0,0,127}));
+
     connect(dxDeh.port_a, sou.ports[1])
       annotation (Line(points={{-10,0},{-26,0}},color={0,127,255}));
-    connect(on.y, dxDeh.uEna) annotation (Line(points={{-29,-40},{-18,-40},{-18,-4},
-            {-11,-4}}, color={255,0,255}));
+    connect(on.y, dxDeh.uEna) annotation (Line(points={{-29,-40},{-18,-40},{-18,-5},
+            {-11.2,-5}},
+                       color={255,0,255}));
     connect(sin1.ports[1], dxDeh.port_b)
       annotation (Line(points={{62,0},{10,0}}, color={0,127,255}));
-    connect(TIn.y, dxDeh.TIn) annotation (Line(points={{-69,20},{-18,20},{-18,6},
-            {-11,6}}, color={0,0,127}));
     annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
           coordinateSystem(preserveAspectRatio=false)),
       experiment(StopTime=14400, __Dymola_Algorithm="Cvode"),
