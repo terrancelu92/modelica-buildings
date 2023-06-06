@@ -13,7 +13,19 @@ record Generic "Base classes for DX dehumidifier model"
 
   annotation (preferredView="info",
   Documentation(info="<html>
-<p>This is the base record for the DX dehumidifier. </p>
+<p>This is the base record for the DX dehumidifier which has the following data. </p>
+
+<p>
+<pre>             
+      watRem   - Coefficients of biquadratic polynomial for water removal flow rate
+                  as a function of temperature and relative humidity.
+      eneFac  - Coefficients of biquadratic polynomial for energy factor
+                  as a function of temperature and relative humidity.
+                  </pre>
+</p>
+
+
+
 </html>",
 revisions="<html>
 <ul>

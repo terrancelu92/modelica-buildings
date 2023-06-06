@@ -1,4 +1,4 @@
-within Buildings.Fluid.ZoneEquipment.DXDehumidifier;
+﻿within Buildings.Fluid.ZoneEquipment.DXDehumidifier;
 model DXDehumidifier "DX dehumidifier"
   extends Buildings.Fluid.Interfaces.TwoPortHeatMassExchanger(
   redeclare final Buildings.Fluid.MixingVolumes.MixingVolumeMoistAir vol(final
@@ -114,6 +114,18 @@ equation
   annotation (
 defaultComponentName="dxDeh",
 Documentation(info="<html>
+<p>This is a zone air DX dehumidifier model. The model assumes that this equipment removes the moisture from the air stream and simultaneously heats the air. </p>
+<p>Two performance curves <span style=\"font-family: Courier New;\">watRemMod</span> and <span style=\"font-family: Courier New;\">eneFacMod</span> are specified to characterize the change in water removal and energy consumption at part-load conditions.</p>
+<p>The amount of exchanged moisture <span style=\"font-family: Courier New;\">mWat_flow</span> is equal to</p>
+<p align=\"center\"><i>ṁ<sub>wat_flow</sub> = watRemMod &rho; V̇<sub>flow_nominal</sub> ,</i></p>
+<p><br>The amount of heat added to the air stream <span style=\"font-family: Courier New;\">QHea</span> is equal to </p>
+<p align=\"center\"><i>Q̇<sub>hea</sub> = ṁ<sub>wat_flow</sub> h<sub>fg</sub> + P<sub>deh</sub> ,</p><p align=\"center\">P<sub>deh</sub> = V̇<sub>flow_nominal</sub> watRemMod / (eneFac<sub>nominal</sub> eneFacMod), </i></p>
+<p><br>where <span style=\"font-family: Courier New;\">V_flow_nominal</span> is the rated water removal flow rate and <span style=\"font-family: Courier New;\">eneFac_nominal</span> is the rated energy factor. h<sub>fg</sub> is the enthalpy of vaporization of air. </p>
+<p><br><h4>Performance Curve Modifiers</h4></p>
+<p>The water removal modifier curve <span style=\"font-family: Courier New;\">watRemMod</span> is a biquadratic curve with two independent variables: dry-bulb temperature and relative humidity of the air entering the dehumidifier.</p>
+<p align=\"center\"><i>watRemMod(T<sub>in</sub>, phi<sub>in</sub>) = a<sub>1</sub> + a<sub>2</sub> T<sub>in</sub> + a<sub>3</sub> T<sub>in</sub> <sup>2</sup> + a<sub>4</sub> phi<sub>in</sub> + a<sub>5</sub> phi<sub>in</sub> <sup>2</sup> + a<sub>6</sub> T<sub>in</sub> phi<sub>in</sub>. </i></p>
+<p>The energy factor modifier curve <span style=\"font-family: Courier New;\">eneFacMod</span> is a biquadratic curve with two independent variables: dry-bulb temperature and relative humidity of the air entering the dehumidifier. </p>
+<p align=\"center\"><i>eneFacMod(T<sub>in</sub>, phi<sub>in</sub>) = b<sub>1</sub> + b<sub>2</sub> T<sub>in</sub> + b<sub>3</sub> T<sub>in</sub> <sup>2</sup> + b<sub>4</sub> phi<sub>in</sub> + b<sub>5</sub> phi<sub>in</sub> <sup>2</sup> + b<sub>6</sub> T<sub>in</sub> phi<sub>in</sub>. </i></p>
 </html>",
 revisions="<html>
 <ul>

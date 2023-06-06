@@ -43,12 +43,12 @@ model DXDehumidifier
     redeclare package Medium = Medium,
     m_flow_nominal=m_flow_nominal,
     dp_nominal=100,
-    per=per)
+    per=per) "DX dehumidifier"
     annotation (Placement(transformation(extent={{30,-42},{50,-22}})));
   Modelica.Blocks.Sources.Constant phiSet(k=0.45)
-                                                 "Set point for RH"
+    "Set point for relative humidity"
     annotation (Placement(transformation(extent={{-160,-66},{-140,-46}})));
-  Data.Generic per
+  Data.Generic per "Zone air DX dehumidifier curve"
     annotation (Placement(transformation(extent={{-140,14},{-120,34}})));
   Movers.Preconfigured.FlowControlled_m_flow fan(
     redeclare package Medium = Medium,
@@ -61,9 +61,9 @@ model DXDehumidifier
     "Convert fan enable signal to real value"
     annotation (Placement(transformation(extent={{-68,-6},{-48,14}})));
 
-  Controls.OBC.CDL.Continuous.Hysteresis hysModCoo(final uLow=-0.01, final
-      uHigh=0.01)
-    "Enable cooling mode when zone temperature is not at setpoint"
+  Controls.OBC.CDL.Continuous.Hysteresis hysPhi(final uLow=-0.01, final uHigh=
+        0.01)
+    "Enable the dehumidifier when zone relative humidity is not at setpoint"
     annotation (Placement(transformation(extent={{-100,-60},{-80,-40}})));
   Controls.OBC.CDL.Continuous.Subtract phiSub
     "Find difference between zone RH and setpoint"
@@ -71,74 +71,74 @@ model DXDehumidifier
   Controls.OBC.CDL.Continuous.MultiplyByParameter gai(final k=m_flow_nominal)
                                                                  "Gain factor"
     annotation (Placement(transformation(extent={{-38,-2},{-26,10}})));
-  Modelica.Blocks.Sources.RealExpression realExpression2(final y=fan.m_flow)
+  Modelica.Blocks.Sources.RealExpression realExpression1(final y=fan.m_flow)
     "Fan mass flow rate (Modelica)"
     annotation (Placement(transformation(extent={{66,60},{86,80}})));
   Modelica.Blocks.Math.Mean m_flowFan(final f=1/averagingTimestep)
     "Average out Modelica results over time"
-    annotation (Placement(transformation(extent={{102,60},{122,80}})));
-  Controls.OBC.CDL.Discrete.UnitDelay m_flowFanEP(final samplePeriod=
-        delayTimestep) "Unit delay on EnergyPlus results"
+    annotation (Placement(transformation(extent={{100,60},{120,80}})));
+  Modelica.Blocks.Math.Mean           m_flowFanEP(f=1/averagingTimestep)
+                       "Unit delay on EnergyPlus results"
     annotation (Placement(transformation(extent={{180,60},{200,80}})));
-  Modelica.Blocks.Sources.RealExpression realExpression9(final y=datRea.y[19])
+  Modelica.Blocks.Sources.RealExpression realExpression7(final y=datRea.y[19])
     "Fan mass flow rate (EnergyPlus)"
     annotation (Placement(transformation(extent={{144,60},{164,80}})));
-  Modelica.Blocks.Sources.RealExpression realExpression1(final y=-dxDeh.mWat_flow.y)
+  Modelica.Blocks.Sources.RealExpression realExpression2(final y=-dxDeh.mWat_flow.y)
     "Water removal mass flow rate (Modelica)"
     annotation (Placement(transformation(extent={{66,26},{86,46}})));
   Modelica.Blocks.Math.Mean mWatMod(final f=1/averagingTimestep)
     "Average out Modelica results over time"
-    annotation (Placement(transformation(extent={{102,26},{122,46}})));
-  Controls.OBC.CDL.Discrete.UnitDelay mWatEP(final samplePeriod=delayTimestep)
+    annotation (Placement(transformation(extent={{100,26},{120,46}})));
+  Modelica.Blocks.Math.Mean           mWatEP(f=1/averagingTimestep)
     "Unit delay on EnergyPlus results"
     annotation (Placement(transformation(extent={{180,26},{200,46}})));
-  Modelica.Blocks.Sources.RealExpression realExpression3(final y=datRea.y[10])
+  Modelica.Blocks.Sources.RealExpression realExpression8(final y=datRea.y[10])
     "Water removal mass flow rate (EnergyPlus)"
     annotation (Placement(transformation(extent={{144,26},{164,46}})));
-  Modelica.Blocks.Sources.RealExpression realExpression4(final y=dxDeh.QHea.y)
+  Modelica.Blocks.Sources.RealExpression realExpression3(final y=dxDeh.QHea.y)
     "Air heating rate (Modelica)"
     annotation (Placement(transformation(extent={{66,-10},{86,10}})));
   Modelica.Blocks.Math.Mean QHeaMod(final f=1/averagingTimestep)
     "Average out Modelica results over time"
-    annotation (Placement(transformation(extent={{102,-10},{122,10}})));
-  Controls.OBC.CDL.Discrete.UnitDelay QHeaEP(final samplePeriod=delayTimestep)
+    annotation (Placement(transformation(extent={{100,-10},{120,10}})));
+  Modelica.Blocks.Math.Mean           QHeaEP(f=1/averagingTimestep)
     "Unit delay on EnergyPlus results"
     annotation (Placement(transformation(extent={{180,-10},{200,10}})));
-  Modelica.Blocks.Sources.RealExpression realExpression5(final y=datRea.y[9])
+  Modelica.Blocks.Sources.RealExpression realExpression9(final y=datRea.y[9])
     "Air heating rate (EnergyPlus)"
     annotation (Placement(transformation(extent={{144,-10},{164,10}})));
-  Modelica.Blocks.Sources.RealExpression realExpression6(final y=dxDeh.P)
+  Modelica.Blocks.Sources.RealExpression realExpression4(final y=dxDeh.P)
     "Air heating rate (Modelica)"
     annotation (Placement(transformation(extent={{66,-40},{86,-20}})));
   Modelica.Blocks.Math.Mean PMod(final f=1/averagingTimestep)
     "Average out Modelica results over time"
-    annotation (Placement(transformation(extent={{104,-40},{124,-20}})));
-  Controls.OBC.CDL.Discrete.UnitDelay PEP(final samplePeriod=delayTimestep)
+    annotation (Placement(transformation(extent={{100,-40},{120,-20}})));
+  Modelica.Blocks.Math.Mean           PEP(f=1/averagingTimestep)
     "Unit delay on EnergyPlus results"
     annotation (Placement(transformation(extent={{180,-40},{200,-20}})));
-  Modelica.Blocks.Sources.RealExpression realExpression7(final y=datRea.y[11])
+  Modelica.Blocks.Sources.RealExpression realExpression10(final y=datRea.y[11])
     "DX dehumidifier power rate (EnergyPlus)"
     annotation (Placement(transformation(extent={{144,-40},{164,-20}})));
-  Modelica.Blocks.Sources.RealExpression realExpression8(final y=zon.TAir - 273.15)
-    "Zone air temperature (Modelica)"
+  Modelica.Blocks.Sources.RealExpression realExpression5(final y=zon.TAir -
+        273.15) "Zone air temperature (Modelica)"
     annotation (Placement(transformation(extent={{66,-70},{86,-50}})));
   Modelica.Blocks.Math.Mean TZonAirMod(final f=1/averagingTimestep, x0=28.18)
     "Average out Modelica results over time"
-    annotation (Placement(transformation(extent={{104,-70},{124,-50}})));
-  Controls.OBC.CDL.Discrete.UnitDelay TZonAirEP(final samplePeriod=
-        delayTimestep) "Unit delay on EnergyPlus results"
+    annotation (Placement(transformation(extent={{100,-70},{120,-50}})));
+  Modelica.Blocks.Math.Mean           TZonAirEP(f=1/averagingTimestep)
+                       "Unit delay on EnergyPlus results"
     annotation (Placement(transformation(extent={{180,-70},{200,-50}})));
-  Modelica.Blocks.Sources.RealExpression realExpression10(final y=datRea.y[4])
+  Modelica.Blocks.Sources.RealExpression realExpression11(final y=datRea.y[4])
     "Zone air temperature (EnergyPlus)"
     annotation (Placement(transformation(extent={{144,-70},{164,-50}})));
-  Modelica.Blocks.Sources.RealExpression realExpression11(final y=zon.phi*100)
+  Modelica.Blocks.Sources.RealExpression realExpression6(final y=zon.phi*100)
     "Zone air humidity ratio (Modelica)"
     annotation (Placement(transformation(extent={{66,-100},{86,-80}})));
   Modelica.Blocks.Math.Mean phiZonAirMod(final f=1/averagingTimestep, x0=44.95)
     "Average out Modelica results over time"
-    annotation (Placement(transformation(extent={{104,-100},{124,-80}})));
-  Controls.OBC.CDL.Discrete.UnitDelay phiZonAirEP(final samplePeriod=
-        delayTimestep) "Unit delay on EnergyPlus results"
+    annotation (Placement(transformation(extent={{100,-100},{120,-80}})));
+  Modelica.Blocks.Math.Mean           phiZonAirEP(f=1/averagingTimestep)
+                       "Unit delay on EnergyPlus results"
     annotation (Placement(transformation(extent={{180,-100},{200,-80}})));
   Modelica.Blocks.Sources.RealExpression realExpression12(final y=datRea.y[6])
     "Zone air humidity ratio (EnergyPlus)"
@@ -146,14 +146,12 @@ model DXDehumidifier
 equation
   connect(con.y, zon.qGai_flow)
     annotation (Line(points={{18,50},{0,50}},    color={0,0,127}));
-  connect(phiSub.y, hysModCoo.u)
-    annotation (Line(points={{-108,-50},{-102,-50}},
-                                                   color={0,0,127}));
-  connect(hysModCoo.y, dxDeh.uEna)
-    annotation (Line(points={{-78,-50},{-58,-50},{-58,-37},{28.8,-37}},
-                                                   color={255,0,255}));
-  connect(hysModCoo.y, booToReaFanEna.u) annotation (Line(points={{-78,-50},{-76,
-          -50},{-76,4},{-70,4}},     color={255,0,255}));
+  connect(phiSub.y, hysPhi.u)
+    annotation (Line(points={{-108,-50},{-102,-50}}, color={0,0,127}));
+  connect(hysPhi.y, dxDeh.uEna) annotation (Line(points={{-78,-50},{-58,-50},{-58,
+          -37},{28.8,-37}}, color={255,0,255}));
+  connect(hysPhi.y, booToReaFanEna.u) annotation (Line(points={{-78,-50},{-76,-50},
+          {-76,4},{-70,4}}, color={255,0,255}));
   connect(phiSet.y, phiSub.u2)
     annotation (Line(points={{-139,-56},{-132,-56}}, color={0,0,127}));
   connect(zon.phi, phiSub.u1) annotation (Line(points={{-43,50},{-82,50},{-82,-26},
@@ -167,28 +165,28 @@ equation
     annotation (Line(points={{-46,4},{-39.2,4}},     color={0,0,127}));
   connect(gai.y, fan.m_flow_in)
     annotation (Line(points={{-24.8,4},{8,4},{8,-20}},      color={0,0,127}));
-  connect(realExpression2.y,m_flowFan. u)
-    annotation (Line(points={{87,70},{100,70}},  color={0,0,127}));
-  connect(realExpression9.y,m_flowFanEP. u)
+  connect(realExpression1.y, m_flowFan.u)
+    annotation (Line(points={{87,70},{98,70}}, color={0,0,127}));
+  connect(realExpression7.y, m_flowFanEP.u)
     annotation (Line(points={{165,70},{178,70}}, color={0,0,127}));
-  connect(realExpression1.y, mWatMod.u)
-    annotation (Line(points={{87,36},{100,36}}, color={0,0,127}));
-  connect(realExpression3.y, mWatEP.u)
+  connect(realExpression2.y, mWatMod.u)
+    annotation (Line(points={{87,36},{98,36}},  color={0,0,127}));
+  connect(realExpression8.y, mWatEP.u)
     annotation (Line(points={{165,36},{178,36}}, color={0,0,127}));
-  connect(realExpression4.y, QHeaMod.u)
-    annotation (Line(points={{87,0},{100,0}}, color={0,0,127}));
-  connect(realExpression5.y, QHeaEP.u)
+  connect(realExpression3.y, QHeaMod.u)
+    annotation (Line(points={{87,0},{98,0}}, color={0,0,127}));
+  connect(realExpression9.y, QHeaEP.u)
     annotation (Line(points={{165,0},{178,0}}, color={0,0,127}));
-  connect(realExpression6.y, PMod.u)
-    annotation (Line(points={{87,-30},{102,-30}}, color={0,0,127}));
-  connect(realExpression7.y, PEP.u)
+  connect(realExpression4.y, PMod.u)
+    annotation (Line(points={{87,-30},{98,-30}},  color={0,0,127}));
+  connect(realExpression10.y, PEP.u)
     annotation (Line(points={{165,-30},{178,-30}}, color={0,0,127}));
-  connect(realExpression8.y, TZonAirMod.u)
-    annotation (Line(points={{87,-60},{102,-60}}, color={0,0,127}));
-  connect(realExpression10.y, TZonAirEP.u)
+  connect(realExpression5.y, TZonAirMod.u)
+    annotation (Line(points={{87,-60},{98,-60}}, color={0,0,127}));
+  connect(realExpression11.y, TZonAirEP.u)
     annotation (Line(points={{165,-60},{178,-60}}, color={0,0,127}));
-  connect(realExpression11.y, phiZonAirMod.u)
-    annotation (Line(points={{87,-90},{102,-90}}, color={0,0,127}));
+  connect(realExpression6.y, phiZonAirMod.u)
+    annotation (Line(points={{87,-90},{98,-90}}, color={0,0,127}));
   connect(realExpression12.y, phiZonAirEP.u)
     annotation (Line(points={{165,-90},{178,-90}}, color={0,0,127}));
   connect(fan.port_a, zon.ports[2]) annotation (Line(points={{-2,-32},{-24,-32},
@@ -201,5 +199,15 @@ equation
       StopTime=13564800,
       __Dymola_Algorithm="Cvode"),
     __Dymola_Commands(file="Fluid/ZoneEquipment/DXDehumidifier/Validation/DXDehumidifier.mos"
-        "Simulate and Plot"));
+        "Simulate and Plot"),
+    Documentation(info="<html>
+<p>This is an example model for the zone air DX dehumidifier model with an on-off controller to maintain the zone relative humidity. It consists of: </p>
+<ul>
+<li>an instance of the zone air DX dehumidifier model <span style=\"font-family: Courier New;\">dxDeh</span>. </li>
+<li>thermal zone model <span style=\"font-family: Courier New;\">zon</span> of class <a href=\"modelica://Buildings.ThermalZones.EnergyPlus_9_6_0.ThermalZone\">Buildings.ThermalZones.EnergyPlus_9_6_0.ThermalZone</a>. </li>
+<li>on-off controller <span style=\"font-family: Courier New;\">hysPhi</span>. </li>
+<li>zone air relative humidity setpoint controller <span style=\"font-family: Courier New;\">phiSet</span>. </li>
+</ul>
+<p>The simulation model provides a closed-loop example of <span style=\"font-family: Courier New;\">DX dehumidifier</span> that is operated by <span style=\"font-family: Courier New;\">dxDeh</span> and regulates the zone relative humidity in <span style=\"font-family: Courier New;\">zon</span> at the setpoint generated by <span style=\"font-family: Courier New;\">phiSet</span>. </p>
+</html>"));
 end DXDehumidifier;

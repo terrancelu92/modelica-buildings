@@ -1,13 +1,12 @@
 within Buildings.Fluid.ZoneEquipment.DXDehumidifier;
 package Examples
     extends Modelica.Icons.ExamplesPackage;
-  model SimpleInput
+  model DXDehumidifier
       extends Modelica.Icons.Example;
      package Medium = Buildings.Media.Air "Medium model";
 
     parameter Modelica.Units.SI.MassFlowRate m_flow_nominal=0.1
       "Nominal mass flow rate";
-
 
     Buildings.Fluid.ZoneEquipment.DXDehumidifier.DXDehumidifier dxDeh(
       redeclare package Medium = Medium,
@@ -54,6 +53,12 @@ package Examples
           coordinateSystem(preserveAspectRatio=false)),
       experiment(StopTime=14400, __Dymola_Algorithm="Cvode"),
       __Dymola_Commands(file="Resources/Scripts/Dymola/Fluid/ZoneEquipment/DXDehumidifier/Examples/SimpleInput.mos"
-          "Simulate and Plot"));
-  end SimpleInput;
+          "Simulate and Plot"),
+      Documentation(info="<html>
+<p>This is an example model for the zone air DX dehumidifier model with simple inputs.</p>
+</html>"));
+  end DXDehumidifier;
+  annotation (Documentation(info="<html>
+<p>This package contains example models for the DX dehumidifier. </p>
+</html>"));
 end Examples;
