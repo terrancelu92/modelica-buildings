@@ -52,7 +52,7 @@ package Examples
     annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
           coordinateSystem(preserveAspectRatio=false)),
       experiment(StopTime=14400, __Dymola_Algorithm="Cvode"),
-      __Dymola_Commands(file="Resources/Scripts/Dymola/Fluid/ZoneEquipment/DXDehumidifier/Examples/SimpleInput.mos"
+      __Dymola_Commands(file="Resources/Scripts/Dymola/Fluid/ZoneEquipment/DXDehumidifier/Examples/DXDehumidifier.mos"
           "Simulate and Plot"),
       Documentation(info="<html>
 <p>This is an example model for the zone air DX dehumidifier model with simple inputs.</p>

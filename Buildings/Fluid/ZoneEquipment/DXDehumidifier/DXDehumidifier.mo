@@ -55,9 +55,11 @@ model DXDehumidifier "DX dehumidifier"
     annotation (Placement(transformation(extent={{-100,22},{-80,42}})));
   Sensors.RelativeHumidity senRelHum(redeclare package Medium = Medium)
     annotation (Placement(transformation(extent={{-80,22},{-60,42}})));
+  Humidifiers.Humidifier_u hum
+    annotation (Placement(transformation(extent={{-180,-8},{-160,12}})));
 protected
-  constant Modelica.Units.SI.SpecificEnthalpy h_fg= 2501014.5
-       "2501014.5 Buildings.Utilities.Psychrometrics.Constants.h_fg Latent heat of water vapor";
+  constant Modelica.Units.SI.SpecificEnthalpy h_fg= Buildings.Utilities.Psychrometrics.Constants.h_fg
+       "Latent heat of water vapor";
   constant Modelica.Units.SI.Density rhoWat=1000 "Water density";
 
   Real watRemMod(each min=0, each nominal=1, each start=1)
