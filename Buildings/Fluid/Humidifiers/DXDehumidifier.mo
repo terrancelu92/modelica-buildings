@@ -1,45 +1,40 @@
-﻿within Buildings.Fluid.ZoneEquipment.DXDehumidifier;
+﻿within Buildings.Fluid.Humidifiers;
 model DXDehumidifier "DX dehumidifier"
-  extends Buildings.Fluid.Interfaces.TwoPortHeatMassExchanger(
-  redeclare final Buildings.Fluid.MixingVolumes.MixingVolumeMoistAir vol(final
-        prescribedHeatFlowRate=false),
-  energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial);
+  extends Buildings.Fluid.Interfaces.PartialTwoPort;
   parameter Modelica.Units.SI.VolumeFlowRate V_flow_nominal(min=0) = 5.805556e-7
     "Rated water removal rate, in m3/s"
     annotation (Dialog(group="Nominal condition"));
   parameter Real eneFac_nominal(min=0) = 3.412 "Rated energy factor, in L/kwh"
     annotation (Dialog(group="Nominal condition"));
-  parameter Buildings.Fluid.ZoneEquipment.DXDehumidifier.Data.Generic per
-    "Performance data"
-    annotation (choicesAllMatching = true,
-                Placement(transformation(extent={{-80,84},{-60,104}})));
+  parameter Buildings.Fluid.Humidifiers.Data.Generic per "Performance data"
+    annotation (choicesAllMatching=true, Placement(transformation(extent={{60,
+            -56},{80,-36}})));
+  parameter Modelica.Units.SI.MassFlowRate m_flow_nominal
+    "Nominal mass flow rate";
+  parameter Modelica.Units.SI.PressureDifference dp_nominal
+    "Pressure difference";
 
   Modelica.Blocks.Interfaces.BooleanInput uEna
-    "Enable signal" annotation (Placement(transformation(extent={{-122,-50},{-102,
-            -30}}),iconTransformation(extent={{-122,-50},{-102,-30}})));
+    "Enable signal" annotation (Placement(transformation(extent={{-120,-50},{-100,
+            -30}}),iconTransformation(extent={{-120,-50},{-100,-30}})));
 
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow preHeaFlo
     annotation (Placement(transformation(extent={{-50,50},{-30,70}})));
   Modelica.Thermal.HeatTransfer.Sensors.HeatFlowSensor heaFloSen
     annotation (Placement(transformation(extent={{-20,50},{0,70}})));
 
-
   Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor senTem
     "Temperature sensor"
-    annotation (Placement(transformation(extent={{36,70},{56,90}})));
+    annotation (Placement(transformation(extent={{38,50},{58,70}})));
   Modelica.Blocks.Interfaces.RealOutput T(unit="K") "Medium temperature"
     annotation (Placement(transformation(extent={{100,40},{120,60}}),
         iconTransformation(extent={{100,40},{120,60}})));
-  Modelica.Blocks.Interfaces.RealOutput X_w(final unit="kg/kg")
-    "Species composition of medium"
-    annotation (Placement(transformation(extent={{100,-60},{120,-40}}),
-        iconTransformation(extent={{100,-60},{120,-40}})));
 
-  Modelica.Blocks.Sources.RealExpression mWat_flow(y=if uEna == true then -
-        V_flow_nominal*rhoWat*watRemMod else 0)
+  Modelica.Blocks.Sources.RealExpression u(y=if uEna == true then watRemMod
+         else 0)
     annotation (Placement(transformation(extent={{-80,-50},{-60,-30}})));
-  Modelica.Blocks.Sources.RealExpression QHea(y=if uEna == true then Pdeh.y + (
-        -mWat_flow.y)*h_fg else 0)
+  Modelica.Blocks.Sources.RealExpression QHea(y=if uEna == true then Pdeh.y + (-
+        deHum.mWat_flow)*h_fg else 0)
     annotation (Placement(transformation(extent={{-80,50},{-60,70}})));
   Modelica.Blocks.Interfaces.RealOutput Q_flow(unit="W") "Air heating rate"
     annotation (Placement(transformation(extent={{100,10},{120,30}}),
@@ -51,12 +46,20 @@ model DXDehumidifier "DX dehumidifier"
         V_flow_nominal*watRemMod/eneFac_nominal/eneFacMod*1000*1000*3600 else 0)
     annotation (Placement(transformation(extent={{-80,-70},{-60,-50}})));
 
-  Sensors.Temperature senTIn(redeclare package Medium = Medium)
-    annotation (Placement(transformation(extent={{-100,22},{-80,42}})));
-  Sensors.RelativeHumidity senRelHum(redeclare package Medium = Medium)
-    annotation (Placement(transformation(extent={{-80,22},{-60,42}})));
-  Humidifiers.Humidifier_u hum
-    annotation (Placement(transformation(extent={{-180,-8},{-160,12}})));
+  Buildings.Fluid.Sensors.TemperatureTwoPort senTIn(redeclare package Medium = Medium, m_flow_nominal=
+        m_flow_nominal)
+    annotation (Placement(transformation(extent={{-80,-10},{-60,10}})));
+  Buildings.Fluid.Sensors.RelativeHumidityTwoPort senRelHum(redeclare package
+      Medium = Medium,
+      m_flow_nominal=m_flow_nominal)
+    annotation (Placement(transformation(extent={{-50,-10},{-30,10}})));
+  Buildings.Fluid.Humidifiers.Humidifier_u deHum(
+    redeclare package Medium = Medium,
+    m_flow_nominal=m_flow_nominal,
+    dp_nominal=dp_nominal,
+    mWat_flow_nominal=-V_flow_nominal*rhoWat)
+    annotation (Placement(transformation(extent={{-10,-10},{10,10}})));
+
 protected
   constant Modelica.Units.SI.SpecificEnthalpy h_fg= Buildings.Utilities.Psychrometrics.Constants.h_fg
        "Latent heat of water vapor";
@@ -91,28 +94,30 @@ equation
 
   connect(preHeaFlo.port, heaFloSen.port_a)
     annotation (Line(points={{-30,60},{-20,60}}, color={191,0,0}));
-  connect(vol.X_w, X_w) annotation (Line(points={{13,-6},{40,-6},{40,-50},{110,-50}},
-                 color={0,0,127}));
-  connect(heaFloSen.port_b, vol.heatPort) annotation (Line(points={{0,60},{0,34},
-          {-16,34},{-16,-10},{-9,-10}},            color={191,0,0}));
   connect(senTem.T, T)
-    annotation (Line(points={{57,80},{84,80},{84,50},{110,50}},
+    annotation (Line(points={{59,60},{84,60},{84,50},{110,50}},
                                                 color={0,0,127}));
-  connect(vol.heatPort, senTem.port) annotation (Line(points={{-9,-10},{-12,-10},
-          {-12,32},{20,32},{20,80},{36,80}}, color={191,0,0}));
   connect(QHea.y, preHeaFlo.Q_flow)
     annotation (Line(points={{-59,60},{-50,60}}, color={0,0,127}));
-  connect(Pdeh.y, P) annotation (Line(points={{-59,-60},{20,-60},{20,-20},{110,-20}},
-        color={0,0,127}));
   connect(Q_flow, QHea.y) annotation (Line(points={{110,20},{-54,20},{-54,60},{
           -59,60}},
                 color={0,0,127}));
-  connect(mWat_flow.y, vol.mWat_flow) annotation (Line(points={{-59,-40},{-36,
-          -40},{-36,-18},{-11,-18}}, color={0,0,127}));
-  connect(senTIn.port, port_a)
-    annotation (Line(points={{-90,22},{-90,0},{-100,0}}, color={0,127,255}));
-  connect(senRelHum.port, port_a)
-    annotation (Line(points={{-70,22},{-70,0},{-100,0}}, color={0,127,255}));
+  connect(deHum.port_b, port_b)
+    annotation (Line(points={{10,0},{100,0}}, color={0,127,255}));
+  connect(heaFloSen.port_b, deHum.heatPort) annotation (Line(points={{0,60},{20,
+          60},{20,40},{-20,40},{-20,-6},{-10,-6}}, color={191,0,0}));
+  connect(heaFloSen.port_b, senTem.port) annotation (Line(points={{0,60},{38,60}},
+                            color={191,0,0}));
+  connect(senRelHum.port_b, deHum.port_a)
+    annotation (Line(points={{-30,0},{-10,0}}, color={0,127,255}));
+  connect(senTIn.port_b, senRelHum.port_a)
+    annotation (Line(points={{-60,0},{-50,0}}, color={0,127,255}));
+  connect(senTIn.port_a, port_a)
+    annotation (Line(points={{-80,0},{-100,0}}, color={0,127,255}));
+  connect(Pdeh.y, P) annotation (Line(points={{-59,-60},{20,-60},{20,-20},{110,-20}},
+        color={0,0,127}));
+  connect(u.y, deHum.u) annotation (Line(points={{-59,-40},{-16,-40},{-16,6},{-11,
+          6}}, color={0,0,127}));
   annotation (
 defaultComponentName="dxDeh",
 Documentation(info="<html>
@@ -155,6 +160,59 @@ First implementation.
 </li>
 </ul>
 </html>"),
-    Icon(coordinateSystem(extent={{-100,-80},{100,80}})),
-    Diagram(coordinateSystem(extent={{-100,-80},{100,100}})));
+    Icon(coordinateSystem(extent={{-100,-80},{100,80}}), graphics={
+        Rectangle(
+          extent={{-70,60},{70,-60}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={95,95,95},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-101,5},{100,-4}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={0,0,255},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{0,-4},{100,5}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={255,0,0},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-100,5},{101,-5}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={0,0,0},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{-70,58},{70,-62}},
+          lineColor={0,0,255},
+          pattern=LinePattern.None,
+          fillColor={0,62,0},
+          fillPattern=FillPattern.Solid),
+        Polygon(
+          points={{42,42},{54,34},{54,34},{42,28},{42,30},{50,34},{50,34},{42,40},
+              {42,42}},
+          lineColor={255,255,255},
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid),
+        Rectangle(
+          extent={{58,-54},{54,52}},
+          lineColor={255,255,255},
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid),
+        Polygon(
+          points={{42,10},{54,2},{54,2},{42,-4},{42,-2},{50,2},{50,2},{42,8},{42,
+              10}},
+          lineColor={255,255,255},
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid),
+        Polygon(
+          points={{42,-26},{54,-34},{54,-34},{42,-40},{42,-38},{50,-34},{50,-34},
+              {42,-28},{42,-26}},
+          lineColor={255,255,255},
+          fillColor={255,255,255},
+          fillPattern=FillPattern.Solid)}),
+    Diagram(coordinateSystem(extent={{-100,-80},{100,80}})));
 end DXDehumidifier;

@@ -68,7 +68,7 @@ equation
       points={{-39,150},{38,150}},
       color={0,0,127}));
   connect(con1.y, humSte.u) annotation (Line(
-      points={{61,150},{70,150},{70,130},{-10,130},{-10,106},{-2,106}},
+      points={{61,150},{70,150},{70,130},{-10,130},{-10,106},{-1,106}},
       color={0,0,127}));
   connect(humSte.port_b, senTem1.port_a) annotation (Line(
       points={{20,100},{40,100}},
@@ -80,7 +80,7 @@ equation
       points={{-39,150},{-14,150},{-14,40},{38,40}},
       color={0,0,127}));
   connect(con2.y, humDyn.u) annotation (Line(
-      points={{61,40},{70,40},{70,20},{-10,20},{-10,-4},{-2,-4}},
+      points={{61,40},{70,40},{70,20},{-10,20},{-10,-4},{-1,-4}},
       color={0,0,127}));
   connect(humDyn.port_b, senTem2.port_a) annotation (Line(
       points={{20,-10},{40,-10}},
