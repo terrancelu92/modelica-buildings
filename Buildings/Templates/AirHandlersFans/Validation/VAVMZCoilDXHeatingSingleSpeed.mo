@@ -14,8 +14,8 @@ model VAVMZCoilDXHeatingSingleSpeed
       __Dymola_Algorithm="Cvode"),        Documentation(info="<html>
 <p>
 This is a validation model for the configuration represented by
-<a href=\"modelica://Buildings.Templates.AirHandlersFans.Validation.UserProject.AirHandlersFans.VAVMZCoilElectricHeating\">
-Buildings.Templates.AirHandlersFans.Validation.UserProject.AirHandlersFans.VAVMZCoilElectricHeating</a>
+<a href=\"modelica://Buildings.Templates.AirHandlersFans.Validation.UserProject.AirHandlersFans.VAVMZCoilDXHeatingSingleSpeed\">
+Buildings.Templates.AirHandlersFans.Validation.UserProject.AirHandlersFans.VAVMZCoilDXHeatingSingleSpeed</a>
 </p>
 </html>"));
 end VAVMZCoilDXHeatingSingleSpeed;
