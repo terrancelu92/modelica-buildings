@@ -222,7 +222,10 @@ model VAVMultiZone "Multiple-zone VAV"
         "Hot water coil with two-way valve"),
       choice(
         redeclare replaceable Buildings.Templates.Components.Coils.ElectricHeating coiHeaPre
-        "Modulating electric heating coil")),
+        "Modulating electric heating coil"),
+      choice(
+        redeclare replaceable Buildings.Templates.Components.Coils.DXHeatingSingleSpeed coiHeaPre
+        "Single speed DX heating coil")),
     Dialog(group="Configuration",
       enable=coiHeaReh.typ==Buildings.Templates.Components.Types.Coil.None),
     Placement(transformation(extent={{10,-210},{30,-190}})));
@@ -246,7 +249,7 @@ model VAVMultiZone "Multiple-zone VAV"
     Placement(transformation(extent={{70,-210},{90,-190}})));
   inner replaceable Buildings.Templates.Components.Coils.None coiHeaReh
     constrainedby Buildings.Templates.Components.Interfaces.PartialCoil(
-      final dat=dat.coiHeaReh,
+        final dat=dat.coiHeaReh,
       redeclare final package MediumAir=MediumAir)
     "Heating coil in reheat position"
     annotation (
@@ -258,7 +261,10 @@ model VAVMultiZone "Multiple-zone VAV"
         "Hot water coil"),
       choice(
         redeclare replaceable Buildings.Templates.Components.Coils.ElectricHeating coiHeaReh
-        "Modulating electric heating coil")),
+        "Modulating electric heating coil"),
+      choice(
+        redeclare replaceable Buildings.Templates.Components.Coils.DXHeatingSingleSpeed coiHeaReh
+        "Single speed DX heating coil")),
     Dialog(group="Configuration",
       enable=coiHeaPre.typ==Buildings.Templates.Components.Types.Coil.None and
       ctl.typ<>Buildings.Templates.AirHandlersFans.Types.Controller.G36VAVMultiZone),
@@ -338,7 +344,7 @@ equation
       color={255,204,51},
       thickness=0.5));
   connect(pBui_rel.port_b, out.ports[1]) annotation (Line(points={{-10,40},{-40,
-          40},{-40,80},{-41.3333,80}},
+          40},{-40,80},{-37.3333,80}},
                                   color={0,127,255}));
   connect(bui.ports[1], pBui_rel.port_a) annotation (Line(points={{40,50},{40,40},
           {10,40}},             color={0,127,255}));
@@ -397,7 +403,7 @@ equation
           {15,-220},{-20,-220},{-20,-230}},          color={0,127,255}));
   connect(junHeaWatSup.port_2, coiHeaPre.port_aSou) annotation (Line(points={{20,-250},
           {20,-220},{25,-220},{25,-210}},          color={0,127,255}));
-  connect(out.ports[3], pAirSup_rel.port_b) annotation (Line(points={{-38.6667,
+  connect(out.ports[3], pAirSup_rel.port_b) annotation (Line(points={{-42.6667,
           80},{280,80},{280,-220},{270,-220}},
                                            color={0,127,255}));
   connect(secOutRel.port_Ret, TAirRet.port_b) annotation (Line(points={{-120,-80.2},

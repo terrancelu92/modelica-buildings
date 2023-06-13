@@ -31,7 +31,8 @@ partial model PartialCoil "Interface class for coil"
     annotation (Evaluate=true, Dialog(group="Configuration"));
   final parameter Boolean have_weaBus=
     typ==Buildings.Templates.Components.Types.Coil.EvaporatorMultiStage or
-    typ==Buildings.Templates.Components.Types.Coil.EvaporatorVariableSpeed
+    typ==Buildings.Templates.Components.Types.Coil.EvaporatorVariableSpeed or
+    typ==Buildings.Templates.Components.Types.Coil.DXHeatingSingleSpeed
     "Set to true to use a weather bus"
     annotation (Evaluate=true, Dialog(group="Configuration"));
 
@@ -68,8 +69,8 @@ partial model PartialCoil "Interface class for coil"
     annotation (Placement(
         transformation(extent={{-80,80},{-40,120}}), iconTransformation(extent={{-70,90},
             {-50,110}})));
-  Buildings.Templates.Components.Interfaces.Bus bus
-    if typ <> Buildings.Templates.Components.Types.Coil.None
+  Buildings.Templates.Components.Interfaces.Bus bus if
+       typ <> Buildings.Templates.Components.Types.Coil.None
     "Control bus"
     annotation (Placement(
       transformation(
@@ -90,17 +91,17 @@ protected
 initial equation
   if typ==Buildings.Templates.Components.Types.Coil.EvaporatorMultiStage or
     typ==Buildings.Templates.Components.Types.Coil.EvaporatorVariableSpeed then
-    assert(mAir_flow_nominal<=dat.datCoi.sta[dat.datCoi.nSta].nomVal.m_flow_nominal,
+    assert(mAir_flow_nominal<=dat.datCooCoi.sta[dat.datCooCoi.nSta].nomVal.m_flow_nominal,
       "In "+ getInstanceName() + ": "+
       "The coil design airflow ("+String(mAir_flow_nominal)+
       ") exceeds the maximum airflow provided in the performance data record ("+
-      String(dat.datCoi.sta[dat.datCoi.nSta].nomVal.m_flow_nominal)+").",
+      String(dat.datCooCoi.sta[dat.datCooCoi.nSta].nomVal.m_flow_nominal)+").",
       level=AssertionLevel.warning);
-    assert(abs(Q_flow_nominal)<=abs(dat.datCoi.sta[dat.datCoi.nSta].nomVal.Q_flow_nominal),
+    assert(abs(Q_flow_nominal)<=abs(dat.datCooCoi.sta[dat.datCooCoi.nSta].nomVal.Q_flow_nominal),
       "In "+ getInstanceName() + ": "+
       "The coil design capacity ("+String(Q_flow_nominal)+
       ") exceeds the maximum capacity provided in the performance data record ("+
-      String(dat.datCoi.sta[dat.datCoi.nSta].nomVal.Q_flow_nominal)+").",
+      String(dat.datCooCoi.sta[dat.datCooCoi.nSta].nomVal.Q_flow_nominal)+").",
       level=AssertionLevel.warning);
   end if;
 

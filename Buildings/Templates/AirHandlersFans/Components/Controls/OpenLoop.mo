@@ -4,26 +4,26 @@ block OpenLoop "Open loop controller"
     Buildings.Templates.AirHandlersFans.Components.Controls.Interfaces.PartialVAVMultizone(
       final typ=Buildings.Templates.AirHandlersFans.Types.Controller.OpenLoop);
 
-  Buildings.Controls.OBC.CDL.Continuous.Sources.Constant yDamOut(k=1)
- if secOutRel.typDamOut == Buildings.Templates.Components.Types.Damper.Modulating
+  Buildings.Controls.OBC.CDL.Continuous.Sources.Constant yDamOut(k=1) if
+    secOutRel.typDamOut == Buildings.Templates.Components.Types.Damper.Modulating
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-180,170})));
-  Buildings.Controls.OBC.CDL.Logical.Sources.Constant yDamOut1(k=true)
- if secOutRel.typDamOut == Buildings.Templates.Components.Types.Damper.TwoPosition
+  Buildings.Controls.OBC.CDL.Logical.Sources.Constant yDamOut1(k=true) if
+    secOutRel.typDamOut == Buildings.Templates.Components.Types.Damper.TwoPosition
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-170,144})));
-  Buildings.Controls.OBC.CDL.Continuous.Sources.Constant yDamOutMin(k=1)
- if secOutRel.typDamOutMin == Buildings.Templates.Components.Types.Damper.Modulating
+  Buildings.Controls.OBC.CDL.Continuous.Sources.Constant yDamOutMin(k=1) if
+    secOutRel.typDamOutMin == Buildings.Templates.Components.Types.Damper.Modulating
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-150,170})));
-  Buildings.Controls.OBC.CDL.Logical.Sources.Constant yDamOutMin1(k=true)
- if secOutRel.typDamOutMin == Buildings.Templates.Components.Types.Damper.TwoPosition
+  Buildings.Controls.OBC.CDL.Logical.Sources.Constant yDamOutMin1(k=true) if
+    secOutRel.typDamOutMin == Buildings.Templates.Components.Types.Damper.TwoPosition
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
@@ -33,14 +33,14 @@ block OpenLoop "Open loop controller"
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-120,170})));
-  Buildings.Controls.OBC.CDL.Continuous.Sources.Constant yDamRel(k=1)
- if secOutRel.typDamRel == Buildings.Templates.Components.Types.Damper.Modulating
+  Buildings.Controls.OBC.CDL.Continuous.Sources.Constant yDamRel(k=1) if
+    secOutRel.typDamRel == Buildings.Templates.Components.Types.Damper.Modulating
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-90,170})));
-  Buildings.Controls.OBC.CDL.Logical.Sources.Constant yDamRel1(k=true)
- if secOutRel.typDamRel == Buildings.Templates.Components.Types.Damper.TwoPosition
+  Buildings.Controls.OBC.CDL.Logical.Sources.Constant yDamRel1(k=true) if
+    secOutRel.typDamRel == Buildings.Templates.Components.Types.Damper.TwoPosition
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=-90,
@@ -53,8 +53,8 @@ block OpenLoop "Open loop controller"
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-60,110})));
-  Buildings.Controls.OBC.CDL.Integers.Sources.Constant yCoiCooSta(k=1)
-    if coiCoo.typ == Buildings.Templates.Components.Types.Coil.EvaporatorMultiStage
+  Buildings.Controls.OBC.CDL.Integers.Sources.Constant yCoiCooSta(k=1) if
+       coiCoo.typ == Buildings.Templates.Components.Types.Coil.EvaporatorMultiStage
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={-20,110})));
@@ -68,7 +68,11 @@ block OpenLoop "Open loop controller"
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={40,70})));
-  Buildings.Controls.OBC.CDL.Continuous.Sources.Constant yCoiHea(k=1)
+  Buildings.Controls.OBC.CDL.Continuous.Sources.Constant yCoiHea(k=1) if
+       coiHeaReh.typ == Buildings.Templates.Components.Types.Coil.ElectricHeating or
+       coiHeaReh.typ == Buildings.Templates.Components.Types.Coil.WaterBasedHeating or
+       coiHeaPre.typ == Buildings.Templates.Components.Types.Coil.ElectricHeating or
+       coiHeaPre.typ == Buildings.Templates.Components.Types.Coil.WaterBasedHeating
     annotation (
       Placement(transformation(
         extent={{-10,-10},{10,10}},
@@ -84,7 +88,13 @@ block OpenLoop "Open loop controller"
         extent={{-10,-10},{10,10}},
         rotation=-90,
         origin={200,70})));
-
+  Buildings.Controls.OBC.CDL.Logical.Sources.Constant y1CoiHea(k=true) if
+       coiHeaReh.typ == Buildings.Templates.Components.Types.Coil.DXHeatingSingleSpeed or
+       coiHeaPre.typ == Buildings.Templates.Components.Types.Coil.DXHeatingSingleSpeed
+    annotation (Placement(transformation(
+        extent={{-10,-10},{10,10}},
+        rotation=-90,
+        origin={70,110})));
   Buildings.Controls.OBC.CDL.Continuous.Sources.Constant yFanRel(k=1)
     annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
@@ -101,6 +111,7 @@ equation
   connect(yCoiCoo.y, bus.coiCoo.y);
   connect(yCoiHea.y, bus.coiHea.y);
   connect(yCoiCooSta.y, bus.coiCoo.y);
+  connect(y1CoiHea.y, bus.coiHea.y1);
 
   connect(y1FanSup.y, bus.fanSup.y1);
   connect(yFanSup.y, bus.fanSup.y);

@@ -10,6 +10,8 @@ package Types "Package with type definitions"
   type Coil = enumeration(
       ElectricHeating
       "Modulating electric heating coil",
+      DXHeatingSingleSpeed
+      "DX single speed heating coil",
       EvaporatorMultiStage
       "Evaporator coil with multi-stage compressor",
       EvaporatorVariableSpeed

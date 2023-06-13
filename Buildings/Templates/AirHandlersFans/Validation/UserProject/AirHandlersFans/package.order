@@ -1,6 +1,7 @@
 VAVMZBase
 VAVMZCoilElectricHeating
 VAVMZCoilEvaporatorMultiStage
+VAVMZCoilDXHeatingSingleSpeed
 VAVMZCoilEvaporatorVariable
 VAVMZCoilWaterHeating3WVReheat
 VAVMZCoilWaterHeatingCooling

@@ -21,7 +21,9 @@ the maximum value from the performance data record.
     final min=0,
     start=if typ==Buildings.Templates.Components.Types.Coil.EvaporatorMultiStage or
       typ==Buildings.Templates.Components.Types.Coil.EvaporatorVariableSpeed then
-      datCoi.sta[datCoi.nSta].nomVal.m_flow_nominal
+      datCooCoi.sta[datCooCoi.nSta].nomVal.m_flow_nominal
+    elseif typ==Buildings.Templates.Components.Types.Coil.DXHeatingSingleSpeed then
+      datHeaCoi.sta[datHeaCoi.nSta].nomVal.m_flow_nominal
     else 1)
     "Air mass flow rate"
     annotation (
@@ -72,7 +74,9 @@ the maximum value from the performance data record.
     start=if typ==Buildings.Templates.Components.Types.Coil.None then 0
     elseif typ==Buildings.Templates.Components.Types.Coil.EvaporatorMultiStage or
       typ==Buildings.Templates.Components.Types.Coil.EvaporatorVariableSpeed then
-      abs(datCoi.sta[datCoi.nSta].nomVal.Q_flow_nominal)
+      abs(datCooCoi.sta[datCooCoi.nSta].nomVal.Q_flow_nominal)
+    elseif typ==Buildings.Templates.Components.Types.Coil.DXHeatingSingleSpeed then
+      abs(datHeaCoi.sta[datHeaCoi.nSta].nomVal.Q_flow_nominal)
     else 1e4)
     "Coil capacity"
     annotation(Dialog(group="Nominal condition",
@@ -86,10 +90,22 @@ the maximum value from the performance data record.
 */
   final parameter Modelica.Units.SI.HeatFlowRate Q_flow_nominal=
     if typ==Buildings.Templates.Components.Types.Coil.WaterBasedHeating or
-        typ==Buildings.Templates.Components.Types.Coil.ElectricHeating then cap_nominal
+        typ==Buildings.Templates.Components.Types.Coil.ElectricHeating or
+        typ==Buildings.Templates.Components.Types.Coil.DXHeatingSingleSpeed then cap_nominal
     else -1 * cap_nominal
     "Nominal heat flow rate"
     annotation (Dialog(group="Nominal condition"));
+
+   parameter Modelica.Units.SI.HeatFlowRate QDefResCap = datHeaCoiDef.QDefResCap if
+           typ==Buildings.Templates.Components.Types.Coil.DXHeatingSingleSpeed
+    "Heating capacity of resistive defrost element"
+    annotation (Dialog(group="Nominal condition"));
+
+   parameter Modelica.Units.SI.HeatFlowRate QCraCap = datHeaCoiDef.QCraCap if
+           typ==Buildings.Templates.Components.Types.Coil.DXHeatingSingleSpeed
+    "Crankcase heater capacity"
+    annotation (Dialog(group="Nominal condition"));
+
   parameter Modelica.Units.SI.Temperature TWatEnt_nominal(
     final min=273.15,
     displayUnit="degC",
@@ -117,13 +133,45 @@ the maximum value from the performance data record.
       group="Nominal condition",
       enable=typ==Buildings.Templates.Components.Types.Coil.WaterBasedCooling));
   replaceable parameter
-    Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.SingleSpeed.Carrier_Centurion_50PG06 datCoi
+    Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.SingleSpeed.Carrier_Centurion_50PG06 datCooCoi
     constrainedby
     Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.CoolingCoil
     "Performance data record of evaporator coil"
     annotation(choicesAllMatching=true, Dialog(
       enable=typ==Buildings.Templates.Components.Types.HeatExchanger.DXMultiStage or
       typ==Buildings.Templates.Components.Types.HeatExchanger.DXVariableSpeed));
+
+
+  replaceable parameter
+    Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.BaseClasses.CoilHeatTransfer datHeaCoi(
+    is_CooCoi=false,
+    nSta=1,
+    minSpeRat=0.2,
+    sta={
+      Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.BaseClasses.Stage(
+      spe=1800/60,
+      nomVal=
+        Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.BaseClasses.NominalValues(
+        Q_flow_nominal=16381.47714,
+        COP_nominal=3.90494,
+        SHR_nominal=1,
+        m_flow_nominal=2,
+        TEvaIn_nominal=273.15 - 5,
+        TConIn_nominal=273.15 + 21),
+    perCur=
+      Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Examples.PerformanceCurves.DXHeating_Curve_II())})
+    "Performance data record of single speed DX heating coil";
+
+  replaceable parameter
+    Buildings.Fluid.HeatExchangers.DXCoils.AirSource.Data.Generic.BaseClasses.Defrost datHeaCoiDef(
+    final defOpe=Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.Types.DefrostOperation.resistive,
+    final defTri=Buildings.Fluid.HeatExchangers.DXCoils.BaseClasses.Types.DefrostTimeMethods.timed,
+    final tDefRun=1/6,
+    final TDefLim=273.65,
+    final QDefResCap=10500,
+    final QCraCap=200)
+    "DX heating coil defrost data";
+
   annotation (Documentation(info="<html>
 <p>
 This record provides the set of sizing and operating parameters for
