@@ -1,9 +1,10 @@
 within Buildings.Templates.Components.OutdoorAirMixer.Examples.BaseClasses;
 model VAVMZReliefDamperNoFan "Configuration of multiple-zone VAV"
   extends
-    Buildings.Templates.Components.OutdoorAirMixer.Examples.BaseClasses.VAVMultiZone(      redeclare replaceable
-      Buildings.Templates.Components.OutdoorAirMixer.Examples.BaseClasses.OpenLoop ctl
-      "Open loop controller", nZon=2);
+    Buildings.Templates.Components.OutdoorAirMixer.Examples.BaseClasses.VAVMultiZone(
+      redeclare replaceable
+      Buildings.Templates.Components.OutdoorAirMixer.Examples.BaseClasses.OpenLoop
+      ctl "Open loop controller", nZon=2);
 
   annotation (
     defaultComponentName="ahu", Documentation(info="<html>

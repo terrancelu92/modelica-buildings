@@ -58,8 +58,8 @@ model WaterBasedCooling "Chilled water coil"
     redeclare final package Medium = MediumChiWat,
     final m_flow_nominal=mWat_flow_nominal*{1,-1,-1},
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-    dp_nominal=fill(0, 3))
-    if typVal==Buildings.Templates.Components.Types.Valve.ThreeWayModulating
+    dp_nominal=fill(0, 3)) if
+       typVal==Buildings.Templates.Components.Types.Valve.ThreeWayModulating
     "Junction"
     annotation (
       Placement(transformation(
@@ -67,8 +67,8 @@ model WaterBasedCooling "Chilled water coil"
         rotation=90,
         origin={40,-60})));
   Buildings.Templates.Components.Routing.PassThroughFluid pas(redeclare final
-      package Medium = MediumChiWat)
-    if typVal <> Buildings.Templates.Components.Types.Valve.ThreeWayModulating
+      package Medium = MediumChiWat) if
+       typVal <> Buildings.Templates.Components.Types.Valve.ThreeWayModulating
     "Direct pass through" annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,

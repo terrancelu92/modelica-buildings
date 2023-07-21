@@ -50,8 +50,7 @@ model VAVMultiZone "Multiple-zone VAV"
   Hence, no choices annotation, but still replaceable to access parameter
   dialog box of the component.
   */
-  Buildings.Templates.Components.OutdoorAirMixer.OutdoorAirMixer
-    secOutRel(
+  Buildings.Templates.Components.OutdoorAirMixer.OutdoorAirMixer secOutRel(
     redeclare final package MediumAir = MediumAir,
     final typCtlEco=ctl.typCtlEco,
     dat(
@@ -61,10 +60,8 @@ model VAVMultiZone "Multiple-zone VAV"
       final damRel=dat.damRel,
       final damRet=dat.damRet,
       final fanRel=dat.fanRel,
-      final fanRet=dat.fanRet))
-     "Outdoor/relief/return air section"
-     annotation (
-     Dialog(group="Configuration"), Placement(transformation(extent={{-280,-220},
+      final fanRet=dat.fanRet)) "Outdoor/relief/return air section" annotation
+    (Dialog(group="Configuration"), Placement(transformation(extent={{-280,-220},
             {-120,-60}})));
 
   Buildings.Templates.Components.Sensors.Temperature TAirMix(
@@ -284,15 +281,13 @@ model VAVMultiZone "Multiple-zone VAV"
         extent={{10,-10},{-10,10}},
         rotation=90,
         origin={-20,-240})));
-  inner replaceable  Buildings.Templates.Components.OutdoorAirMixer.Examples.BaseClasses.G36VAVMultiZone ctl
-    constrainedby
+  inner replaceable
+    Buildings.Templates.Components.OutdoorAirMixer.Examples.BaseClasses.G36VAVMultiZone
+    ctl constrainedby
     Buildings.Templates.Components.OutdoorAirMixer.Examples.BaseClasses.PartialVAVMultizone(
-      final dat=dat.ctl,
-      final nZon=nZon)
-    "Control selections"
-    annotation (
-      Dialog(group="Controls"),
-      Placement(transformation(extent={{-220,-10},{-200,10}})));
+      final dat=dat.ctl, final nZon=nZon) "Control selections" annotation (
+      Dialog(group="Controls"), Placement(transformation(extent={{-220,-10},{-200,
+            10}})));
 
 initial equation
   assert(typFanSup<>Buildings.Templates.Components.Types.Fan.None,

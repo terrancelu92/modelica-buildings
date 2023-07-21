@@ -15,8 +15,6 @@ model VAVMZReliefDamperNoFan
   inner parameter
     Buildings.Templates.Components.OutdoorAirMixer.Examples.BaseClasses.AllSystems
     datAll(
-    _VAV_1(fanSup(
-            m_flow_nominal=1, dp_nominal=500)),
     sysUni=Buildings.Templates.Types.Units.SI,
     redeclare replaceable model VAV =
         Buildings.Templates.Components.OutdoorAirMixer.Examples.BaseClasses.VAVMZReliefDamperNoFan,
@@ -24,14 +22,10 @@ model VAVMZReliefDamperNoFan
     stdVen=Buildings.Controls.OBC.ASHRAE.G36.Types.VentilationStandard.ASHRAE62_1,
     ashCliZon=Buildings.Controls.OBC.ASHRAE.G36.Types.ASHRAEClimateZone.Zone_3B)
     "Design and operating parameters"
-    annotation (Placement(transformation(extent={{90,92},{110,112}})));
+    annotation (Placement(transformation(extent={{92,92},{112,112}})));
 
-  inner replaceable
-    Buildings.Templates.Components.OutdoorAirMixer.Examples.BaseClasses.VAVMZReliefDamperNoFan
-    VAV_1 constrainedby Buildings.Templates.AirHandlersFans.VAVMultiZone(
-    final dat=datAll._VAV_1,
-    redeclare final package MediumAir = MediumAir,
-    redeclare final package MediumChiWat = MediumChiWat) "Air handling unit"
+  inner Buildings.Templates.Components.OutdoorAirMixer.Examples.BaseClasses.VAVMZReliefDamperNoFan
+    VAV_1  "Air handling unit"
     annotation (Placement(transformation(extent={{-20,-50},{20,-10}})));
   Buildings.Fluid.Sources.Boundary_pT bouOut(
     redeclare final package Medium =MediumAir,

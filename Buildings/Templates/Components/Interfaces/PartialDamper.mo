@@ -27,8 +27,8 @@ partial model PartialDamper "Interface class for damper"
     dat.dp_nominal
     "Damper pressure drop";
 
-  Buildings.Templates.Components.Interfaces.Bus bus
-    if typ <> Buildings.Templates.Components.Types.Damper.None
+  Buildings.Templates.Components.Interfaces.Bus bus if
+       typ <> Buildings.Templates.Components.Types.Damper.None
      and typ <> Buildings.Templates.Components.Types.Damper.Barometric and typ
      <> Buildings.Templates.Components.Types.Damper.NoPath
     "Control bus"

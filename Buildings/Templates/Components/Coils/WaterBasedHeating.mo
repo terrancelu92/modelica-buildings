@@ -53,8 +53,8 @@ model WaterBasedHeating "Hot water coil"
       Placement(transformation(extent={{10,4},{-10,-16}})));
 
   Buildings.Templates.Components.Routing.PassThroughFluid pas(
-    redeclare final package Medium = MediumHeaWat)
-    if typVal <> Buildings.Templates.Components.Types.Valve.ThreeWayModulating
+    redeclare final package Medium = MediumHeaWat) if
+       typVal <> Buildings.Templates.Components.Types.Valve.ThreeWayModulating
     "Direct pass through" annotation (Placement(transformation(
         extent={{-10,-10},{10,10}},
         rotation=90,
@@ -64,8 +64,8 @@ model WaterBasedHeating "Hot water coil"
     redeclare final package Medium=MediumHeaWat,
     final m_flow_nominal=mWat_flow_nominal * {1, -1, -1},
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-    dp_nominal=fill(0, 3))
-    if typVal==Buildings.Templates.Components.Types.Valve.ThreeWayModulating
+    dp_nominal=fill(0, 3)) if
+       typVal==Buildings.Templates.Components.Types.Valve.ThreeWayModulating
     "Junction"
     annotation (
       Placement(transformation(
