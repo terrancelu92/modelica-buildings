@@ -12,4 +12,5 @@ VAVMZDedicatedDampersPressure
 VAVMZFanRelief
 VAVMZFanSupplyArrayVariable
 VAVMZFanSupplyBlowThrough
+VAVMZReliefDamperNoFan
 UserProject
