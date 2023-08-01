@@ -44,7 +44,7 @@ partial model PartialDXHeatingCoil
 
   Buildings.Fluid.DXSystems.BaseClasses.DryCoil dxCoi(
     final datCoi=datCoi,
-    final variableSpeedCoil=false,
+    variableSpeedCoil=false,
     final use_mCon_flow=false) "DX coil"
     annotation (Placement(transformation(extent={{-20,42},{0,62}})));
 
