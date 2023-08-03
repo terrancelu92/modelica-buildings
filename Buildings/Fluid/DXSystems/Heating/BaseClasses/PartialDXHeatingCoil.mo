@@ -123,10 +123,10 @@ protected
 
 
 initial algorithm
-  // Make sure that |Q_flow_nominal[nSta]| >= |Q_flow_nominal[i]| for all stages because the data
+  // Make sure that |Q_flow_nominal[nSta]| <= |Q_flow_nominal[i]| for all stages because the data
   // of nSta are used in the evaporation model
   for i in 1:(nSta-1) loop
-    assert(datCoi.sta[i].nomVal.Q_flow_nominal >= datCoi.sta[nSta].nomVal.Q_flow_nominal,
+    assert(datCoi.sta[i].nomVal.Q_flow_nominal <= datCoi.sta[nSta].nomVal.Q_flow_nominal,
     "Error in DX coil performance data: Q_flow_nominal of the highest stage must have
     the biggest value in magnitude. Obtained " + Modelica.Math.Vectors.toString(
     {datCoi.sta[i].nomVal.Q_flow_nominal for i in 1:nSta}, "Q_flow_nominal"));
