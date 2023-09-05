@@ -77,7 +77,7 @@ model DXDehumidifier "DX dehumidifier"
     "Remove humidity from inlet air only when component is enabled"
     annotation (Placement(transformation(extent={{-80,-50},{-60,-30}})));
 
-  Modelica.Blocks.Sources.RealExpression QHea(y=if uEna == true then PDeh.y
+  Modelica.Blocks.Sources.RealExpression QHea(y=if uEna == true then PDeh.y + deHum.mWat_flow*h_fg
          else 0)
     "Heat transfer into medium only when component is enabled"
     annotation (Placement(transformation(extent={{-92,40},{-72,60}})));
