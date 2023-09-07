@@ -19,9 +19,9 @@ model VariableSpeed "Test model for variable speed DX heating coil"
         spe=900/60,
         nomVal=
         Buildings.Fluid.DXSystems.Heating.AirSource.Data.Generic.BaseClasses.NominalValues(
-          Q_flow_nominal=12000,
-          COP_nominal=3,
-          m_flow_nominal=0.9,
+          Q_flow_nominal=6143.05,
+          COP_nominal=3.90494,
+          m_flow_nominal=0.75,
           TEvaIn_nominal=273.15 - 5,
           TConIn_nominal=273.15 + 21),
         perCur=
@@ -30,9 +30,9 @@ model VariableSpeed "Test model for variable speed DX heating coil"
         spe=1200/60,
         nomVal=
         Buildings.Fluid.DXSystems.Heating.AirSource.Data.Generic.BaseClasses.NominalValues(
-          Q_flow_nominal=18000,
-          COP_nominal=3,
-          m_flow_nominal=1.2,
+          Q_flow_nominal=8190.73,
+          COP_nominal=3.90494,
+          m_flow_nominal=1,
           TEvaIn_nominal=273.15 - 5,
           TConIn_nominal=273.15 + 21),
         perCur=
@@ -41,8 +41,8 @@ model VariableSpeed "Test model for variable speed DX heating coil"
         spe=1800/60,
         nomVal=
         Buildings.Fluid.DXSystems.Heating.AirSource.Data.Generic.BaseClasses.NominalValues(
-          Q_flow_nominal=21000,
-          COP_nominal=3,
+          Q_flow_nominal=12286.10786,
+          COP_nominal=3.90494,
           m_flow_nominal=1.5,
           TEvaIn_nominal=273.15 - 5,
           TConIn_nominal=273.15 + 21),
@@ -52,9 +52,9 @@ model VariableSpeed "Test model for variable speed DX heating coil"
         spe=2400/60,
         nomVal=
         Buildings.Fluid.DXSystems.Heating.AirSource.Data.Generic.BaseClasses.NominalValues(
-          Q_flow_nominal=30000,
-          COP_nominal=3,
-          m_flow_nominal=1.8,
+          Q_flow_nominal=16381.47714,
+          COP_nominal=3.90494,
+          m_flow_nominal=2,
           TEvaIn_nominal=273.15 - 5,
           TConIn_nominal=273.15 + 21),
         perCur=
@@ -66,7 +66,7 @@ model VariableSpeed "Test model for variable speed DX heating coil"
     final TDefLim=273.65,
     final QDefResCap=10500,
     final QCraCap=200)
-    "DX heating coil data record"
+    "Variable speed DX heating coil data record"
     annotation (Placement(transformation(extent={{60,38},{80,58}})));
 
   Buildings.Fluid.DXSystems.Heating.AirSource.VariableSpeed varSpeDX(
@@ -161,8 +161,8 @@ equation
             Documentation(info="<html>
 <p>
 This is an example model for
-<a href=\"modelica://Buildings.Fluid.DXSystems.Heating.AirSource.SingleSpeed\">
-Buildings.Fluid.DXSystems.Heating.AirSource.SingleSpeed</a>.
+<a href=\"modelica://Buildings.Fluid.DXSystems.Heating.AirSource.VariableSpeed\">
+Buildings.Fluid.DXSystems.Heating.AirSource.VariableSpeed</a>.
 The model has time-varying control signals and input conditions.
 </p>
 </html>",

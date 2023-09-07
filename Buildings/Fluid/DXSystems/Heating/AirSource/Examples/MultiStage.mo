@@ -170,6 +170,6 @@ First implementation.
 </ul>
 </html>"),
     __Dymola_Commands(file=
-          "Resources/Scripts/Dymola/Fluid/DXSystems/Heating/AirSource/Examples/VariableSpeed.mos"
+          "Resources/Scripts/Dymola/Fluid/DXSystems/Heating/AirSource/Examples/MultiStage.mos"
         "Simulate and Plot"));
 end MultiStage;

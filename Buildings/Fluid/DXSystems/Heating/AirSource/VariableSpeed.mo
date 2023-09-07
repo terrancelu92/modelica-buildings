@@ -52,8 +52,6 @@ equation
       points={{-51.4,70},{-43.2,70}},
       color={255,0,255},
       smooth=Smooth.None));
-  connect(speRat, defCap.uSpe) annotation (Line(points={{-110,80},{-92,80},{-92,
-          134},{44,134},{44,100},{61,100}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
                    Text(
           extent={{-96,98},{-38,80}},

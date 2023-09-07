@@ -16,8 +16,6 @@ model MultiStage
     "Normalize the speed signal based on the compressor stage input"
     annotation (Placement(transformation(extent={{-80,60},{-68,72}})));
 
-  Controls.OBC.CDL.Conversions.IntegerToReal intToRea
-    annotation (Placement(transformation(extent={{20,120},{40,140}})));
 equation
   connect(stage, speSel.stage) annotation (Line(
       points={{-110,80},{-92,80},{-92,66},{-80.6,66}},
@@ -31,10 +29,6 @@ equation
       points={{-110,80},{-30,80},{-30,62},{-21,62}},
       color={255,127,0},
       smooth=Smooth.None));
-  connect(stage, intToRea.u) annotation (Line(points={{-110,80},{-86,80},{-86,
-          130},{18,130}}, color={255,127,0}));
-  connect(intToRea.y, defCap.uSpe) annotation (Line(points={{42,130},{46,130},{
-          46,100},{61,100}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
         coordinateSystem(preserveAspectRatio=false)));
 end MultiStage;
