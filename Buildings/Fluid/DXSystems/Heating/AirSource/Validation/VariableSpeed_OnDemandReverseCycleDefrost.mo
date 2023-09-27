@@ -23,10 +23,12 @@ model VariableSpeed_OnDemandReverseCycleDefrost
 
 annotation (Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-180,-160},
             {180,160}})),
-             __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Fluid/DXSystems/Heating/AirSource/Validation/VariableSpeed_OnDemandReverseCycleDefrost.mos"
+             __Dymola_Commands(file=
+          "modelica://Buildings/Resources/Scripts/Dymola/Fluid/DXSystems/Heating/AirSource/Validation/VariableSpeed_OnDemandReverseCycleDefrost.mos"
         "Simulate and Plot"),
     experiment(
-      StopTime=1728000,
+      StartTime=3801600,
+      StopTime=6393600,
       Tolerance=1e-06,
       __Dymola_Algorithm="Dassl"),
             Documentation(info="<html>
