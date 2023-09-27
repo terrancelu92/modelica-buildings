@@ -16,9 +16,9 @@
  numTableEntry=        2315
  sizeCompSizeTableEntry=         100
  numCompSizeTableEntry=          27
- NumOfRVariable=        3132
- NumOfRVariable(Total)=        3132
- NumOfRVariable(Actual)=          64
+ NumOfRVariable=        3135
+ NumOfRVariable(Total)=        3135
+ NumOfRVariable(Actual)=          69
  NumOfRVariable(Summed)=          29
  NumOfRVariable(Meter)=          29
  NumOfIVariable=         139
@@ -37,7 +37,7 @@
  InstMeterCacheSize=        1000
  ClippingAlgorithm=SutherlandHodgman
  MonthlyFieldSetInputCount=           0
- NumConsideredOutputVariables=          36
+ NumConsideredOutputVariables=          40
  MaxConsideredOutputVariables=       10000
  numActuatorsUsed=           0
  numEMSActuatorsAvailable=           0

@@ -8,13 +8,27 @@ model VariableSpeed_OnDemandReverseCycleDefrost
           "modelica://Buildings/Resources/Data/Fluid/DXSystems/Heating/AirSource/Validation/VariableSpeedHeating_OnDemandReverseCycleDefrost/DXCoilSystemAuto.dat")),
     datCoi(
       final defOpe=Buildings.Fluid.DXSystems.Heating.BaseClasses.Types.DefrostOperation.reverseCycle,
-      final defTri=Buildings.Fluid.DXSystems.Heating.BaseClasses.Types.DefrostTimeMethods.onDemand));
+      final defTri=Buildings.Fluid.DXSystems.Heating.BaseClasses.Types.DefrostTimeMethods.onDemand),
+    PLR(table=[1,0; 2,0; 3,0; 4,0; 5,0; 6,0; 7,0; 8,0; 8,0.670327586; 9,
+          0.670327586; 9,0.789354728; 10,0.789354728; 10,0.76556681; 11,
+          0.76556681; 11,0.747324042; 12,0.747324042; 12,0.71683691; 13,
+          0.71683691; 13,0.699724389; 14,0.699724389; 14,0.688503863; 15,
+          0.688503863; 15,0.672073356; 16,0.672073356; 16,0.68244737; 17,
+          0.68244737; 17,0.70942306; 18,0.70942306; 18,0; 19,0; 20,0; 21,0; 22,
+          0; 23,0; 24,0; 25,0; 26,0; 27,0; 28,0; 29,0; 30,0; 31,0; 32,0; 32,1;
+          33,1; 34,1; 35,1; 36,1; 37,1; 37,0.917699679; 38,0.917699679; 38,
+          0.8214888; 39,0.8214888; 39,0.759932352; 40,0.759932352; 40,
+          0.71879453; 41,0.71879453; 41,0.684491547; 42,0.684491547; 42,
+          0.662859706; 43,0.662859706; 43,0; 44,0; 45,0; 46,0; 47,0; 48,0]));
 
 annotation (Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-180,-160},
             {180,160}})),
              __Dymola_Commands(file="modelica://Buildings/Resources/Scripts/Dymola/Fluid/DXSystems/Heating/AirSource/Validation/VariableSpeed_OnDemandReverseCycleDefrost.mos"
         "Simulate and Plot"),
-    experiment(Tolerance=1e-6, StopTime=172800),
+    experiment(
+      StopTime=1728000,
+      Tolerance=1e-06,
+      __Dymola_Algorithm="Dassl"),
             Documentation(info="<html>
 <p>
 This model validates the model

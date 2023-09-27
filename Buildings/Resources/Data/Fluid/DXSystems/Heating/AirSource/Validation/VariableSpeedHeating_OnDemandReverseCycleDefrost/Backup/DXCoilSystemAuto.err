@@ -1,4 +1,4 @@
-Program Version,EnergyPlus, Version 23.1.0-87ed9199d4, YMD=2023.08.21 13:07,
+Program Version,EnergyPlus, Version 23.1.0-87ed9199d4, YMD=2023.09.14 18:28,
    ************* Beginning Zone Sizing Calculations
    ** Warning ** GetInternalHeatGains: People="WESTPEOPLE", Activity Level Schedule Name values
    **   ~~~   ** fall outside typical range [70,1000] W/person for Thermal Comfort Reporting.
@@ -21,12 +21,13 @@ Program Version,EnergyPlus, Version 23.1.0-87ed9199d4, YMD=2023.08.21 13:07,
    ************* All Return Air Paths passed integrity testing
    ************* No node connection errors were found.
    ************* Beginning Simulation
-   ** Warning ** WetBulb not converged after 101 iterations(PsyTwbFnTdbWPb)
-   **   ~~~   **  Routine=CalcVarSpeedCoilHeating, Environment=JAN, at Simulation time=02/28 08:10 - 08:20
-   **   ~~~   **  Input Temperature = 4.93
-   **   ~~~   **  Input Humidity Ratio= 1.852756E-003
-   **   ~~~   **  Input Pressure = 99400.00
-   **   ~~~   **  Resultant Temperature= 9.69E-002
+   ** Warning ** CoilSystem:Heating:DX - DX unit sensible part-load ratio calculation failed: part-load ratio limits exceeded, for unit = HEATPUMP DX COIL 1
+   **   ~~~   ** Estimated part-load ratio = 0.791
+   **   ~~~   ** The estimated part-load ratio will be used and the simulation continues. Occurrence info:
+   **   ~~~   **  Environment=JAN, at Simulation time=01/20 15:50 - 16:00
+   ** Warning ** Temperature out of range [-100. to 200.] (PsyPsatFnTemp)
+   **   ~~~   **  Routine=CalcVarSpeedCoilHeating, Environment=JAN, at Simulation time=02/05 12:40 - 12:50
+   **   ~~~   **  Input Temperature=-111.91
    ************* Simulation Error Summary *************
    ** Warning ** The following Report Variables were requested but not generated -- check.rdd file
    **   ~~~   ** Either the IDF did not contain these elements, the variable name is misspelled,
@@ -38,11 +39,18 @@ Program Version,EnergyPlus, Version 23.1.0-87ed9199d4, YMD=2023.08.21 13:07,
    ************* ===== Recurring Error Summary =====
    ************* The following recurring error messages occurred.
    *************
-   *************  ** Warning ** WetBulb not converged after max iterations(PsyTwbFnTdbWPb)
+   *************  ** Warning ** CoilSystem:Heating:DX "HEATPUMP DX COIL 1" - DX unit sensible part-load ratio calculation failed error continues. Sensible PLR statistics follow.
+   *************  **   ~~~   **   This error occurred 4 total times;
+   *************  **   ~~~   **   during Warmup 0 times;
+   *************  **   ~~~   **   during Sizing 0 times.
+   *************  **   ~~~   **   Max=0.790523  Min=0.403906
+   *************
+   *************  ** Warning ** Temperature out of range [-100. to 200.] (PsyPsatFnTemp)
    *************  **   ~~~   **   This error occurred 1 total times;
    *************  **   ~~~   **   during Warmup 0 times;
    *************  **   ~~~   **   during Sizing 0 times.
+   *************  **   ~~~   **   Max=-111.910614 C  Min=-111.910614 C
    *************
    ************* EnergyPlus Warmup Error Summary. During Warmup: 0 Warning; 0 Severe Errors.
    ************* EnergyPlus Sizing Error Summary. During Sizing: 3 Warning; 0 Severe Errors.
-   ************* EnergyPlus Completed Successfully-- 5 Warning; 0 Severe Errors; Elapsed Time=00hr 00min  6.30sec
+   ************* EnergyPlus Completed Successfully-- 10 Warning; 0 Severe Errors; Elapsed Time=00hr 00min  1.06sec

@@ -1131,7 +1131,7 @@
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow Rate per Floor Area {m3/s-m2}
     ,                        !- Flow Rate per Exterior Surface Area {m3/s-m2}
-    0.75,                     !- Air Changes per Hour {1/hr}
+    0.5,                     !- Air Changes per Hour {1/hr}
     1,                       !- Constant Term Coefficient
     ,                        !- Temperature Term Coefficient
     ,                        !- Velocity Term Coefficient
@@ -1145,7 +1145,7 @@
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow Rate per Floor Area {m3/s-m2}
     ,                        !- Flow Rate per Exterior Surface Area {m3/s-m2}
-    0.75,                     !- Air Changes per Hour {1/hr}
+    0.5,                     !- Air Changes per Hour {1/hr}
     1,                       !- Constant Term Coefficient
     ,                        !- Temperature Term Coefficient
     ,                        !- Velocity Term Coefficient
@@ -1587,7 +1587,7 @@
     15000,                   !- Rated Heating Capacity At Selected Nominal Speed Level {W}
     0.665219131,                     !- Rated Air Flow Rate At Selected Nominal Speed Level {m3/s}
     HPACCOOLPLFFPLR,         !- Energy Part Load Fraction Curve Name
-    HPACCOOLEIRFT,                        !- Defrost Energy Input Ratio Function of Temperature Curve Name
+    HPDFEIRFT,           !- Defrost Energy Input Ratio Function of Temperature Curve Name
     -8,                    !- Minimum Outdoor Dry-Bulb Temperature for Compressor Operation {C}
     ,                        !- Outdoor Dry-Bulb Temperature to Turn On Compressor {C}
     0.5,                     !- Maximum Outdoor Dry-Bulb Temperature for Defrost Operation {C}
@@ -1983,6 +1983,27 @@
     Temperature,             !- Input Unit Type for Y
     Dimensionless;           !- Output Unit Type
 
+  Curve:Biquadratic,
+    HPDFEIRFT,           !- Name
+    0.297145,                !- Coefficient1 Constant
+    0.0430933,               !- Coefficient2 x
+    -0.000748766,            !- Coefficient3 x**2
+    0.00597727,              !- Coefficient4 y
+    0.000482112,             !- Coefficient5 y**2
+    -0.000956448,            !- Coefficient6 x*y
+    12.77778,                !- Minimum Value of x
+    23.88889,                !- Maximum Value of x
+    18.0,                    !- Minimum Value of y
+    46.11111,                !- Maximum Value of y
+    ,                        !- Minimum Curve Output
+    ,                        !- Maximum Curve Output
+    Temperature,             !- Input Unit Type for X
+    Temperature,             !- Input Unit Type for Y
+    Dimensionless;           !- Output Unit Type
+
+
+
+
 !-   ===========  ALL OBJECTS IN CLASS: OUTPUT:VARIABLEDICTIONARY ===========
 
   Output:VariableDictionary,IDF;
@@ -2058,6 +2079,12 @@
   Output:Variable,HPACHEATEIRFFF,Performance Curve Output Value,hourly;
 
   Output:Variable,HEAT PUMP DX HEATING COIL 1,Heating Coil Heating Energy,hourly;
+  
+  Output:Variable,HEAT PUMP DX HEATING COIL 1,Heating Coil Upper Speed Level,hourly;
+  
+  Output:Variable,HEAT PUMP DX HEATING COIL 1,Heating Coil Neighboring Speed Levels Ratio,hourly;
+  
+  Output:Variable,HEAT PUMP DX HEATING COIL 1,Heating Coil Source Side Heat Transfer Rate,hourly;
 
   Output:Variable,HEAT PUMP DX HEATING COIL 1,Heating Coil Electricity Energy,hourly;
 
@@ -2107,4 +2134,3 @@
   Output:Meter:MeterFileOnly,NaturalGas:Facility,runperiod;
 
   Output:Meter:MeterFileOnly,NaturalGas:HVAC,runperiod;
-

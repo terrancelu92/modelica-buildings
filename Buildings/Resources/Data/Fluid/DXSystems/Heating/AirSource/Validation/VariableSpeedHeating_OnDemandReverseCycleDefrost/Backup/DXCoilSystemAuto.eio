@@ -1,4 +1,4 @@
-Program Version,EnergyPlus, Version 23.1.0-87ed9199d4, YMD=2023.08.21 13:07
+Program Version,EnergyPlus, Version 23.1.0-87ed9199d4, YMD=2023.09.14 18:28
 ! <Version>, Version ID
  Version, 23.1
 ! <Timesteps per Hour>, #TimeSteps, Minutes per TimeStep {minutes}
@@ -142,7 +142,7 @@ Shadowing/Sun Position Calculations Annual Simulations,PolygonClipping,Periodic,
 ! <ZoneInfiltration Airflow Stats Nominal>,Name,Schedule Name,Zone Name, Zone Floor Area {m2}, # Zone Occupants,Design Volume Flow Rate {m3/s},Volume Flow Rate/Floor Area {m3/s-m2},Volume Flow Rate/Exterior Surface Area {m3/s-m2},ACH - Air Changes per Hour,Equation A - Constant Term Coefficient {},Equation B - Temperature Term Coefficient {1/C},Equation C - Velocity Term Coefficient {s/m}, Equation D - Velocity Squared Term Coefficient {s2/m2}
  ZoneInfiltration Airflow Stats Nominal, WEST ZONE INF,Constant-1.0,WEST ZONE,37.16,3.0,1.573E-002,4.233E-004,2.117E-004,0.500,1.000,0.000,0.000,0.000
  ZoneInfiltration Airflow Stats Nominal, EAST ZONE INF,Constant-1.0,EAST ZONE,37.16,3.0,1.573E-002,4.233E-004,1.881E-004,0.500,1.000,0.000,0.000,0.000
- ZoneInfiltration Airflow Stats Nominal, NORTH ZONE INF,Constant-1.0,NORTH ZONE,55.74,4.0,2.360E-002,4.233E-004,1.954E-004,0.500,1.000,0.000,0.000,0.000
+ ZoneInfiltration Airflow Stats Nominal, NORTH ZONE INF,Constant-1.0,NORTH ZONE,55.74,4.0,3.540E-002,6.350E-004,2.931E-004,0.750,1.000,0.000,0.000,0.000
 ! <AirFlow Model>, Simple
  AirFlow Model, Simple
 ! <RoomAir Model>, Zone Name, Mixing/Mundt/UCSDDV/UCSDCV/UCSDUFI/UCSDUFE/User Defined
@@ -160,43 +160,43 @@ Zone Volume Capacitance Multiplier,   1.000 ,   1.000,   1.000,   1.000
 ! <Cooling Sizing Factor Information>, Sizing Factor ID, Value
  Cooling Sizing Factor Information, Global,   1.0000    
 ! <Zone Sizing Information>, Zone Name, Load Type, Calc Des Load {W}, User Des Load {W}, Calc Des Air Flow Rate {m3/s}, User Des Air Flow Rate {m3/s}, Design Day Name, Date/Time of Peak, Temperature at Peak {C}, Humidity Ratio at Peak {kgWater/kgDryAir}, Floor Area {m2}, # Occupants, Calc Outdoor Air Flow Rate {m3/s}, Calc DOAS Heat Addition Rate {W}
- Zone Sizing Information, WEST ZONE, Cooling, 3138.14351, 3138.14351, 0.26130, 0.26130, CHICAGO_IL_USA ANNUAL COOLING 1% DESIGN CONDITIONS DB/MCWB, 7/21 18:00:00, 28.93200, 1.46116E-002, 37.16122, 3.00000, 2.83200E-002, 0.00000
- Zone Sizing Information, WEST ZONE, Heating, 6069.82078, 6069.82078, 0.18040, 0.18040, CHICAGO_IL_USA ANNUAL HEATING 99% DESIGN CONDITIONS DB, 1/21 24:00:00, -17.30000, 8.38927E-004, 37.16122, 3.00000, 2.83200E-002, 0.00000
- Zone Sizing Information, EAST ZONE, Cooling, 2363.96622, 2363.96622, 0.19684, 0.19684, CHICAGO_IL_USA ANNUAL COOLING 1% DESIGN CONDITIONS DB/MCWB, 7/21 16:00:00, 30.85800, 1.46151E-002, 37.16122, 3.00000, 2.83200E-002, 0.00000
- Zone Sizing Information, EAST ZONE, Heating, 6376.30861, 6376.30861, 0.18951, 0.18951, CHICAGO_IL_USA ANNUAL HEATING 99% DESIGN CONDITIONS DB, 1/21 24:00:00, -17.30000, 8.38927E-004, 37.16122, 3.00000, 2.83200E-002, 0.00000
- Zone Sizing Information, NORTH ZONE, Cooling, 3341.00235, 3341.00235, 0.27819, 0.27819, CHICAGO_IL_USA ANNUAL COOLING 1% DESIGN CONDITIONS DB/MCWB, 7/21 18:40:00, 27.86200, 1.46097E-002, 55.74182, 4.00000, 3.77600E-002, 0.00000
- Zone Sizing Information, NORTH ZONE, Heating, 9110.42581, 9110.42581, 0.27077, 0.27077, CHICAGO_IL_USA ANNUAL HEATING 99% DESIGN CONDITIONS DB, 1/21 24:00:00, -17.30000, 8.38927E-004, 55.74182, 4.00000, 3.77600E-002, 0.00000
+ Zone Sizing Information, WEST ZONE, Cooling, 3138.13066, 3138.13066, 0.26130, 0.26130, CHICAGO_IL_USA ANNUAL COOLING 1% DESIGN CONDITIONS DB/MCWB, 7/21 18:00:00, 28.93200, 1.46116E-002, 37.16122, 3.00000, 2.83200E-002, 0.00000
+ Zone Sizing Information, WEST ZONE, Heating, 6069.90154, 6069.90154, 0.18040, 0.18040, CHICAGO_IL_USA ANNUAL HEATING 99% DESIGN CONDITIONS DB, 1/21 24:00:00, -17.30000, 8.38927E-004, 37.16122, 3.00000, 2.83200E-002, 0.00000
+ Zone Sizing Information, EAST ZONE, Cooling, 2363.95971, 2363.95971, 0.19684, 0.19684, CHICAGO_IL_USA ANNUAL COOLING 1% DESIGN CONDITIONS DB/MCWB, 7/21 16:00:00, 30.85800, 1.46151E-002, 37.16122, 3.00000, 2.83200E-002, 0.00000
+ Zone Sizing Information, EAST ZONE, Heating, 6376.35123, 6376.35123, 0.18951, 0.18951, CHICAGO_IL_USA ANNUAL HEATING 99% DESIGN CONDITIONS DB, 1/21 24:00:00, -17.30000, 8.38927E-004, 37.16122, 3.00000, 2.83200E-002, 0.00000
+ Zone Sizing Information, NORTH ZONE, Cooling, 3402.38668, 3402.38668, 0.28333, 0.28333, CHICAGO_IL_USA ANNUAL COOLING 1% DESIGN CONDITIONS DB/MCWB, 7/21 18:30:00, 28.12950, 1.46102E-002, 55.74182, 4.00000, 3.77600E-002, 0.00000
+ Zone Sizing Information, NORTH ZONE, Heating, 9711.18794, 9711.18794, 0.28858, 0.28858, CHICAGO_IL_USA ANNUAL HEATING 99% DESIGN CONDITIONS DB, 1/21 24:00:00, -17.30000, 8.38927E-004, 55.74182, 4.00000, 3.77600E-002, 0.00000
 ! <System Sizing Information>, System Name, Load Type, Peak Load Kind, User Design Capacity, Calc Des Air Flow Rate [m3/s], User Des Air Flow Rate [m3/s], Design Day Name, Date/Time of Peak
- System Sizing Information, HEAT PUMP SYS 1, Cooling, Sensible, 10131.21, 0.73633, 0.73633, CHICAGO_IL_USA ANNUAL COOLING 1% DESIGN CONDITIONS DB/MCWB, 7/21 05:00:00
- System Sizing Information, HEAT PUMP SYS 1, Heating, Sensible, 26877.40, 0.64067, 0.64067, CHICAGO_IL_USA ANNUAL HEATING 99% DESIGN CONDITIONS DB, 1/21 24:00:00
+ System Sizing Information, HEAT PUMP SYS 1, Cooling, Sensible, 10208.18, 0.74147, 0.74147, CHICAGO_IL_USA ANNUAL COOLING 1% DESIGN CONDITIONS DB/MCWB, 7/21 05:00:00
+ System Sizing Information, HEAT PUMP SYS 1, Heating, Sensible, 27510.34, 0.65849, 0.65849, CHICAGO_IL_USA ANNUAL HEATING 99% DESIGN CONDITIONS DB, 1/21 24:00:00
 ! <Component Sizing Information>, Component Type, Component Name, Input Field Description, Value
  Component Sizing Information, AirTerminal:SingleDuct:ConstantVolume:NoReheat, ZONE1DIRECTAIR, Design Size Maximum Air Flow Rate [m3/s], 0.26130
  Component Sizing Information, AirTerminal:SingleDuct:ConstantVolume:NoReheat, ZONE2DIRECTAIR, Design Size Maximum Air Flow Rate [m3/s], 0.19684
- Component Sizing Information, AirTerminal:SingleDuct:ConstantVolume:NoReheat, ZONE3DIRECTAIR, Design Size Maximum Air Flow Rate [m3/s], 0.27819
- Component Sizing Information, AirLoopHVAC, HEAT PUMP SYS 1, Sum of Air Terminal Maximum Heating Flow Rates [m3/s], 0.73633
- Component Sizing Information, AirLoopHVAC, HEAT PUMP SYS 1, Sum of Air Terminal Minimum Heating Flow Rates [m3/s], 0.73633
- Component Sizing Information, AirLoopHVAC, HEAT PUMP SYS 1, Sum of Air Terminal Maximum Flow Rates [m3/s], 0.73633
- Component Sizing Information, AirLoopHVAC, HEAT PUMP SYS 1, Adjusted Heating Design Air Flow Rate [m3/s], 0.73633
- Component Sizing Information, AirLoopHVAC, HEAT PUMP SYS 1, Adjusted Cooling Design Air Flow Rate [m3/s], 0.73633
- Component Sizing Information, AirLoopHVAC, HEAT PUMP SYS 1, Adjusted Main Design Air Flow Rate [m3/s], 0.73633
+ Component Sizing Information, AirTerminal:SingleDuct:ConstantVolume:NoReheat, ZONE3DIRECTAIR, Design Size Maximum Air Flow Rate [m3/s], 0.28858
+ Component Sizing Information, AirLoopHVAC, HEAT PUMP SYS 1, Sum of Air Terminal Maximum Heating Flow Rates [m3/s], 0.74671
+ Component Sizing Information, AirLoopHVAC, HEAT PUMP SYS 1, Sum of Air Terminal Minimum Heating Flow Rates [m3/s], 0.74671
+ Component Sizing Information, AirLoopHVAC, HEAT PUMP SYS 1, Sum of Air Terminal Maximum Flow Rates [m3/s], 0.74671
+ Component Sizing Information, AirLoopHVAC, HEAT PUMP SYS 1, Adjusted Heating Design Air Flow Rate [m3/s], 0.74671
+ Component Sizing Information, AirLoopHVAC, HEAT PUMP SYS 1, Adjusted Cooling Design Air Flow Rate [m3/s], 0.74671
+ Component Sizing Information, AirLoopHVAC, HEAT PUMP SYS 1, Adjusted Main Design Air Flow Rate [m3/s], 0.74671
  Component Sizing Information, AirLoopHVAC, HEAT PUMP SYS 1, User Heating Air Flow Ratio [], 0.30000
  Component Sizing Information, AirLoopHVAC, HEAT PUMP SYS 1, Calculated Heating Air Flow Ratio [], 1.00000
  Component Sizing Information, Controller:OutdoorAir, OA CONTROLLER 1, Minimum Outdoor Air Flow Rate [m3/s], 9.44000E-002
- Component Sizing Information, Fan:ConstantVolume, SUPPLY FAN 1, Design Size Maximum Flow Rate [m3/s], 0.73633
+ Component Sizing Information, Fan:ConstantVolume, SUPPLY FAN 1, Design Size Maximum Flow Rate [m3/s], 0.74671
  Component Sizing Information, Fan:ConstantVolume, SUPPLY FAN 1, User-Specified Maximum Flow Rate [m3/s], 0.66522
  Component Sizing Information, Coil:Cooling:DX:CurveFit:OperatingMode, HEAT PUMP ACDXCOIL 1 OPERATING MODE, User-Specified Rated Evaporator Air Flow Rate [m3/s], 0.66522
- Component Sizing Information, Coil:Cooling:DX:CurveFit:OperatingMode, HEAT PUMP ACDXCOIL 1 OPERATING MODE, Design Size Rated Gross Total Cooling Capacity [W], 13642.17495
+ Component Sizing Information, Coil:Cooling:DX:CurveFit:OperatingMode, HEAT PUMP ACDXCOIL 1 OPERATING MODE, Design Size Rated Gross Total Cooling Capacity [W], 13756.23513
  Component Sizing Information, Coil:Cooling:DX:CurveFit:OperatingMode, HEAT PUMP ACDXCOIL 1 OPERATING MODE, User-Specified Rated Gross Total Cooling Capacity [W], 10500.00000
  Component Sizing Information, Coil:Cooling:DX:CurveFit:OperatingMode, HEAT PUMP ACDXCOIL 1 OPERATING MODE, User-Specified Rated Condenser Air Flow Rate [m3/s], 0.00000
  Component Sizing Information, Coil:Cooling:DX:CurveFit:Speed, HEAT PUMP ACDXCOIL 1 SPEED 1 PERFORMANCE, User-Specified Rated Air Flow Rate [m3/s], 0.66522
- Component Sizing Information, Coil:Cooling:DX:CurveFit:Speed, HEAT PUMP ACDXCOIL 1 SPEED 1 PERFORMANCE, Design Size Gross Cooling Capacity [W], 13642.17495
+ Component Sizing Information, Coil:Cooling:DX:CurveFit:Speed, HEAT PUMP ACDXCOIL 1 SPEED 1 PERFORMANCE, Design Size Gross Cooling Capacity [W], 13756.23513
  Component Sizing Information, Coil:Cooling:DX:CurveFit:Speed, HEAT PUMP ACDXCOIL 1 SPEED 1 PERFORMANCE, User-Specified Gross Cooling Capacity [W], 10500.00000
  Component Sizing Information, Coil:Cooling:DX:CurveFit:Speed, HEAT PUMP ACDXCOIL 1 SPEED 1 PERFORMANCE, Design Size Gross Sensible Heat Ratio, 0.80066
  Component Sizing Information, COIL:HEATING:DX:VARIABLESPEED, HEAT PUMP DX HEATING COIL 1, Design Size Nominal Heating Capacity [W], 10500.00000
- Component Sizing Information, COIL:HEATING:DX:VARIABLESPEED, HEAT PUMP DX HEATING COIL 1, User-Specified Nominal Heating Capacity [W], 16381.47714
- Component Sizing Information, COIL:HEATING:DX:VARIABLESPEED, HEAT PUMP DX HEATING COIL 1, Design Size Rated Air Flow Rate [m3/s], 0.73633
- Component Sizing Information, COIL:HEATING:DX:VARIABLESPEED, HEAT PUMP DX HEATING COIL 1, User-Specified Rated Air Flow Rate [m3/s], 2.00000
- Component Sizing Information, Coil:Heating:Fuel, HEAT PUMP DX SUPP HEATING COIL 1, Design Size Nominal Capacity [W], 11992.40784
+ Component Sizing Information, COIL:HEATING:DX:VARIABLESPEED, HEAT PUMP DX HEATING COIL 1, User-Specified Nominal Heating Capacity [W], 15000.00000
+ Component Sizing Information, COIL:HEATING:DX:VARIABLESPEED, HEAT PUMP DX HEATING COIL 1, Design Size Rated Air Flow Rate [m3/s], 0.74671
+ Component Sizing Information, COIL:HEATING:DX:VARIABLESPEED, HEAT PUMP DX HEATING COIL 1, User-Specified Rated Air Flow Rate [m3/s], 0.66522
+ Component Sizing Information, Coil:Heating:Fuel, HEAT PUMP DX SUPP HEATING COIL 1, Design Size Nominal Capacity [W], 12103.13295
 ! <Environment>,Environment Name,Environment Type, Start Date, End Date, Start DayOfWeek, Duration {#days}, Source:Start DayOfWeek,  Use Daylight Saving, Use Holidays, Apply Weekend Holiday Rule,  Use Rain Values, Use Snow Values, Sky Temperature Model
 ! <Environment:Special Days>, Special Day Name, Special Day Type, Source, Start Date, Duration {#days}
 ! <Environment:Daylight Saving>, Daylight Saving Indicator, Source, Start Date, End Date
@@ -208,9 +208,9 @@ Environment:WarmupDays,  6
  DX Cooling Coil Standard Rating Information, Coil:Cooling:DX, HEAT PUMP ACDXCOIL 1, 9979.0, 2.49, 8.48, 9.62, 8.53
  DX Cooling Coil Standard Rating Information, Coil:Cooling:DX, HEAT PUMP ACDXCOIL 1, 9871.8, 2.39, 8.17, 9.25, 8.33,  
 ! <Warmup Convergence Information>,Zone Name,Environment Type/Name,Average Warmup Temperature Difference {deltaC},Std Dev Warmup Temperature Difference {deltaC},Max Temperature Pass/Fail Convergence,Min Temperature Pass/Fail Convergence,Average Warmup Load Difference {W},Std Dev Warmup Load Difference {W},Heating Load Pass/Fail Convergence,Cooling Load Pass/Fail Convergence
- Warmup Convergence Information,WEST ZONE,RunPeriod: JAN,0.2576264810,0.6465144978,Pass,Pass,9.2168541582E-003,8.1387387143E-002,Pass,Pass
- Warmup Convergence Information,EAST ZONE,RunPeriod: JAN,0.2321262962,0.5857938037,Pass,Pass,8.5842799561E-003,8.1916957448E-002,Pass,Pass
- Warmup Convergence Information,NORTH ZONE,RunPeriod: JAN,0.2293147283,0.6239984340,Pass,Pass,8.9966313739E-003,8.1553431575E-002,Pass,Pass
+ Warmup Convergence Information,WEST ZONE,RunPeriod: JAN,0.3001840518,0.8057593152,Pass,Pass,1.4651065778E-002,9.0752199452E-002,Pass,Pass
+ Warmup Convergence Information,EAST ZONE,RunPeriod: JAN,0.2552310896,0.7121098537,Pass,Pass,1.3861216489E-002,8.9882341316E-002,Pass,Pass
+ Warmup Convergence Information,NORTH ZONE,RunPeriod: JAN,0.2624032024,0.7628817930,Pass,Pass,1.3762523985E-002,8.9681201491E-002,Pass,Pass
 ! <Program Control Information:Threads/Parallel Sims>, Threading Supported,Maximum Number of Threads, Env Set Threads (OMP_NUM_THREADS), EP Env Set Threads (EP_OMP_NUM_THREADS), IDF Set Threads, Number of Threads Used (Interior Radiant Exchange), Number Nominal Surfaces, Number Parallel Sims
 Program Control:Threads/Parallel Sims, No,1, N/A, N/A, N/A, N/A, N/A, N/A
 End of Data

@@ -105,11 +105,11 @@ model VariableSpeedHeating
 
   Modelica.Blocks.Sources.CombiTimeTable datRea(
     final tableOnFile=true,
-    final columns=2:19,
+    final columns=2:22,
     final tableName="EnergyPlus",
     final smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments)
     "Reader for EnergyPlus example results"
-    annotation (Placement(transformation(extent={{-152,110},{-132,130}})));
+    annotation (Placement(transformation(extent={{-150,110},{-130,130}})));
 
   Buildings.Fluid.Sources.MassFlowSource_T boundary(
     redeclare package Medium = Medium,
@@ -133,6 +133,15 @@ model VariableSpeedHeating
     annotation (Placement(transformation(extent={{-60,70},{-40,90}})));
   Modelica.Blocks.Sources.Constant pAtm(final k=101325) "Atmospheric pressure"
     annotation (Placement(transformation(extent={{-150,60},{-130,80}})));
+  Modelica.Blocks.Sources.CombiTimeTable PLR(
+    timeScale(displayUnit="h") = 3600,
+    startTime(displayUnit="s"),
+    shiftTime(displayUnit="h") = 4665600)
+    annotation (Placement(transformation(extent={{-150,0},{-130,20}})));
+  Modelica.Blocks.Sources.RealExpression speRat(final y=if datRea.y[1] < 0.5
+         then datRea.y[18] else datRea.y[2]/15000/datRea.y[19]/datRea.y[20])
+    "Calculated speed ratio from EnergyPlus"
+    annotation (Placement(transformation(extent={{-152,134},{-132,154}})));
 equation
   connect(varSpeDX.port_b, sin.ports[1])
     annotation (Line(
@@ -164,37 +173,45 @@ equation
     annotation (Line(points={{21,-130},{28,-130}}, color={0,0,127}));
   connect(varSpeDX.P, PMea.u) annotation (Line(points={{11,19},{50,19},{50,20},
           {78,20}}, color={0,0,127}));
-  connect(datRea.y[1], TEvaIn_K.Celsius) annotation (Line(points={{-131,120},{-108,
-          120},{-108,49.6},{-102,49.6}}, color={0,0,127}));
-  connect(datRea.y[9], toTotAirOut.XiDry) annotation (Line(points={{-131,120},{-108,
-          120},{-108,80},{-101,80}}, color={0,0,127}));
-  connect(datRea.y[17], boundary.m_flow_in) annotation (Line(points={{-131,120},
+  connect(datRea.y[1], TEvaIn_K.Celsius) annotation (Line(points={{-129,120},{
+          -108,120},{-108,49.6},{-102,49.6}},
+                                         color={0,0,127}));
+  connect(datRea.y[9], toTotAirOut.XiDry) annotation (Line(points={{-129,120},{
+          -108,120},{-108,80},{-101,80}},
+                                     color={0,0,127}));
+  connect(datRea.y[17], boundary.m_flow_in) annotation (Line(points={{-129,120},
           {-108,120},{-108,16},{-74,16},{-74,-2},{-50,-2}},
                                                    color={0,0,127}));
   connect(TConIn_K.Kelvin, boundary.T_in) annotation (Line(points={{-79,-10.2},{
           -60,-10.2},{-60,-6},{-50,-6}}, color={0,0,127}));
   connect(toTotAirIn.XiTotalAir, boundary.Xi_in[1]) annotation (Line(points={{-79,
           -50},{-60,-50},{-60,-14},{-50,-14}}, color={0,0,127}));
-  connect(datRea.y[5], TConIn_K.Celsius) annotation (Line(points={{-131,120},{-108,
-          120},{-108,-10.4},{-102,-10.4}}, color={0,0,127}));
-  connect(datRea.y[6], toTotAirIn.XiDry) annotation (Line(points={{-131,120},{-108,
-          120},{-108,-50},{-101,-50}}, color={0,0,127}));
+  connect(datRea.y[5], TConIn_K.Celsius) annotation (Line(points={{-129,120},{
+          -108,120},{-108,-10.4},{-102,-10.4}},
+                                           color={0,0,127}));
+  connect(datRea.y[6], toTotAirIn.XiDry) annotation (Line(points={{-129,120},{
+          -108,120},{-108,-50},{-101,-50}},
+                                       color={0,0,127}));
   connect(boundary.ports[1],varSpeDX. port_a) annotation (Line(points={{-28,-10},
           {-18,-10},{-18,10},{-10,10}}, color={0,127,255}));
-  connect(datRea.y[7], TOutEPlu.u) annotation (Line(points={{-131,120},{-108,120},
-          {-108,-30},{-10,-30},{-10,-60},{-2,-60}}, color={0,0,127}));
-  connect(datRea.y[8], toTotAirEPlu.XiDry) annotation (Line(points={{-131,120},{
-          -108,120},{-108,-30},{-10,-30},{-10,-130},{-1,-130}}, color={0,0,127}));
-  connect(datRea.y[3], PEPlu.u) annotation (Line(points={{-131,120},{-108,120},{
-          -108,-30},{-10,-30},{-10,-108},{-74,-108},{-74,-130},{-70,-130}},
+  connect(datRea.y[7], TOutEPlu.u) annotation (Line(points={{-129,120},{-108,
+          120},{-108,-30},{-10,-30},{-10,-60},{-2,-60}},
+                                                    color={0,0,127}));
+  connect(datRea.y[8], toTotAirEPlu.XiDry) annotation (Line(points={{-129,120},
+          {-108,120},{-108,-30},{-10,-30},{-10,-130},{-1,-130}},color={0,0,127}));
+  connect(datRea.y[3], PEPlu.u) annotation (Line(points={{-129,120},{-108,120},
+          {-108,-30},{-10,-30},{-10,-108},{-74,-108},{-74,-130},{-70,-130}},
         color={0,0,127}));
-  connect(datRea.y[2], Q_flowEPlu.u) annotation (Line(points={{-131,120},{-108,120},
-          {-108,-30},{-10,-30},{-10,-108},{90,-108},{90,-130},{98,-130}}, color=
+  connect(datRea.y[2], Q_flowEPlu.u) annotation (Line(points={{-129,120},{-108,
+          120},{-108,-30},{-10,-30},{-10,-108},{90,-108},{90,-130},{98,-130}},
+                                                                          color=
          {0,0,127}));
-  connect(datRea.y[15], PDefEPlu.u) annotation (Line(points={{-131,120},{-108,120},
-          {-108,-30},{-10,-30},{-10,-40},{98,-40}}, color={0,0,127}));
-  connect(datRea.y[16], PCraEPlu.u) annotation (Line(points={{-131,120},{-108,120},
-          {-108,-80},{98,-80}}, color={0,0,127}));
+  connect(datRea.y[15], PDefEPlu.u) annotation (Line(points={{-129,120},{-108,
+          120},{-108,-30},{-10,-30},{-10,-40},{98,-40}},
+                                                    color={0,0,127}));
+  connect(datRea.y[16], PCraEPlu.u) annotation (Line(points={{-129,120},{-108,
+          120},{-108,-80},{98,-80}},
+                                color={0,0,127}));
   connect(phi.X_w, toTotAirOut.XiTotalAir)
     annotation (Line(points={{-61,80},{-79,80}}, color={0,0,127}));
   connect(TEvaIn_K.Kelvin, phi.T) annotation (Line(points={{-79,49.8},{-70,49.8},
@@ -203,8 +220,8 @@ equation
           {-66,66},{-66,72},{-61,72}}, color={0,0,127}));
   connect(varSpeDX.phi, phi.phi) annotation (Line(points={{-11,2},{-32,2},{-32,
           80},{-39,80}}, color={0,0,127}));
-  connect(varSpeDX.speRat, datRea.y[18]) annotation (Line(points={{-11,18},{-22,
-          18},{-22,120},{-131,120}}, color={0,0,127}));
+  connect(speRat.y, varSpeDX.speRat) annotation (Line(points={{-131,144},{-20,
+          144},{-20,18},{-11,18}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-180,-160},
             {180,160}})),
   Documentation(info="<html>
@@ -226,5 +243,10 @@ First implementation.
 </li>
 </ul>
 </html>"),
-    Icon(coordinateSystem(extent={{-100,-100},{100,100}})));
+    Icon(coordinateSystem(extent={{-100,-100},{100,100}})),
+    experiment(
+      StartTime=4665600,
+      StopTime=5875200,
+      Tolerance=1e-06,
+      __Dymola_Algorithm="Cvode"));
 end VariableSpeedHeating;

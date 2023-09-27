@@ -30,13 +30,16 @@ def main():
       'HEAT PUMP DX HEATING COIL 1:Heating Coil Crankcase Heater Electricity Rate [W](Hourly)',
       'HEATING COIL AIR INLET NODE:System Node Mass Flow Rate [kg/s](Hourly)',
       'HEAT PUMP DX HEATING COIL 1:Heating Coil Part Load Ratio [](Hourly)',
+      'HPACHEATCAPFT:Performance Curve Output Value [](Hourly)',
+      'HPACHEATCAPFFF:Performance Curve Output Value [](Hourly)',
+      'HPDFEIRFT:Performance Curve Output Value [](Hourly)'
     ]
 
     e.energyplus_csv_to_mos(
     output_list = output_list,
     dat_file_name=dat_fil,
     step_size=3600,
-    final_time=172800)
+    final_time=7776000)
 
 if __name__ == '__main__':
     main()
