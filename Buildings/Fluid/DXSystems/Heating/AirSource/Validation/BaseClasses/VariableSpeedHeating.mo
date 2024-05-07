@@ -105,7 +105,7 @@ model VariableSpeedHeating
 
   Modelica.Blocks.Sources.CombiTimeTable datRea(
     final tableOnFile=true,
-    final columns=2:22,
+    final columns=2:24,
     final tableName="EnergyPlus",
     final smoothness=Modelica.Blocks.Types.Smoothness.ConstantSegments)
     "Reader for EnergyPlus example results"
@@ -138,8 +138,8 @@ model VariableSpeedHeating
     startTime(displayUnit="s"),
     shiftTime(displayUnit="h") = 4665600)
     annotation (Placement(transformation(extent={{-150,0},{-130,20}})));
-  Modelica.Blocks.Sources.RealExpression speRat(final y=if datRea.y[1] < 0.5
-         then datRea.y[18] else datRea.y[2]/15000/datRea.y[19]/datRea.y[20])
+  Modelica.Blocks.Sources.RealExpression speRat(final y=(datRea.y[22] - 1)*0.25
+         + datRea.y[23]*0.25)
     "Calculated speed ratio from EnergyPlus"
     annotation (Placement(transformation(extent={{-152,134},{-132,154}})));
 equation

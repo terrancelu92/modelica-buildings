@@ -26,13 +26,13 @@ protected
     final uLow=minSpeRat - speRatDeaBan/2,
     final uHigh=minSpeRat + speRatDeaBan/2)
     "Speed ratio deadband"
-    annotation (Placement(transformation(extent={{-64,64},{-52,76}})));
+    annotation (Placement(transformation(extent={{-74,94},{-62,106}})));
 
   Modelica.Blocks.Math.BooleanToInteger onSwi(
     final integerTrue=1,
     final integerFalse=0)
     "On/off switch"
-    annotation (Placement(transformation(extent={{-42,64},{-30,76}})));
+    annotation (Placement(transformation(extent={{-52,94},{-40,106}})));
 
 equation
   connect(speRat,dxCoi.speRat)  annotation (Line(
@@ -41,15 +41,15 @@ equation
       smooth=Smooth.None));
   connect(speRat, deaBan.u)
                          annotation (Line(
-      points={{-110,80},{-90,80},{-90,70},{-65.2,70}},
+      points={{-110,80},{-80,80},{-80,100},{-75.2,100}},
       color={0,0,127},
       smooth=Smooth.None));
   connect(onSwi.y,dxCoi.stage)  annotation (Line(
-      points={{-29.4,70},{-26,70},{-26,62},{-21,62}},
+      points={{-39.4,100},{-26,100},{-26,62},{-21,62}},
       color={255,127,0},
       smooth=Smooth.None));
   connect(deaBan.y, onSwi.u) annotation (Line(
-      points={{-51.4,70},{-43.2,70}},
+      points={{-61.4,100},{-53.2,100}},
       color={255,0,255},
       smooth=Smooth.None));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={

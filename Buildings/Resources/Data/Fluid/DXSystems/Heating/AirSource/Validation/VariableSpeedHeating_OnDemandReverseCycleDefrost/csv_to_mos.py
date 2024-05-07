@@ -32,7 +32,9 @@ def main():
       'HEAT PUMP DX HEATING COIL 1:Heating Coil Part Load Ratio [](Hourly)',
       'HPACHEATCAPFT:Performance Curve Output Value [](Hourly)',
       'HPACHEATCAPFFF:Performance Curve Output Value [](Hourly)',
-      'HPDFEIRFT:Performance Curve Output Value [](Hourly)'
+      'HPDFEIRFT:Performance Curve Output Value [](Hourly)',
+      'HEAT PUMP DX HEATING COIL 1:Heating Coil Upper Speed Level [](Hourly)',
+      'HEAT PUMP DX HEATING COIL 1:Heating Coil Neighboring Speed Levels Ratio [](Hourly)'
     ]
 
     e.energyplus_csv_to_mos(
