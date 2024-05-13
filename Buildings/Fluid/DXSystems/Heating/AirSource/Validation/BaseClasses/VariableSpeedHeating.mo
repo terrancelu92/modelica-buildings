@@ -138,8 +138,9 @@ model VariableSpeedHeating
     startTime(displayUnit="s"),
     shiftTime(displayUnit="h") = 4665600)
     annotation (Placement(transformation(extent={{-150,0},{-130,20}})));
-  Modelica.Blocks.Sources.RealExpression speRat(final y=(datRea.y[22] - 1)*0.25
-         + datRea.y[23]*0.25)
+  Modelica.Blocks.Sources.RealExpression speRat(final y=if datRea.y[1] < 0.5
+         then (datRea.y[22] - 1)*0.25 + datRea.y[23]*0.25 else (datRea.y[2]/
+        15000/datRea.y[19]/datRea.y[20]))
     "Calculated speed ratio from EnergyPlus"
     annotation (Placement(transformation(extent={{-152,134},{-132,154}})));
 equation
