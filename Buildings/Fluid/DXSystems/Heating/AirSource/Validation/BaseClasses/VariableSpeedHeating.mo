@@ -19,7 +19,7 @@ model VariableSpeedHeating
     final T_start=datCoi.sta[1].nomVal.TEvaIn_nominal,
     final from_dp=true,
     final energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-    final dTHys=1e-6,
+    final dTHys=1e-06,
     minSpeRat=datCoi.minSpeRat)
                       "Variable speed DX heating coil"
     annotation (Placement(transformation(extent={{-10,0},{10,20}})));
@@ -124,7 +124,8 @@ model VariableSpeedHeating
     "Convert humidity ratio per kg dry air to humidity ratio per kg total air for coil inlet air"
     annotation (Placement(transformation(extent={{-100,-60},{-80,-40}})));
 
- parameter Buildings.Fluid.DXSystems.Heating.AirSource.Validation.Data.VariableSpeedHeating datCoi
+ parameter Buildings.Fluid.DXSystems.Heating.AirSource.Validation.Data.VariableSpeedHeating datCoi(minSpeRat
+      =0.05)
     "Variable speed DX heating coil data record"
     annotation (Placement(transformation(extent={{80,46},{100,66}})));
 
@@ -138,9 +139,9 @@ model VariableSpeedHeating
     startTime(displayUnit="s"),
     shiftTime(displayUnit="h") = 4665600)
     annotation (Placement(transformation(extent={{-150,0},{-130,20}})));
-  Modelica.Blocks.Sources.RealExpression speRat(final y=if datRea.y[1] < 0.5
-         then (datRea.y[22] - 1)*0.25 + datRea.y[23]*0.25 else (datRea.y[2]/
-        15000/datRea.y[19]/datRea.y[20]))
+  Modelica.Blocks.Sources.RealExpression speRat(final y=if datRea.y[22] == 1
+         and datRea.y[23] == 1 then (datRea.y[2]/15000/datRea.y[19]/datRea.y[20])
+         else (datRea.y[22] - 1)*0.25 + datRea.y[23]*0.25)
     "Calculated speed ratio from EnergyPlus"
     annotation (Placement(transformation(extent={{-152,134},{-132,154}})));
 equation

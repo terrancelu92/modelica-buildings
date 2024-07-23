@@ -27,10 +27,10 @@ annotation (Diagram(coordinateSystem(preserveAspectRatio=true, extent={{-180,-16
           "modelica://Buildings/Resources/Scripts/Dymola/Fluid/DXSystems/Heating/AirSource/Validation/VariableSpeed_OnDemandReverseCycleDefrost.mos"
         "Simulate and Plot"),
     experiment(
-      StartTime=3801600,
-      StopTime=6393600,
+      StartTime=3974400,
+      StopTime=4406400,
       Tolerance=1e-06,
-      __Dymola_Algorithm="Dassl"),
+      __Dymola_Algorithm="Cvode"),
             Documentation(info="<html>
 <p>
 This model validates the model
