@@ -1,5 +1,5 @@
 within Buildings.Applications.DataCenters.ChillerCooled.Examples;
-model IntegratedPrimaryLoadSideEconomizer
+model IntegratedPrimaryLoadSideEconomizerCustomized
   "Example that demonstrates a chiller plant with integrated primary load side economizer"
   extends Modelica.Icons.Example;
   extends
@@ -14,14 +14,33 @@ model IntegratedPrimaryLoadSideEconomizer
       y=if cooModCon.y == Integer(Buildings.Applications.DataCenters.Types.CoolingModes.FullMechanical)
       then 1 else 0),
     PHVAC(y=cooTow[1].PFan + cooTow[2].PFan + pumCW[1].P + pumCW[2].P + sum(
-          chiWSE.powChi + chiWSE.powPum) + ahu.PFan + ahu.PHea),
-    PIT(y=roo.QSou.Q_flow));
+          chiWSE.powChi + chiWSE.powPum) + sum(ahu.PFan) + sum(ahu.PHea)),
+    PIT(y=sum(rac.QSou.Q_flow)));
   extends
-    Buildings.Applications.DataCenters.ChillerCooled.Examples.BaseClasses.PartialDataCenter(
+    Buildings.Applications.DataCenters.ChillerCooled.Examples.BaseClasses.PartialDataCenterAirSide(
     redeclare Buildings.Applications.DataCenters.ChillerCooled.Equipment.IntegratedPrimaryLoadSide chiWSE(
       addPowerToMedium=false,
       perPum=perPumPri),
-    weaData(filNam=Modelica.Utilities.Files.loadResource("modelica://Buildings/Resources/weatherdata/DRYCOLD.mos")));
+    weaData(filNam=Modelica.Utilities.Files.loadResource("modelica://Buildings/Resources/weatherdata/DRYCOLD.mos")),
+    rac(QRoo_flow={175000 + 60000*sin(2*Modelica.Constants.pi*time/7200) +
+          15000*sin(2*Modelica.Constants.pi*time/60),175000 + 65000*cos(2*
+          Modelica.Constants.pi*time/8100 + Modelica.Constants.pi/3) + 10000*
+          sin(2*Modelica.Constants.pi*time/55),175000 + 55000*sin(2*Modelica.Constants.pi
+          *time/9000 + Modelica.Constants.pi/5) + 20000*cos(2*Modelica.Constants.pi
+          *time/70 + Modelica.Constants.pi/4),175000 + 70000*cos(2*Modelica.Constants.pi
+          *time/10800 + Modelica.Constants.pi/7) + 5000*sin(2*Modelica.Constants.pi
+          *time/65)}),
+    ahuValSig(
+      Ti=300,
+      initType=Modelica.Blocks.Types.Init.InitialOutput,
+      y_start=1),
+    ahuFanSpeCon(
+      Ti=3600,
+      yMin=0.01,
+      initType=Modelica.Blocks.Types.Init.InitialOutput,
+      y_start=1),
+    ahu(yFan_start=1),
+    varSpeCon(tWai=0));
 
   parameter Buildings.Fluid.Movers.Data.Generic[numChi] perPumPri(
     each pressure=Buildings.Fluid.Movers.BaseClasses.Characteristics.flowParameters(
@@ -64,11 +83,6 @@ equation
     annotation (Line(
       points={{-99,-10},{-60,-10},{-60,25.6},{-1.6,25.6}},
       color={0,0,127}));
-  connect(TCHWSup.port_b, ahu.port_a1)
-    annotation (Line(
-      points={{-36,0},{-40,0},{-40,0},{-40,-114},{0,-114}},
-      color={0,127,255},
-      thickness=0.5));
   connect(chiWSE.TCHWSupWSE, cooModCon.TCHWSupWSE)
     annotation (Line(
       points={{21,34},{148,34},{148,200},{-226,200},{-226,106},{-216,106}},
@@ -125,16 +139,16 @@ equation
           -84,29.8},{-1.6,29.8}}, color={0,0,127}));
   connect(cooModCon.y, cooTowSpeCon.cooMod) annotation (Line(points={{-193,110},
           {-190,110},{-190,182.444},{-172,182.444}}, color={255,127,0}));
-  connect(cooModCon.y, CWPumCon.cooMod) annotation (Line(points={{-193,110},{
-          -190,110},{-190,76},{-174,76}}, color={255,127,0}));
+  connect(cooModCon.y, CWPumCon.cooMod) annotation (Line(points={{-193,110},{-190,
+          110},{-190,76},{-174,76}},      color={255,127,0}));
   connect(weaBus.TWetBul, cooModCon.TWetBul) annotation (Line(
-      points={{-327.95,-19.95},{-340,-19.95},{-340,200},{-224,200},{-224,114},{
-          -216,114}},
+      points={{-327.95,-19.95},{-340,-19.95},{-340,200},{-224,200},{-224,114},{-216,
+          114}},
       color={255,204,51},
       thickness=0.5));
 
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false,
-    extent={{-360,-200},{320,260}})),
+    extent={{-360,-280},{320,260}})),
   __Dymola_Commands(file=
   "modelica://Buildings/Resources/Scripts/Dymola/Applications/DataCenters/ChillerCooled/Examples/IntegratedPrimaryLoadSideEconomizer.mos"
   "Simulate and plot"),
@@ -257,4 +271,4 @@ experiment(
       StopTime=86400,
       Tolerance=1e-06),
     Icon(coordinateSystem(extent={{-100,-100},{100,100}})));
-end IntegratedPrimaryLoadSideEconomizer;
+end IntegratedPrimaryLoadSideEconomizerCustomized;

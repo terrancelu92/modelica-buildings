@@ -1,5 +1,5 @@
 within Buildings.Examples.ChillerPlant.BaseClasses;
-model SimplifiedRoom "Simplified data center room"
+model SimplifiedRoomVaryingLoad "Simplified data center room"
   extends Buildings.BaseClasses.BaseIcon;
   replaceable package Medium = Modelica.Media.Interfaces.PartialMedium
     "Medium model";
@@ -11,7 +11,7 @@ model SimplifiedRoom "Simplified data center room"
   parameter Modelica.Units.SI.Length rooLen "Length of the room";
   parameter Modelica.Units.SI.Length rooWid "Width of the room";
   parameter Modelica.Units.SI.Height rooHei "Height of the room";
-  parameter Modelica.Units.SI.Power QRoo_flow
+  input Modelica.Units.SI.Power QRoo_flow
     "Heat generation of the computer room";
 
   Buildings.Fluid.MixingVolumes.MixingVolume rooVol(
@@ -35,11 +35,8 @@ model SimplifiedRoom "Simplified data center room"
   Modelica.Thermal.HeatTransfer.Sources.PrescribedHeatFlow QSou
     "Heat source of the room"
     annotation (Placement(transformation(extent={{-18,-40},{2,-20}})));
-  Modelica.Blocks.Sources.Ramp ramp(
-    height=QRoo_flow,
-    offset=0,
-    duration=36000,
-    startTime=0)
+  Modelica.Blocks.Sources.RealExpression
+                               realExpression(y=QRoo_flow)
     annotation (Placement(transformation(extent={{-60,-40},{-40,-20}})));
   parameter Modelica.Units.SI.MassFlowRate m_flow_nominal
     "Nominal mass flow rate";
@@ -58,7 +55,7 @@ equation
       points={{2,-30},{41,-30}},
       color={191,0,0},
       smooth=Smooth.None));
-  connect(ramp.y, QSou.Q_flow) annotation (Line(
+  connect(realExpression.y, QSou.Q_flow) annotation (Line(
       points={{-39,-30},{-18,-30}},
       color={0,0,127},
       smooth=Smooth.None));
@@ -96,4 +93,4 @@ First implementation.
 </li>
 </ul>
 </html>"));
-end SimplifiedRoom;
+end SimplifiedRoomVaryingLoad;

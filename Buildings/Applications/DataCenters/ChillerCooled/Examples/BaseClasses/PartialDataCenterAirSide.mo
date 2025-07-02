@@ -1,8 +1,16 @@
 within Buildings.Applications.DataCenters.ChillerCooled.Examples.BaseClasses;
-partial model PartialDataCenter
+partial model PartialDataCenterAirSide
   "Partial model that impliments cooling system for data centers"
   replaceable package MediumA = Buildings.Media.Air "Medium model";
   replaceable package MediumW = Buildings.Media.Water "Medium model";
+
+  parameter Integer numChiDor=4 "Number of chilled doors";
+  parameter Modelica.Units.SI.Volume V=30*30*5 "Volume";
+
+  parameter Modelica.Units.SI.MassFlowRate m_flow_nominal=V*1.2*6/3600
+    "Nominal mass flow rate";
+  parameter Modelica.Units.SI.HeatFlowRate Q_flow_nominal=-300*6*6
+    "Nominal heat loss of the room";
 
   // Chiller parameters
   parameter Integer numChi=2 "Number of chillers";
@@ -127,23 +135,21 @@ partial model PartialDataCenter
         rotation=-90,
         origin={-50,100})));
 
-  Buildings.Applications.DataCenters.ChillerCooled.Equipment.CoolingCoilHumidifyingHeating ahu(
+  Buildings.Applications.DataCenters.ChillerCooled.Equipment.CoolingCoilHumidifyingHeating ahu[numChiDor](
     redeclare replaceable package Medium1 = MediumW,
     redeclare replaceable package Medium2 = MediumA,
-    m1_flow_nominal=numChi*m2_flow_chi_nominal,
-    m2_flow_nominal=mAir_flow_nominal,
+    m1_flow_nominal=numChi*m2_flow_chi_nominal/4,
+    m2_flow_nominal=mAir_flow_nominal/4,
     dpValve_nominal=6000,
     dp2_nominal=600,
+    perFan(each pressure(dp=800*{1.2,1.12,1}, each V_flow=mAir_flow_nominal/1.29*{0,
+        0.5,1}), each motorCooledByFluid=false),
     mWatMax_flow=0.01,
     UA_nominal=UA_nominal,
     addPowerToMedium=false,
-    perFan(
-      pressure(dp=800*{1.2,1.12,1},
-         V_flow=mAir_flow_nominal/1.29*{0,0.5,1}),
-         motorCooledByFluid=false),
     yValSwi=yValMinAHU + 0.1,
     yValDeaBan=0.05,
-    QHeaMax_flow=30000,
+    QHeaMax_flow=30000/4,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     dp1_nominal=30000)
     "Air handling unit"
@@ -154,35 +160,31 @@ partial model PartialDataCenter
     "Chilled water return temperature"
     annotation (Placement(transformation(extent={{100,-10},{80,10}})));
   Buildings.Fluid.Sources.Boundary_pT expVesChi(
-    redeclare replaceable package Medium = MediumW,
-    nPorts=1)
+    redeclare replaceable package Medium = MediumW, nPorts=1)
     "Expansion tank"
     annotation (Placement(transformation(extent={{-10,-10},{10,10}},
         rotation=180,
-        origin={132,-113})));
+        origin={124,27})));
   Buildings.Fluid.Sensors.RelativePressure senRelPre(
     redeclare replaceable package Medium =MediumW)
     "Differential pressure"
     annotation (Placement(transformation(extent={{-2,-86},{18,-106}})));
-  Buildings.Fluid.Sensors.TemperatureTwoPort TAirSup(
-    redeclare replaceable package Medium = MediumA,
-    m_flow_nominal=mAir_flow_nominal)
-    "Supply air temperature"
-    annotation (Placement(transformation(extent={{10,-10},{-10,10}},
+  Buildings.Fluid.Sensors.TemperatureTwoPort TAirSup[numChiDor](redeclare
+      replaceable package Medium = MediumA, m_flow_nominal=mAir_flow_nominal)
+    "Supply air temperature" annotation (Placement(transformation(
+        extent={{10,-10},{-10,10}},
         rotation=90,
         origin={-50,-150})));
-  Buildings.Examples.ChillerPlant.BaseClasses.SimplifiedRoom roo(
-    redeclare replaceable package Medium = MediumA,
-    rooLen=50,
-    rooWid=30,
-    rooHei=3,
-    m_flow_nominal=mAir_flow_nominal,
-    QRoo_flow=500000,
-    nPorts=2)
-    "Room model"
-    annotation (Placement(transformation(
-        extent={{10,-10},{-10,10}},
-        origin={4,-180})));
+  Buildings.Examples.ChillerPlant.BaseClasses.SimplifiedRoomVaryingLoad
+                                                             rac[numChiDor](
+    redeclare each replaceable package  Medium = MediumA,
+    each rooLen=5,
+    each rooWid=5,
+    each rooHei=3,
+    each m_flow_nominal=mAir_flow_nominal/4,
+    each QRoo_flow=500000/4,
+    each nPorts=2) "Room model" annotation (Placement(transformation(extent={{10,-10},
+            {-10,10}}, origin={4,-180})));
   Buildings.Fluid.Actuators.Valves.TwoWayLinear val[numChi](
     redeclare each package Medium = MediumW,
     each m_flow_nominal=m1_flow_chi_nominal,
@@ -231,7 +233,7 @@ partial model PartialDataCenter
     "Condenser water supply temperature setpoint"
     annotation (Placement(transformation(extent={{-260,176},{-240,196}})));
 
-  Modelica.Blocks.Sources.Constant TAirSupSet(k=TSupAirSet)
+  Modelica.Blocks.Sources.Constant TAirSupSet[numChiDor](k=TSupAirSet)
     "Supply air temperature setpoint"
     annotation (Placement(transformation(extent={{-140,-90},{-120,-70}})));
   Buildings.Applications.BaseClasses.Controls.VariableSpeedPumpStage varSpeCon(
@@ -256,29 +258,28 @@ partial model PartialDataCenter
   Modelica.Blocks.Math.Product pumSpeSig[numChi]
     "Pump speed signal"
     annotation (Placement(transformation(extent={{-120,-20},{-100,0}})));
-  Buildings.Controls.Continuous.LimPID ahuValSig(
-        Ti=40,
+  Buildings.Controls.Continuous.LimPID ahuValSig[numChiDor](
+    Ti=40,
     reverseActing=false,
-    yMin=yValMinAHU,
-    k=0.01)          "Valve position signal for the AHU"
+    k=0.01) "Valve position signal for the AHU"
     annotation (Placement(transformation(extent={{-82,-90},{-62,-70}})));
   Modelica.Blocks.Math.Product cooTowSpe[numChi]
     "Cooling tower speed"
     annotation (Placement(transformation(extent={{-60,166},{-44,182}})));
 
-  Buildings.Controls.Continuous.LimPID ahuFanSpeCon(
-        k=0.1,
+  Buildings.Controls.Continuous.LimPID ahuFanSpeCon[numChiDor](
+    k=0.1,
     reverseActing=false,
     yMin=0.2,
-    Ti=240)   "Fan speed controller "
+    Ti=240) "Fan speed controller "
     annotation (Placement(transformation(extent={{-120,-170},{-100,-150}})));
-  Modelica.Blocks.Sources.Constant TAirRetSet(k=TRetAirSet)
+  Modelica.Blocks.Sources.Constant TAirRetSet[numChiDor](k=TRetAirSet)
     "Return air temperature setpoint"
     annotation (Placement(transformation(extent={{-180,-170},{-160,-150}})));
-  Utilities.Psychrometrics.X_pTphi XAirSupSet(use_p_in=false)
+  Utilities.Psychrometrics.X_pTphi XAirSupSet[numChiDor](use_p_in=false)
     "Mass fraction setpoint of supply air "
     annotation (Placement(transformation(extent={{-140,-100},{-120,-120}})));
-  Modelica.Blocks.Sources.Constant phiAirRetSet(k=0.5)
+  Modelica.Blocks.Sources.Constant phiAirRetSet[numChiDor](k=0.5)
     "Return air relative humidity setpoint"
     annotation (Placement(transformation(extent={{-180,-100},{-160,-80}})));
   Modelica.Blocks.Math.Gain gai1(k=1/dpSetPoi) "Gain effect"
@@ -294,6 +295,85 @@ partial model PartialDataCenter
   Modelica.Blocks.MathBoolean.Or chiOnSta(nu=numChi)
     "Output true if at least one chiller is on"
     annotation (Placement(transformation(extent={{-102,122},{-90,134}})));
+  Fluid.MixingVolumes.MixingVolume datCenRoo(
+    redeclare package Medium = MediumA,
+    T_start=298.15,
+    V=V,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+    m_flow_nominal=m_flow_nominal,
+    mSenFac=2,
+    nPorts=numChiDor+7)
+    annotation (Placement(transformation(extent={{-210,-208},{-190,-188}})));
+  Modelica.Thermal.HeatTransfer.Components.ThermalConductor theCon(G=-
+        Q_flow_nominal/2)
+                         "Thermal conductance to the outside"
+    annotation (Placement(transformation(extent={{-250,-138},{-230,-118}})));
+  HeatTransfer.Sources.PrescribedTemperature           TBou
+    "Fixed temperature boundary condition"
+    annotation (Placement(transformation(extent={{-290,-138},{-270,-118}})));
+  Modelica.Thermal.HeatTransfer.Sensors.TemperatureSensor TVol
+    "Sensor for volume temperature"
+    annotation (Placement(transformation(extent={{-230,-208},{-250,-188}})));
+  Fluid.Movers.FlowControlled_m_flow           mov(
+    dp_nominal=1200,
+    nominalValuesDefineDefaultPressureCurve=true,
+    redeclare package Medium = MediumA,
+    m_flow_nominal=m_flow_nominal,
+    addPowerToMedium=false,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState) "Fan or pump"
+    annotation (Placement(transformation(extent={{-326,-248},{-306,-228}})));
+  Modelica.Blocks.Sources.RealExpression TOut(y(
+      final unit="K",
+      displayUnit="degC") = 273.15 + 34 + 5*cos(time/86400*2*Modelica.Constants.pi))
+    "Outdoor temperature"
+    annotation (Placement(transformation(extent={{-330,-136},{-310,-116}})));
+  Buildings.Controls.Continuous.LimPID
+                             conPI(
+    k=0.5,
+    yMax=1,
+    yMin=0,
+    Ti=120,
+    reverseActing=false)
+            "Controller"
+    annotation (Placement(transformation(extent={{-310,-178},{-290,-158}})));
+  Modelica.Blocks.Sources.Constant mFan_flow(k=m_flow_nominal)
+    "Mass flow rate of the fan"
+    annotation (Placement(transformation(extent={{-340,-218},{-320,-198}})));
+  Fluid.Sources.Boundary_pT           bou(redeclare package Medium = MediumA,
+      nPorts=1)
+    "Fixed pressure boundary condition, required to set a reference pressure"
+    annotation (Placement(transformation(extent={{-140,-228},{-160,-208}})));
+  Fluid.Sensors.TemperatureTwoPort
+                             THeaOut(
+    redeclare package Medium = MediumA,
+    m_flow_nominal=m_flow_nominal,
+    T_start=289.15) "Outlet temperature of the heater"
+    annotation (Placement(transformation(extent={{-230,-248},{-210,-228}})));
+  Fluid.FixedResistances.PressureDrop
+                                res(
+    redeclare package Medium = MediumA,
+    m_flow_nominal=m_flow_nominal,
+    dp_nominal=100,
+    linearized=true) "Flow resistance to decouple pressure state from boundary"
+    annotation (Placement(transformation(extent={{-190,-228},{-170,-208}})));
+  Fluid.HeatExchangers.HeaterCooler_u
+           hea(
+    redeclare package Medium = MediumA,
+    m_flow_nominal=m_flow_nominal,
+    dp_nominal=1000,
+    energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
+    Q_flow_nominal=20*Q_flow_nominal)
+                              "Heater"
+    annotation (Placement(transformation(extent={{-260,-248},{-240,-228}})));
+  Modelica.Blocks.Sources.RealExpression TRoo(y(
+      final unit="K",
+      displayUnit="degC") = 273.15 + 24) "Indoor air temperature"
+    annotation (Placement(transformation(extent={{-346,-178},{-326,-158}})));
+  Fluid.Sensors.TemperatureTwoPort THeaIn(
+    redeclare package Medium = MediumA,
+    m_flow_nominal=m_flow_nominal,
+    T_start=289.15) "Inlet temperature of the heater"
+    annotation (Placement(transformation(extent={{-298,-248},{-278,-228}})));
 equation
   connect(chiWSE.port_b2, TCHWSup.port_a)
     annotation (Line(
@@ -329,9 +409,6 @@ equation
       extent={{6,3},{6,3}},
       horizontalAlignment=TextAlignment.Left));
   end for;
-  connect(senRelPre.port_b, ahu.port_b1)
-    annotation (Line(points={{18,-96},{30,-96},{30,-114},{20,-114}},
-                color={0,127,255},thickness=0.5));
   connect(cooTow.port_a, val.port_b)
     annotation (Line(points={{20,140},{50,140}},
       color={0,127,255},
@@ -341,11 +418,6 @@ equation
     annotation (Line(points={{102,60},{110,60},{110,140.5},{122,140.5}},
     color={0,127,255},
     thickness=0.5));
-  connect(ahu.port_b1, expVesChi.ports[1])
-    annotation (Line(
-      points={{20,-114},{122,-114},{122,-113}},
-      color={0,127,255},
-      thickness=0.5));
 
   connect(chiWSE.port_b2, TCHWSup.port_a)
     annotation (Line(
@@ -417,11 +489,6 @@ equation
     annotation (Line(
       points={{-199,4},{-194,4},{-194,0},{-170,0}},
       color={0,0,127}));
-  connect(senRelPre.port_a, ahu.port_a1)
-    annotation (Line(
-      points={{-2,-96},{-14,-96},{-14,-114},{0,-114}},
-      color={0,127,255},
-      thickness=0.5));
   connect(pumSpe.y, varSpeCon.speSig)
     annotation (Line(
       points={{-225,-20},{-196,-20},{-196,-4},{-170,-4}},
@@ -444,11 +511,6 @@ equation
     annotation (Line(
       points={{-119,-80},{-84,-80}},
       color={0,0,127}));
-  connect(TAirSup.port_a, ahu.port_b2)
-    annotation (Line(
-      points={{-50,-140},{-50,-126},{0,-126}},
-      color={0,127,255},
-      thickness=0.5));
   connect(TAirSup.T, ahuValSig.u_m)
     annotation (Line(
       points={{-61,-150},{-72,-150},{-72,-92}},
@@ -473,27 +535,12 @@ equation
     annotation (Line(
       points={{-43.2,174},{40,174},{40,148},{22,148}},
       color={0,0,127}));
-  connect(TCHWRet.port_a, ahu.port_b1)
-    annotation (Line(
-      points={{100,0},{110,0},{110,-114},{20,-114}},
-      color={0,127,255},
-      thickness=0.5));
   connect(chiNumOn.y, CWPumCon.numOnChi)
     annotation (Line(
       points={{-236.9,65},{-206,65},{-206,64},{-174,64}},
       color={255,127,0}));
-  connect(ahu.port_a2, roo.airPorts[1])
-    annotation (Line(
-      points={{20,-126},{32,-126},{32,-196},{1.525,-196},{1.525,-188.7}},
-      color={0,127,255},
-      thickness=0.5));
 
-  connect(roo.airPorts[2], TAirSup.port_b)
-    annotation (Line(
-      points={{5.575,-188.7},{5.575,-196},{-50,-196},{-50,-160}},
-      color={0,127,255},
-      thickness=0.5));
-  connect(roo.TRooAir, ahuFanSpeCon.u_m)
+  connect(rac.TRooAir, ahuFanSpeCon.u_m)
     annotation (Line(
       points={{-7,-180},{-110,-180},{-110,-172}},
       color={0,0,127}));
@@ -553,8 +600,85 @@ equation
           {-136,210},{-190,210},{-190,4},{-170,4}}, color={255,0,255}));
   connect(plaOn.y, CWPumCon.on) annotation (Line(points={{-138,240},{-136,240},
           {-136,210},{-190,210},{-190,70},{-174,70}}, color={255,0,255}));
+  connect(theCon.port_a,TBou. port) annotation (Line(
+      points={{-250,-128},{-270,-128}},
+      color={191,0,0}));
+  connect(datCenRoo.heatPort, theCon.port_b) annotation (Line(points={{-210,
+          -198},{-220,-198},{-220,-128},{-230,-128}}, color={191,0,0}));
+  connect(datCenRoo.heatPort, TVol.port)
+    annotation (Line(points={{-210,-198},{-230,-198}}, color={191,0,0}));
+  connect(TOut.y,TBou. T) annotation (Line(
+      points={{-309,-126},{-300,-126},{-300,-128},{-292,-128}},
+      color={0,0,127}));
+  connect(TVol.T,conPI. u_m) annotation (Line(
+      points={{-251,-198},{-300,-198},{-300,-180}},
+      color={0,0,127}));
+  connect(mFan_flow.y,mov. m_flow_in) annotation (Line(
+      points={{-319,-208},{-316,-208},{-316,-226}},
+      color={0,0,127}));
+  connect(THeaOut.port_b, datCenRoo.ports[1]) annotation (Line(points={{-210,-238},
+          {-202,-238},{-202,-208},{-200,-208}},         color={0,127,255}));
+  connect(datCenRoo.ports[2], mov.port_a) annotation (Line(points={{-200,-208},
+          {-200,-268},{-330,-268},{-330,-238},{-326,-238}},   color={0,127,255}));
+  connect(res.port_b,bou. ports[1])
+    annotation (Line(points={{-170,-218},{-160,-218}},    color={0,127,255}));
+  connect(res.port_a, datCenRoo.ports[3]) annotation (Line(points={{-190,-218},{
+          -200,-218},{-200,-208}},      color={0,127,255}));
+  connect(hea.port_b,THeaOut. port_a) annotation (Line(
+      points={{-240,-238},{-230,-238}},
+      color={0,127,255}));
+
+  connect(TAirSup.port_a, ahu.port_b2) annotation (Line(
+      points={{-50,-140},{-50,-126},{0,-126}},
+      color={0,127,255},
+      thickness=0.5));
+
+  connect(ahu[1].port_a1, senRelPre.port_a) annotation (Line(
+      points={{0,-114},{-20,-114},{-20,-96},{-2,-96}},
+      color={0,127,255},
+      thickness=0.5));
+  connect(senRelPre.port_b, ahu[1].port_b1) annotation (Line(
+      points={{18,-96},{38,-96},{38,-114},{20,-114}},
+      color={0,127,255},
+      thickness=0.5));
+
+  connect(TRoo.y, conPI.u_s)
+    annotation (Line(points={{-325,-168},{-312,-168}}, color={0,0,127}));
+
+  for i in 1:numChiDor loop
+  connect(ahu[i].port_b1, TCHWRet.port_a) annotation (Line(
+      points={{20,-114},{108,-114},{108,0},{100,0}},
+      color={0,127,255},
+      thickness=0.5));
+  connect(ahu[i].port_a1, TCHWSup.port_b) annotation (Line(
+      points={{0,-114},{-50,-114},{-50,0},{-36,0}},
+      color={0,127,255},
+      thickness=0.5));
+  connect(datCenRoo.ports[3+i], ahu[i].port_a2) annotation (Line(
+      points={{-200,-208},{-198,-208},{-198,-252},{44,-252},{44,-126},{20,-126}},
+      color={0,127,255},
+      thickness=0.5));
+  connect(TAirSup[i].port_b, rac[i].airPorts[1]) annotation (Line(
+      points={{-50,-160},{-50,-208},{1.525,-208},{1.525,-188.7}},
+      color={0,127,255},
+      thickness=0.5));
+  connect(rac[i].airPorts[2], datCenRoo.ports[7+i]) annotation (Line(points={{5.575,
+            -188.7},{5.575,-240},{-200,-240},{-200,-208}},
+                                                    color={0,127,255},
+      thickness=0.5));
+  end for;
+
+  connect(conPI.y, hea.u) annotation (Line(points={{-289,-168},{-282,-168},{
+          -282,-232},{-262,-232}},
+                              color={0,0,127}));
+  connect(TCHWRet.port_b, expVesChi.ports[1])
+    annotation (Line(points={{80,0},{80,27},{114,27}}, color={0,127,255}));
+  connect(THeaIn.port_b, hea.port_a)
+    annotation (Line(points={{-278,-238},{-260,-238}}, color={0,127,255}));
+  connect(THeaIn.port_a, mov.port_b)
+    annotation (Line(points={{-298,-238},{-306,-238}}, color={0,127,255}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false,
-    extent={{-360,-200},{160,260}})),
+    extent={{-360,-280},{160,260}})),
     Documentation(info="<html>
 <p>
 This is a partial model that describes the chilled water cooling system in a data center. The sizing data
@@ -615,5 +739,5 @@ First implementation.
 </li>
 </ul>
 </html>"),
-    Icon(coordinateSystem(extent={{-360,-200},{160,260}})));
-end PartialDataCenter;
+    Icon(coordinateSystem(extent={{-360,-280},{160,260}})));
+end PartialDataCenterAirSide;
