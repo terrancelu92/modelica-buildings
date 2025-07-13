@@ -233,7 +233,8 @@ partial model PartialDataCenterAirSide
     "Condenser water supply temperature setpoint"
     annotation (Placement(transformation(extent={{-260,176},{-240,196}})));
 
-  Modelica.Blocks.Sources.Constant TAirSupSet[numChiDor](k=TSupAirSet)
+  Modelica.Blocks.Sources.RealExpression
+                                   TAirSupSet[numChiDor](y=TSupAirSet)
     "Supply air temperature setpoint"
     annotation (Placement(transformation(extent={{-140,-90},{-120,-70}})));
   Buildings.Applications.BaseClasses.Controls.VariableSpeedPumpStage varSpeCon(
@@ -273,13 +274,15 @@ partial model PartialDataCenterAirSide
     yMin=0.2,
     Ti=240) "Fan speed controller "
     annotation (Placement(transformation(extent={{-120,-170},{-100,-150}})));
-  Modelica.Blocks.Sources.Constant TAirRetSet[numChiDor](k=TRetAirSet)
+  Modelica.Blocks.Sources.RealExpression
+                                   TAirRetSet[numChiDor](y=TRetAirSet)
     "Return air temperature setpoint"
     annotation (Placement(transformation(extent={{-180,-170},{-160,-150}})));
   Utilities.Psychrometrics.X_pTphi XAirSupSet[numChiDor](use_p_in=false)
     "Mass fraction setpoint of supply air "
     annotation (Placement(transformation(extent={{-140,-100},{-120,-120}})));
-  Modelica.Blocks.Sources.Constant phiAirRetSet[numChiDor](k=0.5)
+  Modelica.Blocks.Sources.RealExpression
+                                   phiAirRetSet[numChiDor](y=0.5)
     "Return air relative humidity setpoint"
     annotation (Placement(transformation(extent={{-180,-100},{-160,-80}})));
   Modelica.Blocks.Math.Gain gai1(k=1/dpSetPoi) "Gain effect"
@@ -322,11 +325,6 @@ partial model PartialDataCenterAirSide
     addPowerToMedium=false,
     energyDynamics=Modelica.Fluid.Types.Dynamics.SteadyState) "Fan or pump"
     annotation (Placement(transformation(extent={{-326,-248},{-306,-228}})));
-  Modelica.Blocks.Sources.RealExpression TOut(y(
-      final unit="K",
-      displayUnit="degC") = 273.15 + 34 + 5*cos(time/86400*2*Modelica.Constants.pi))
-    "Outdoor temperature"
-    annotation (Placement(transformation(extent={{-330,-136},{-310,-116}})));
   Buildings.Controls.Continuous.LimPID
                              conPI(
     k=0.5,
@@ -607,9 +605,6 @@ equation
           -198},{-220,-198},{-220,-128},{-230,-128}}, color={191,0,0}));
   connect(datCenRoo.heatPort, TVol.port)
     annotation (Line(points={{-210,-198},{-230,-198}}, color={191,0,0}));
-  connect(TOut.y,TBou. T) annotation (Line(
-      points={{-309,-126},{-300,-126},{-300,-128},{-292,-128}},
-      color={0,0,127}));
   connect(TVol.T,conPI. u_m) annotation (Line(
       points={{-251,-198},{-300,-198},{-300,-180}},
       color={0,0,127}));
@@ -677,6 +672,12 @@ equation
     annotation (Line(points={{-278,-238},{-260,-238}}, color={0,127,255}));
   connect(THeaIn.port_a, mov.port_b)
     annotation (Line(points={{-298,-238},{-306,-238}}, color={0,127,255}));
+  connect(TBou.T, weaBus.TDryBul) annotation (Line(points={{-292,-128},{-314,
+          -128},{-314,-19.95},{-327.95,-19.95}}, color={0,0,127}), Text(
+      string="%second",
+      index=1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false,
     extent={{-360,-280},{160,260}})),
     Documentation(info="<html>

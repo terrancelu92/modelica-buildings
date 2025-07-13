@@ -22,14 +22,12 @@ model IntegratedPrimaryLoadSideEconomizerCustomized
       addPowerToMedium=false,
       perPum=perPumPri),
     weaData(filNam=Modelica.Utilities.Files.loadResource("modelica://Buildings/Resources/weatherdata/DRYCOLD.mos")),
-    rac(QRoo_flow={175000 + 60000*sin(2*Modelica.Constants.pi*time/7200) +
-          15000*sin(2*Modelica.Constants.pi*time/60),175000 + 65000*cos(2*
-          Modelica.Constants.pi*time/8100 + Modelica.Constants.pi/3) + 10000*
-          sin(2*Modelica.Constants.pi*time/55),175000 + 55000*sin(2*Modelica.Constants.pi
-          *time/9000 + Modelica.Constants.pi/5) + 20000*cos(2*Modelica.Constants.pi
-          *time/70 + Modelica.Constants.pi/4),175000 + 70000*cos(2*Modelica.Constants.pi
-          *time/10800 + Modelica.Constants.pi/7) + 5000*sin(2*Modelica.Constants.pi
-          *time/65)}),
+    rac(QRoo_flow={125000*(0.7 + 0.3*(sin(2*3.14159*(time/86400 - 0.25)) + 1)/2
+           + 0.1*sin(2*3.14159*time/3600)),125000*(0.72 + 0.28*(sin(2*3.14159*(
+          time/86400 - 0.27)) + 1)/2 + 0.08*sin(2*3.14159*time/3300)),125000*(
+          0.75 + 0.25*(sin(2*3.14159*(time/86400 - 0.23)) + 1)/2 + 0.12*sin(2*
+          3.14159*time/3900)),125000*(0.68 + 0.32*(sin(2*3.14159*(time/86400 -
+          0.29)) + 1)/2 + 0.09*sin(2*3.14159*time/2700))}),
     ahuValSig(
       Ti=300,
       initType=Modelica.Blocks.Types.Init.InitialOutput,
@@ -40,7 +38,14 @@ model IntegratedPrimaryLoadSideEconomizerCustomized
       initType=Modelica.Blocks.Types.Init.InitialOutput,
       y_start=1),
     ahu(yFan_start=1),
-    varSpeCon(tWai=0));
+    varSpeCon(tWai=0),
+    TAirSupSet(y={TSupAirRan[1].y,TSupAirRan[2].y,TSupAirRan[3].y,TSupAirRan[4].y}),
+    TAirRetSet(y={TRacTemRan[1].y,TRacTemRan[2].y,TRacTemRan[3].y,TRacTemRan[4].y}),
+    phiAirRetSet(y={phiRan[1].y,phiRan[2].y,phiRan[3].y,phiRan[4].y}),
+    hea(Q_flow_nominal=-150000));
+
+
+
 
   parameter Buildings.Fluid.Movers.Data.Generic[numChi] perPumPri(
     each pressure=Buildings.Fluid.Movers.BaseClasses.Characteristics.flowParameters(
@@ -77,6 +82,27 @@ model IntegratedPrimaryLoadSideEconomizerCustomized
     y=-chiWSE.port_a2.m_flow*4180*(chiWSE.TCHWSupWSE - TCHWSupSet.y))
     "Cooling load in chillers"
     annotation (Placement(transformation(extent={{-320,130},{-300,150}})));
+  BaseClasses.SignalStep TSupAirRan[numChiDor](
+    yMin=12 + 273.15,
+    yMax=19 + 273.15,
+    sampleTime={1800,3600,2400,2700},
+    randomSeed={1,188,366,799},
+    usePredefPattern=false)
+    annotation (Placement(transformation(extent={{80,-160},{100,-140}})));
+  BaseClasses.SignalStep TRacTemRan[numChiDor](
+    yMin=23 + 273.15,
+    yMax=25 + 273.15,
+    sampleTime={3600,2700,2400,2100},
+    randomSeed={188,2000,3660,799},
+    usePredefPattern=false)
+    annotation (Placement(transformation(extent={{80,-200},{100,-180}})));
+  BaseClasses.SignalStep phiRan[numChiDor](
+    yMin=0.4,
+    yMax=0.6,
+    sampleTime={3600,7200,4200,5400},
+    randomSeed={1288,5000,36660,7779},
+    usePredefPattern=false)
+    annotation (Placement(transformation(extent={{80,-240},{100,-220}})));
 equation
 
   connect(pumSpeSig.y, chiWSE.yPum)
@@ -153,95 +179,31 @@ equation
   "modelica://Buildings/Resources/Scripts/Dymola/Applications/DataCenters/ChillerCooled/Examples/IntegratedPrimaryLoadSideEconomizer.mos"
   "Simulate and plot"),
    Documentation(info="<html>
-<h4>System Configuration</h4>
-<p>This example demonstrates the implementation of a chiller plant
-with water-side economizer (WSE) to cool a data center.
-The system is a primary-only chiller plant with two chillers and
-an integrated WSE located on the load side.
-The system schematics is as shown below.
-</p>
-<p align=\"center\">
-<img alt=\"image\"
-src=\"modelica://Buildings/Resources/Images/Applications/DataCenters/ChillerCooled/Examples/IntegratedPrimaryLoadSideEconomizerSystem.png\"/>
-</p>
-<h4>Control Logic</h4>
-<p>This section describes the detailed control logic used in this chilled water plant system.
-</p>
-<h5>Cooling Mode Control</h5>
-<p>
-The chilled water system with integrated waterside economizer can run in three modes:
-free cooling (FC) mode, partially mechanical cooling (PMC) mode and fully mechanical cooling (FMC) mode.
-The detailed control logics about how to switch among these three cooling modes are described in
-<a href=\"modelica://Buildings.Applications.DataCenters.ChillerCooled.Controls.CoolingMode\">
-Buildings.Applications.DataCenters.ChillerCooled.Controls.CoolingMode</a>. Details on how the valves are operated
-under different cooling modes are presented in
-<a href=\"modelica://Buildings.Applications.DataCenters.ChillerCooled.Equipment.IntegratedPrimaryLoadSide\">
-Buildings.Applications.DataCenters.ChillerCooled.Equipment.IntegratedPrimaryLoadSide</a>.
-</p>
-<h5>Chiller Staging Control </h5>
-<p>
-The staging sequence of multiple chillers are descibed as below:
-</p>
-<ul>
-<li>
-The chillers are all off when cooling mode is FC.
-</li>
-<li>
-One chiller is commanded on when cooling mode is not FC.
-</li>
-<li>
-Two chillers are commanded on when cooling mode is not FC and the cooling load served
-by the chillers is larger than
-a critical value.
-</li>
-</ul>
-<p>
-The detailed implementation is shown in
-<a href=\"modelica://Buildings.Applications.DataCenters.ChillerCooled.Controls.ChillerStage\">
-Buildings.Applications.DataCenters.ChillerCooled.Controls.ChillerStage</a>.
-</p>
-<h5>Pump Staging Control </h5>
-<p>
-For constant speed pumps, the number of running pumps equals to the number of running chillers.
-</p>
-<p>
-For variable speed pumps, the number of running pumps is controlled by the speed signal and the mass flow rate.
-Details are shown in
-<a href=\"modelica://Buildings.Applications.BaseClasses.Controls.VariableSpeedPumpStage\">
-Buildings.Applications.BaseClasses.Controls.VariableSpeedPumpStage</a>. The speed is
-controlled by maintaining a fixed differential pressure between the outlet and inlet on the waterside
-of the Computer Room Air Handler (CRAH).
-</p>
-<h5>Cooling Tower Speed Control</h5>
-<p>
-The control logic for cooling tower fan speed is described as:
-</p>
-<ul>
-<li>
-When in FMC mode, the cooling tower speed is controlled to maintain
-the condenser water supply temperature (CWST) at its setpoint.
-</li>
-<li>
-When in PMC mode, the fan is set to run at 100% speed to make the condenser water as cold as possible
-and maximize the WSE output.
-</li>
-<li>
-When in FC mode, the fan speed is modulated to maintain chilled water supply temperature at its setpoint.
-</li>
-</ul>
-<p>
-Detailed implementation of cooling tower speed control can be found in
-<a href=\"modelica://Buildings.Applications.DataCenters.ChillerCooled.Controls.CoolingTowerSpeed\">
-Buildings.Applications.DataCenters.ChillerCooled.Controls.CoolingTowerSpeed</a>.
-</p>
-<h5>Room temperature control</h5>
-<p>
-The room temperature is controlled by adjusting the fan speed of the AHU using a PI controller.
-</p>
-<p>
-Note that for simplicity, the temperature and differential pressure reset control
-are not implemented in this example.
-</p>
+<p>// Base load: 125,000 W (500,000/4) each </p>
+<p>// Time is in seconds </p>
+<p>// CPU 1: Business Hours Pattern (Primary server) </p>
+<p>// Peak during business hours (9 AM - 6 PM), minimum at night (2-6 AM) </p>
+<p>y = 125000 * (0.7 + 0.3 * (sin(2*3.14159*(time/86400 - 0.25)) + 1)/2 + 0.1 * sin(2*3.14159*time/3600)) &nbsp; </p>
+<p>// CPU 2: Business Hours Pattern (Secondary server - slightly offset) </p>
+<p>// Similar to CPU 1 but with 30-minute phase shift and different noise </p>
+<p>y = 125000 * (0.72 + 0.28 * (sin(2*3.14159*(time/86400 - 0.27)) + 1)/2 + 0.08 * sin(2*3.14159*time/3300)) </p>
+<p>// CPU 3: Business Hours Pattern (Tertiary server - different amplitude) </p>
+<p>// Similar pattern but with reduced peak variation and different frequency </p>
+<p>y = 125000 * (0.75 + 0.25 * (sin(2*3.14159*(time/86400 - 0.23)) + 1)/2 + 0.12 * sin(2*3.14159*time/3900)) </p>
+<p>// CPU 4: Business Hours Pattern (Quaternary server - load balancer effect) </p>
+<p>// Similar but with smoother transitions and slight time offset </p>
+<p>y = 125000 * (0.68 + 0.32 * (sin(2*3.14159*(time/86400 - 0.29)) + 1)/2 + 0.09 * sin(2*3.14159*time/2700)) </p>
+<p>// Profile Characteristics: </p>
+<p>// CPU 1: 87,500 - 162,500 W (Primary server) </p>
+<p>// CPU 2: 90,000 - 160,000 W (Secondary, 30-min offset) </p>
+<p>// CPU 3: 93,750 - 156,250 W (Tertiary, smoother variation) </p>
+<p>// CPU 4: 85,000 - 165,000 W (Quaternary, load balancer effect) </p>
+<p>// Key Differences Between CPUs: </p>
+<p>// - Phase shifts: -0.25, -0.27, -0.23, -0.29 (different peak times) </p>
+<p>// - Base levels: 0.7, 0.72, 0.75, 0.68 (slightly different minimum loads) </p>
+<p>// - Amplitudes: 0.3, 0.28, 0.25, 0.32 (different peak variations) </p>
+<p>// - Noise frequencies: 3600, 3300, 3900, 2700 seconds (different fluctuation patterns) </p>
+<p>// - This creates realistic load balancing effects where CPUs handle slightly different loads </p>
 </html>", revisions="<html>
 <ul>
 <li>
@@ -267,8 +229,9 @@ First implementation.
 </ul>
 </html>"),
 experiment(
-      StartTime=0,
-      StopTime=86400,
-      Tolerance=1e-06),
+      StartTime=16416000,
+      StopTime=17020800,
+      Tolerance=1e-06,
+      __Dymola_Algorithm="Cvode"),
     Icon(coordinateSystem(extent={{-100,-100},{100,100}})));
 end IntegratedPrimaryLoadSideEconomizerCustomized;
