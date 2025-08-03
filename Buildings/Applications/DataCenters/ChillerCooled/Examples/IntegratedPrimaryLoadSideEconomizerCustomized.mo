@@ -22,13 +22,9 @@ model IntegratedPrimaryLoadSideEconomizerCustomized
       addPowerToMedium=false,
       perPum=perPumPri),
     weaData(filNam=Modelica.Utilities.Files.loadResource("modelica://Buildings/Resources/weatherdata/DRYCOLD.mos")),
-    rac(QRoo_flow={125000*(0.7 + 0.3*(sin(2*3.14159*(time/86400 - 0.25)) + 1)/2
-           + 0.1*sin(2*3.14159*time/3600)),125000*(0.72 + 0.28*(sin(2*3.14159*(
-          time/86400 - 0.27)) + 1)/2 + 0.08*sin(2*3.14159*time/3300)),125000*(
-          0.75 + 0.25*(sin(2*3.14159*(time/86400 - 0.23)) + 1)/2 + 0.12*sin(2*
-          3.14159*time/3900)),125000*(0.68 + 0.32*(sin(2*3.14159*(time/86400 -
-          0.29)) + 1)/2 + 0.09*sin(2*3.14159*time/2700))}),
+    rac(QRoo_flow=sca.y),
     ahuValSig(
+      k=0.02,
       Ti=300,
       initType=Modelica.Blocks.Types.Init.InitialOutput,
       y_start=1),
@@ -42,7 +38,8 @@ model IntegratedPrimaryLoadSideEconomizerCustomized
     TAirSupSet(y={TSupAirRan[1].y,TSupAirRan[2].y,TSupAirRan[3].y,TSupAirRan[4].y}),
     TAirRetSet(y={TRacTemRan[1].y,TRacTemRan[2].y,TRacTemRan[3].y,TRacTemRan[4].y}),
     phiAirRetSet(y={phiRan[1].y,phiRan[2].y,phiRan[3].y,phiRan[4].y}),
-    hea(Q_flow_nominal=-150000));
+    hea(Q_flow_nominal=-150000),
+    TCHWSupOve(activate(y=true), uExt(y=TSupCHW.y)));
 
 
 
@@ -57,8 +54,8 @@ model IntegratedPrimaryLoadSideEconomizerCustomized
     cooModCon(
     tWai=tWai,
     deaBan1=1.1,
-    deaBan2=0.5,
-    deaBan3=1.1,
+    deaBan2=1,
+    deaBan3=2,
     deaBan4=0.5)
     "Cooling mode controller"
     annotation (Placement(transformation(extent={{-214,100},{-194,120}})));
@@ -88,21 +85,39 @@ model IntegratedPrimaryLoadSideEconomizerCustomized
     sampleTime={1800,3600,2400,2700},
     randomSeed={1,188,366,799},
     usePredefPattern=false)
-    annotation (Placement(transformation(extent={{80,-160},{100,-140}})));
+    annotation (Placement(transformation(extent={{80,-140},{100,-120}})));
   BaseClasses.SignalStep TRacTemRan[numChiDor](
     yMin=23 + 273.15,
     yMax=25 + 273.15,
     sampleTime={3600,2700,2400,2100},
     randomSeed={188,2000,3660,799},
     usePredefPattern=false)
-    annotation (Placement(transformation(extent={{80,-200},{100,-180}})));
+    annotation (Placement(transformation(extent={{80,-180},{100,-160}})));
   BaseClasses.SignalStep phiRan[numChiDor](
     yMin=0.4,
     yMax=0.6,
     sampleTime={3600,7200,4200,5400},
     randomSeed={1288,5000,36660,7779},
     usePredefPattern=false)
-    annotation (Placement(transformation(extent={{80,-240},{100,-220}})));
+    annotation (Placement(transformation(extent={{80,-220},{100,-200}})));
+  Modelica.Blocks.Sources.CombiTimeTable PCPU(
+    tableOnFile=true,
+    tableName="tab1",
+    fileName=ModelicaServices.ExternalReferences.loadResource("modelica://Buildings/Resources/Data/Applications/DataCenters/ChillerCooled/Examples/Power.txt"),
+    columns=2:5,
+    startTime(displayUnit="d"),
+    shiftTime(displayUnit="d") = 15552000)
+    annotation (Placement(transformation(extent={{-120,-220},{-100,-200}})));
+
+  Modelica.Blocks.Math.Gain sca[numChiDor](k=10000) "Gain effect"
+    annotation (Placement(transformation(extent={{-80,-220},{-60,-200}})));
+  BaseClasses.SignalStep TSupCHW(
+    yMin=6 + 273.15,
+    yMax=10 + 273.15,
+    sampleTime=9000,
+    randomSeed=125,
+    usePredefPattern=false)
+    annotation (Placement(transformation(extent={{80,-260},{100,-240}})));
 equation
 
   connect(pumSpeSig.y, chiWSE.yPum)
@@ -124,10 +139,6 @@ equation
         color={0,127,255},
         thickness=0.5));
    end for;
-  connect(TCHWSupSet.y, cooModCon.TCHWSupSet)
-    annotation (Line(
-      points={{-239,160},{-222,160},{-222,118},{-216,118}},
-      color={0,0,127}));
   connect(towTApp.y, cooModCon.TApp)
     annotation (Line(
       points={{-299,110},{-216,110}},
@@ -172,7 +183,12 @@ equation
           114}},
       color={255,204,51},
       thickness=0.5));
-
+  for i in 1:numChiDor loop
+  connect(PCPU.y[i], sca[i].u)
+    annotation (Line(points={{-99,-210},{-82,-210}}, color={0,0,127}));
+  end for;
+  connect(TCHWSupOve.y, cooModCon.TCHWSupSet) annotation (Line(points={{-259,160},
+          {-238,160},{-238,118},{-216,118}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false,
     extent={{-360,-280},{320,260}})),
   __Dymola_Commands(file=
@@ -229,8 +245,8 @@ First implementation.
 </ul>
 </html>"),
 experiment(
-      StartTime=16416000,
-      StopTime=17020800,
+      StartTime=15552000,
+      StopTime=21600000,
       Tolerance=1e-06,
       __Dymola_Algorithm="Cvode"),
     Icon(coordinateSystem(extent={{-100,-100},{100,100}})));

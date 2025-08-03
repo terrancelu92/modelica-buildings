@@ -5,7 +5,7 @@ partial model PartialDataCenterAirSide
   replaceable package MediumW = Buildings.Media.Water "Medium model";
 
   parameter Integer numChiDor=4 "Number of chilled doors";
-  parameter Modelica.Units.SI.Volume V=30*30*5 "Volume";
+  parameter Modelica.Units.SI.Volume V=18*15*5 "Volume";
 
   parameter Modelica.Units.SI.MassFlowRate m_flow_nominal=V*1.2*6/3600
     "Nominal mass flow rate";
@@ -16,7 +16,7 @@ partial model PartialDataCenterAirSide
   parameter Integer numChi=2 "Number of chillers";
   parameter Modelica.Units.SI.MassFlowRate m1_flow_chi_nominal=34.7
     "Nominal mass flow rate at condenser water in the chillers";
-  parameter Modelica.Units.SI.MassFlowRate m2_flow_chi_nominal=18.3
+  parameter Modelica.Units.SI.MassFlowRate m2_flow_chi_nominal=10.3
     "Nominal mass flow rate at evaporator water in the chillers";
   parameter Modelica.Units.SI.PressureDifference dp1_chi_nominal=46.2*1000
     "Nominal pressure";
@@ -27,7 +27,7 @@ partial model PartialDataCenterAirSide
  // WSE parameters
   parameter Modelica.Units.SI.MassFlowRate m1_flow_wse_nominal=34.7
     "Nominal mass flow rate at condenser water in the chillers";
-  parameter Modelica.Units.SI.MassFlowRate m2_flow_wse_nominal=35.3
+  parameter Modelica.Units.SI.MassFlowRate m2_flow_wse_nominal=17.3
     "Nominal mass flow rate at condenser water in the chillers";
   parameter Modelica.Units.SI.PressureDifference dp1_wse_nominal=33.1*1000
     "Nominal pressure";
@@ -50,7 +50,7 @@ partial model PartialDataCenterAirSide
       12,
       25)
     "Thermal conductance at nominal flow for sensible heat, used to compute time constant";
-  parameter Modelica.Units.SI.MassFlowRate mAir_flow_nominal=161.35
+  parameter Modelica.Units.SI.MassFlowRate mAir_flow_nominal=60
     "Nominal air mass flowrate";
   parameter Real yValMinAHU(min=0,max=1,unit="1")=0.1
     "Minimum valve openning position";
@@ -80,7 +80,7 @@ partial model PartialDataCenterAirSide
     dp2_wse_nominal=dp2_wse_nominal,
     redeclare each
       Buildings.Fluid.Chillers.Data.ElectricEIR.ElectricEIRChiller_York_YT_1055kW_5_96COP_Vanes
-      perChi,
+      perChi(each QEva_flow_nominal=-515000),
     use_strokeTime=false,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     use_controller=false) "Chillers and waterside economizer"
@@ -195,9 +195,11 @@ partial model PartialDataCenterAirSide
 
   Modelica.Blocks.Sources.Constant TCHWSupSet(k=TCHWSet)
     "Chilled water supply temperature setpoint"
-    annotation (Placement(transformation(extent={{-260,150},{-240,170}})));
+    annotation (Placement(transformation(extent={{-320,150},{-300,170}})));
   Buildings.Applications.DataCenters.ChillerCooled.Controls.ChillerStage chiStaCon(
     QEva_nominal=QEva_nominal, tWai=0,
+    criPoiLoa=0.7*QEva_nominal,
+    dQ=0.2*QEva_nominal,
     criPoiTem=TCHWSet + 1.5)
     "Chiller staging control"
     annotation (Placement(transformation(extent={{-170,130},{-150,150}})));
@@ -372,6 +374,8 @@ partial model PartialDataCenterAirSide
     m_flow_nominal=m_flow_nominal,
     T_start=289.15) "Inlet temperature of the heater"
     annotation (Placement(transformation(extent={{-298,-248},{-278,-228}})));
+  Utilities.IO.SignalExchange.Overwrite TCHWSupOve
+    annotation (Placement(transformation(extent={{-280,150},{-260,170}})));
 equation
   connect(chiWSE.port_b2, TCHWSup.port_a)
     annotation (Line(
@@ -467,10 +471,6 @@ equation
     annotation (Line(
       points={{-239,186},{-172,186}},
       color={0,0,127}));
-  connect(TCHWSupSet.y, cooTowSpeCon.TCHWSupSet)
-    annotation (Line(
-      points={{-239,160},{-184,160},{-184,178.889},{-172,178.889}},
-      color={0,0,127}));
   connect(TCWSup.T, cooTowSpeCon.TCWSup)
     annotation (Line(
       points={{-32,151},{-32,160},{-182,160},{-182,175.333},{-172,175.333}},
@@ -478,10 +478,6 @@ equation
   connect(TCHWSup.T, cooTowSpeCon.TCHWSup)
     annotation (Line(
       points={{-26,11},{-26,18},{-180,18},{-180,171.778},{-172,171.778}},
-      color={0,0,127}));
-  connect(chiWSE.TSet, TCHWSupSet.y)
-    annotation (Line(
-      points={{-1.6,40.8},{-20,40.8},{-20,52},{-230,52},{-230,160},{-239,160}},
       color={0,0,127}));
   connect(mPum_flow.y, varSpeCon.masFloPum)
     annotation (Line(
@@ -678,6 +674,12 @@ equation
       index=1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
+  connect(TCHWSupSet.y, TCHWSupOve.u)
+    annotation (Line(points={{-299,160},{-282,160}}, color={0,0,127}));
+  connect(TCHWSupOve.y, cooTowSpeCon.TCHWSupSet) annotation (Line(points={{-259,
+          160},{-216,160},{-216,178.889},{-172,178.889}}, color={0,0,127}));
+  connect(TCHWSupOve.y, chiWSE.TSet) annotation (Line(points={{-259,160},{-228,160},
+          {-228,40},{-1.6,40},{-1.6,40.8}}, color={0,0,127}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false,
     extent={{-360,-280},{160,260}})),
     Documentation(info="<html>
