@@ -35,9 +35,9 @@ model IntegratedPrimaryLoadSideEconomizerCustomized
       y_start=1),
     ahu(yFan_start=1),
     varSpeCon(tWai=0),
-    TAirSupSet(y={TSupAirRan[1].y,TSupAirRan[2].y,TSupAirRan[3].y,TSupAirRan[4].y}),
-    TAirRetSet(y={TRacTemRan[1].y,TRacTemRan[2].y,TRacTemRan[3].y,TRacTemRan[4].y}),
-    phiAirRetSet(y={phiRan[1].y,phiRan[2].y,phiRan[3].y,phiRan[4].y}),
+    TAirSupSet(y={TSupAirRan[i].y for i in 1:20}),
+    TAirRetSet(y={TRacTemRan[i].y for i in 1:20}),
+    phiAirRetSet(y={phiRan[i].y for i in 1:20}),
     hea(Q_flow_nominal=-150000),
     TCHWSupOve(activate(y=true), uExt(y=TSupCHW.y)));
 
@@ -82,34 +82,40 @@ model IntegratedPrimaryLoadSideEconomizerCustomized
   BaseClasses.SignalStep TSupAirRan[numChiDor](
     yMin=12 + 273.15,
     yMax=19 + 273.15,
-    sampleTime={1800,3600,2400,2700},
-    randomSeed={1,188,366,799},
+    sampleTime={3000,3000,2100,2700,2400,2400,3300,3000,3000,3300,3600,3300,
+        3300,3600,3300,3300,2100,2400,3000,2400},
+    randomSeed={6,91,900,6138,80687,9,70,623,8472,60694,3,11,314,2045,96255,3,
+        32,398,7723,87754},
     usePredefPattern=false)
     annotation (Placement(transformation(extent={{80,-140},{100,-120}})));
   BaseClasses.SignalStep TRacTemRan[numChiDor](
     yMin=23 + 273.15,
     yMax=25 + 273.15,
-    sampleTime={3600,2700,2400,2100},
-    randomSeed={188,2000,3660,799},
+    sampleTime={3600,3600,2400,3600,3000,2100,3600,2100,3000,3600,3000,3300,
+        2100,3300,2400,1800,3000,3600,2100,2400},
+    randomSeed={5,50,360,6914,55328,9,53,140,6088,99611,2,64,769,5453,71289,2,
+        89,897,4447,71666},
     usePredefPattern=false)
     annotation (Placement(transformation(extent={{80,-180},{100,-160}})));
   BaseClasses.SignalStep phiRan[numChiDor](
     yMin=0.4,
     yMax=0.6,
-    sampleTime={3600,7200,4200,5400},
-    randomSeed={1288,5000,36660,7779},
+    sampleTime={3000,2100,3600,3300,2400,1800,2700,2100,2400,1800,2100,3600,
+        2700,3600,3000,3300,1800,2700,3000,2700},
+    randomSeed={7,62,852,3444,53929,6,25,397,5451,89740,8,75,545,4886,88322,8,
+        13,898,2453,47133},
     usePredefPattern=false)
     annotation (Placement(transformation(extent={{80,-220},{100,-200}})));
   Modelica.Blocks.Sources.CombiTimeTable PCPU(
     tableOnFile=true,
     tableName="tab1",
     fileName=ModelicaServices.ExternalReferences.loadResource("modelica://Buildings/Resources/Data/Applications/DataCenters/ChillerCooled/Examples/Power.txt"),
-    columns=2:5,
+    columns=2:21,
     startTime(displayUnit="d"),
     shiftTime(displayUnit="d") = 15552000)
     annotation (Placement(transformation(extent={{-120,-220},{-100,-200}})));
 
-  Modelica.Blocks.Math.Gain sca[numChiDor](k=10000) "Gain effect"
+  Modelica.Blocks.Math.Gain sca[numChiDor](k=1000)  "Gain effect"
     annotation (Placement(transformation(extent={{-80,-220},{-60,-200}})));
   BaseClasses.SignalStep TSupCHW(
     yMin=6 + 273.15,
@@ -246,8 +252,9 @@ First implementation.
 </html>"),
 experiment(
       StartTime=15552000,
-      StopTime=21600000,
-      Tolerance=1e-06,
+      StopTime=19008000,
+      Interval=299.999808,
+      Tolerance=1e-05,
       __Dymola_Algorithm="Cvode"),
     Icon(coordinateSystem(extent={{-100,-100},{100,100}})));
 end IntegratedPrimaryLoadSideEconomizerCustomized;

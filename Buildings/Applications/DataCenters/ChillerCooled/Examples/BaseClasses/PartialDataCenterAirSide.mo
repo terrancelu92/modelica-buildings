@@ -4,7 +4,7 @@ partial model PartialDataCenterAirSide
   replaceable package MediumA = Buildings.Media.Air "Medium model";
   replaceable package MediumW = Buildings.Media.Water "Medium model";
 
-  parameter Integer numChiDor=4 "Number of chilled doors";
+  parameter Integer numChiDor=20 "Number of chilled doors";
   parameter Modelica.Units.SI.Volume V=18*15*5 "Volume";
 
   parameter Modelica.Units.SI.MassFlowRate m_flow_nominal=V*1.2*6/3600
