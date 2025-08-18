@@ -43,7 +43,7 @@ partial model PartialDataCenterAirSide
   parameter Modelica.Units.SI.Time tWai=1200 "Waiting time";
 
   // AHU
-  parameter Modelica.Units.SI.ThermalConductance UA_nominal=numChi*QEva_nominal
+  parameter Modelica.Units.SI.ThermalConductance UA_nominal=1*QEva_nominal
       /Buildings.Fluid.HeatExchangers.BaseClasses.lmtd(
       6.67,
       11.56,
@@ -105,7 +105,7 @@ partial model PartialDataCenterAirSide
       origin={10,140})));
   Buildings.Fluid.Sensors.TemperatureTwoPort TCHWSup(
     redeclare replaceable package Medium = MediumW,
-    m_flow_nominal=numChi*m2_flow_chi_nominal)
+    m_flow_nominal=1*m2_flow_chi_nominal)
     "Chilled water supply temperature"
     annotation (Placement(transformation(extent={{-16,-10},{-36,10}})));
   Buildings.BoundaryConditions.WeatherData.ReaderTMY3  weaData(filNam=
@@ -115,12 +115,12 @@ partial model PartialDataCenterAirSide
     annotation (Placement(transformation(extent={{-338,-30},{-318,-10}})));
   Buildings.Fluid.Sensors.TemperatureTwoPort TCWSup(
     redeclare replaceable package Medium = MediumW,
-    m_flow_nominal=numChi*m1_flow_chi_nominal)
+    m_flow_nominal=1*m1_flow_chi_nominal)
     "Condenser water supply temperature"
     annotation (Placement(transformation(extent={{-22,130},{-42,150}})));
   Buildings.Fluid.Sensors.TemperatureTwoPort TCWRet(
     redeclare replaceable package Medium = MediumW,
-    m_flow_nominal=numChi*m1_flow_chi_nominal)
+    m_flow_nominal=1*m1_flow_chi_nominal)
     "Condenser water return temperature"
     annotation (Placement(transformation(extent={{82,50},{102,70}})));
   Buildings.Fluid.Movers.FlowControlled_m_flow pumCW[numChi](
@@ -138,8 +138,8 @@ partial model PartialDataCenterAirSide
   Buildings.Applications.DataCenters.ChillerCooled.Equipment.CoolingCoilHumidifyingHeating ahu[numChiDor](
     redeclare replaceable package Medium1 = MediumW,
     redeclare replaceable package Medium2 = MediumA,
-    m1_flow_nominal=numChi*m2_flow_chi_nominal/4,
-    m2_flow_nominal=mAir_flow_nominal/4,
+    m1_flow_nominal=1*m2_flow_chi_nominal/numChiDor,
+    m2_flow_nominal=mAir_flow_nominal/numChiDor,
     dpValve_nominal=6000,
     dp2_nominal=600,
     perFan(each pressure(dp=800*{1.2,1.12,1}, each V_flow=mAir_flow_nominal/1.29*{0,
@@ -149,14 +149,14 @@ partial model PartialDataCenterAirSide
     addPowerToMedium=false,
     yValSwi=yValMinAHU + 0.1,
     yValDeaBan=0.05,
-    QHeaMax_flow=30000/4,
+    QHeaMax_flow=30000/numChiDor,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
     dp1_nominal=30000)
     "Air handling unit"
     annotation (Placement(transformation(extent={{0,-130},{20,-110}})));
   Buildings.Fluid.Sensors.TemperatureTwoPort TCHWRet(
     redeclare replaceable package Medium = MediumW,
-    m_flow_nominal=numChi*m2_flow_chi_nominal)
+    m_flow_nominal=1*m2_flow_chi_nominal)
     "Chilled water return temperature"
     annotation (Placement(transformation(extent={{100,-10},{80,10}})));
   Buildings.Fluid.Sources.Boundary_pT expVesChi(
@@ -181,8 +181,8 @@ partial model PartialDataCenterAirSide
     each rooLen=5,
     each rooWid=5,
     each rooHei=3,
-    each m_flow_nominal=mAir_flow_nominal/4,
-    each QRoo_flow=500000/4,
+    each m_flow_nominal=mAir_flow_nominal/numChiDor,
+    each QRoo_flow=500000/numChiDor,
     each nPorts=2) "Room model" annotation (Placement(transformation(extent={{10,-10},
             {-10,10}}, origin={4,-180})));
   Buildings.Fluid.Actuators.Valves.TwoWayLinear val[numChi](

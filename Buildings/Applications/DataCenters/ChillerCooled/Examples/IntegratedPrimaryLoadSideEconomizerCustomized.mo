@@ -24,20 +24,21 @@ model IntegratedPrimaryLoadSideEconomizerCustomized
     weaData(filNam=Modelica.Utilities.Files.loadResource("modelica://Buildings/Resources/weatherdata/DRYCOLD.mos")),
     rac(QRoo_flow=sca.y),
     ahuValSig(
-      k=0.02,
-      Ti=300,
+      k=0.01,
+      Ti=600,
+      yMin=0.05,
       initType=Modelica.Blocks.Types.Init.InitialOutput,
       y_start=1),
     ahuFanSpeCon(
       Ti=3600,
-      yMin=0.01,
+      yMin=0.05,
       initType=Modelica.Blocks.Types.Init.InitialOutput,
       y_start=1),
     ahu(yFan_start=1),
     varSpeCon(tWai=0),
-    TAirSupSet(y={TSupAirRan[i].y for i in 1:20}),
-    TAirRetSet(y={TRacTemRan[i].y for i in 1:20}),
-    phiAirRetSet(y={phiRan[i].y for i in 1:20}),
+    TAirSupSet(y={TSupAirRan[i].y for i in 1:numChiDor}),
+    TAirRetSet(y={TRacTemRan[i].y for i in 1:numChiDor}),
+    phiAirRetSet(y={phiRan[i].y for i in 1:numChiDor}),
     hea(Q_flow_nominal=-150000),
     TCHWSupOve(activate(y=true), uExt(y=TSupCHW.y)));
 
@@ -50,15 +51,6 @@ model IntegratedPrimaryLoadSideEconomizerCustomized
           dp=(dp2_chi_nominal+dp2_wse_nominal+18000)*{1.5,1.3,1.0,0.6}))
     "Performance data for primary pumps";
 
-  Buildings.Applications.DataCenters.ChillerCooled.Controls.CoolingMode
-    cooModCon(
-    tWai=tWai,
-    deaBan1=1.1,
-    deaBan2=1,
-    deaBan3=2,
-    deaBan4=0.5)
-    "Cooling mode controller"
-    annotation (Placement(transformation(extent={{-214,100},{-194,120}})));
   Modelica.Blocks.Sources.RealExpression towTApp(y=cooTow[1].TApp_nominal)
     "Cooling tower approach temperature"
     annotation (Placement(transformation(extent={{-320,100},{-300,120}})));
@@ -82,35 +74,35 @@ model IntegratedPrimaryLoadSideEconomizerCustomized
   BaseClasses.SignalStep TSupAirRan[numChiDor](
     yMin=12 + 273.15,
     yMax=19 + 273.15,
-    sampleTime={3000,3000,2100,2700,2400,2400,3300,3000,3000,3300,3600,3300,
-        3300,3600,3300,3300,2100,2400,3000,2400},
-    randomSeed={6,91,900,6138,80687,9,70,623,8472,60694,3,11,314,2045,96255,3,
-        32,398,7723,87754},
+    sampleTime={3000,3000,2100,2700,2400,2400,3300,3000,3000,3300,3600,3300,3300,
+        3600,3300,3300,2100,2400,3000,2400}[1:numChiDor],
+    randomSeed={6,91,900,6138,80687,9,70,623,8472,60694,3,11,314,2045,96255,3,32,
+        398,7723,87754}[1:numChiDor],
     usePredefPattern=false)
     annotation (Placement(transformation(extent={{80,-140},{100,-120}})));
   BaseClasses.SignalStep TRacTemRan[numChiDor](
     yMin=23 + 273.15,
     yMax=25 + 273.15,
-    sampleTime={3600,3600,2400,3600,3000,2100,3600,2100,3000,3600,3000,3300,
-        2100,3300,2400,1800,3000,3600,2100,2400},
-    randomSeed={5,50,360,6914,55328,9,53,140,6088,99611,2,64,769,5453,71289,2,
-        89,897,4447,71666},
+    sampleTime={3600,3600,2400,3600,3000,2100,3600,2100,3000,3600,3000,3300,2100,
+        3300,2400,1800,3000,3600,2100,2400}[1:numChiDor],
+    randomSeed={5,50,360,6914,55328,9,53,140,6088,99611,2,64,769,5453,71289,2,89,
+        897,4447,71666}[1:numChiDor],
     usePredefPattern=false)
     annotation (Placement(transformation(extent={{80,-180},{100,-160}})));
   BaseClasses.SignalStep phiRan[numChiDor](
     yMin=0.4,
     yMax=0.6,
-    sampleTime={3000,2100,3600,3300,2400,1800,2700,2100,2400,1800,2100,3600,
-        2700,3600,3000,3300,1800,2700,3000,2700},
-    randomSeed={7,62,852,3444,53929,6,25,397,5451,89740,8,75,545,4886,88322,8,
-        13,898,2453,47133},
+    sampleTime={3000,2100,3600,3300,2400,1800,2700,2100,2400,1800,2100,3600,2700,
+        3600,3000,3300,1800,2700,3000,2700}[1:numChiDor],
+    randomSeed={7,62,852,3444,53929,6,25,397,5451,89740,8,75,545,4886,88322,8,13,
+        898,2453,47133}[1:numChiDor],
     usePredefPattern=false)
     annotation (Placement(transformation(extent={{80,-220},{100,-200}})));
   Modelica.Blocks.Sources.CombiTimeTable PCPU(
     tableOnFile=true,
     tableName="tab1",
     fileName=ModelicaServices.ExternalReferences.loadResource("modelica://Buildings/Resources/Data/Applications/DataCenters/ChillerCooled/Examples/Power.txt"),
-    columns=2:21,
+    columns=2:numChiDor + 1,
     startTime(displayUnit="d"),
     shiftTime(displayUnit="d") = 15552000)
     annotation (Placement(transformation(extent={{-120,-220},{-100,-200}})));
@@ -124,15 +116,14 @@ model IntegratedPrimaryLoadSideEconomizerCustomized
     randomSeed=125,
     usePredefPattern=false)
     annotation (Placement(transformation(extent={{80,-260},{100,-240}})));
+  Modelica.Blocks.Sources.IntegerExpression cooModCon(y=3)
+    "Cooling mode controller"
+    annotation (Placement(transformation(extent={{-254,100},{-232,122}})));
 equation
 
   connect(pumSpeSig.y, chiWSE.yPum)
     annotation (Line(
       points={{-99,-10},{-60,-10},{-60,25.6},{-1.6,25.6}},
-      color={0,0,127}));
-  connect(chiWSE.TCHWSupWSE, cooModCon.TCHWSupWSE)
-    annotation (Line(
-      points={{21,34},{148,34},{148,200},{-226,200},{-226,106},{-216,106}},
       color={0,0,127}));
   connect(cooLoaChi.y, chiStaCon.QTot)
     annotation (Line(
@@ -145,56 +136,35 @@ equation
         color={0,127,255},
         thickness=0.5));
    end for;
-  connect(towTApp.y, cooModCon.TApp)
-    annotation (Line(
-      points={{-299,110},{-216,110}},
-      color={0,0,127}));
   connect(TCHWRet.port_b, chiWSE.port_a2)
     annotation (Line(
       points={{80,0},{40,0},{40,24},{20,24}},
       color={0,127,255},
       thickness=0.5));
-  connect(cooModCon.TCHWRetWSE, TCHWRet.T)
-    annotation (Line(
-      points={{-216,102},{-228,102},{-228,206},{152,206},{152,20},{90,20},{90,
-          11}},
-    color={0,0,127}));
 
-  connect(cooModCon.y, chiStaCon.cooMod)
-    annotation (Line(
-      points={{-193,110},{-190,110},{-190,146},{-172,146}},
-      color={255,127,0}));
-  connect(cooModCon.y,intToBoo.u)
-    annotation (Line(
-      points={{-193,110},{-172,110}},
-      color={255,127,0}));
   connect(TCHWSup.T, chiStaCon.TCHWSup)
     annotation (Line(
       points={{-26,11},{-26,18},{-182,18},{-182,134},{-172,134}},
       color={0,0,127}));
-  connect(cooModCon.y, sigCha.u)
-    annotation (Line(
-      points={{-193,110},{-190,110},{-190,212},{156,212},{156,160},{178,160}},
-      color={255,127,0}));
   connect(yVal5.y, chiWSE.yVal5) annotation (Line(points={{-139,40},{-84,40},{
           -84,33},{-1.6,33}}, color={0,0,127}));
   connect(yVal6.y, chiWSE.yVal6) annotation (Line(points={{-139,24},{-84,24},{
           -84,29.8},{-1.6,29.8}}, color={0,0,127}));
-  connect(cooModCon.y, cooTowSpeCon.cooMod) annotation (Line(points={{-193,110},
-          {-190,110},{-190,182.444},{-172,182.444}}, color={255,127,0}));
-  connect(cooModCon.y, CWPumCon.cooMod) annotation (Line(points={{-193,110},{-190,
-          110},{-190,76},{-174,76}},      color={255,127,0}));
-  connect(weaBus.TWetBul, cooModCon.TWetBul) annotation (Line(
-      points={{-327.95,-19.95},{-340,-19.95},{-340,200},{-224,200},{-224,114},{-216,
-          114}},
-      color={255,204,51},
-      thickness=0.5));
   for i in 1:numChiDor loop
   connect(PCPU.y[i], sca[i].u)
     annotation (Line(points={{-99,-210},{-82,-210}}, color={0,0,127}));
   end for;
-  connect(TCHWSupOve.y, cooModCon.TCHWSupSet) annotation (Line(points={{-259,160},
-          {-238,160},{-238,118},{-216,118}}, color={0,0,127}));
+  connect(cooModCon.y, intToBoo.u) annotation (Line(points={{-230.9,111},{-202.45,
+          111},{-202.45,110},{-172,110}}, color={255,127,0}));
+  connect(cooModCon.y, chiStaCon.cooMod) annotation (Line(points={{-230.9,111},{
+          -201.45,111},{-201.45,146},{-172,146}}, color={255,127,0}));
+  connect(cooModCon.y, cooTowSpeCon.cooMod) annotation (Line(points={{-230.9,
+          111},{-198,111},{-198,182.444},{-172,182.444}},
+                                                     color={255,127,0}));
+  connect(cooModCon.y, CWPumCon.cooMod) annotation (Line(points={{-230.9,111},{-198,
+          111},{-198,76},{-174,76}}, color={255,127,0}));
+  connect(cooModCon.y, sigCha.u) annotation (Line(points={{-230.9,111},{-208,111},
+          {-208,192},{132,192},{132,160},{178,160}}, color={255,127,0}));
   annotation (Diagram(coordinateSystem(preserveAspectRatio=false,
     extent={{-360,-280},{320,260}})),
   __Dymola_Commands(file=
