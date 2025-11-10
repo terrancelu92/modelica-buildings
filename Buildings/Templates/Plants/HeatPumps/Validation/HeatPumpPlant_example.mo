@@ -30,7 +30,8 @@ model HeatPumpPlant_example
   Buildings.Controls.OBC.CDL.Conversions.RealToInteger reaToInt
     annotation (Placement(transformation(extent={{-40,60},{-20,80}})));
   BoundaryConditions.WeatherData.ReaderTMY3           weather(filNam=
-        Modelica.Utilities.Files.loadResource("modelica://BestInClass/Resources/weather/USA_NY_Buffalo-Greater.Buffalo.Intl.AP.725280_TMY3.mos"))
+        Modelica.Utilities.Files.loadResource(
+        "modelica://Buildings/Resources/weatherdata/USA_NY_Buffalo-Greater.Buffalo.Intl.AP.725280_TMY3.mos"))
                                                             "Weather data"
     annotation (Placement(transformation(extent={{-80,-60},{-60,-40}})));
   Fluid.Sources.Boundary_pT           bou1(
@@ -102,7 +103,13 @@ equation
   connect(con.y, coo.TSet) annotation (Line(points={{-58,40},{-18,40},{-18,-14},
           {18,-14},{18,-22}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
-        coordinateSystem(preserveAspectRatio=false)),
+        coordinateSystem(preserveAspectRatio=false), graphics={Line(
+          points={{-4,-26},{-4,-12}},
+          color={238,46,47},
+          arrow={Arrow.Filled,Arrow.None}), Line(
+          points={{24,0},{44,0}},
+          color={238,46,47},
+          arrow={Arrow.Filled,Arrow.None})}),
     experiment(
       StopTime=18000,
       Interval=60,

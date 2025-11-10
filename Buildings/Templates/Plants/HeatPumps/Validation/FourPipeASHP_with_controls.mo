@@ -213,7 +213,7 @@ equation
   if have_chiWat then
   end if;
   connect(cheVal.port_b, mov1.port_a)
-    annotation (Line(points={{-48,-280},{-40,-280}},   color={0,127,255}));
+    annotation (Line(points={{-48,-280},{-40,-280}},   color={162,29,33}));
   connect(cheVal1.port_b, mov2.port_a)
     annotation (Line(points={{90,-250},{80,-250}},   color={0,127,255}));
   connect(conInt.y, extIndInt.u)
@@ -238,9 +238,9 @@ equation
                                           color={0,0,127}));
   connect(cheVal.port_a, port_a2) annotation (Line(points={{-68,-280},{-76,-280},
           {-76,-76},{80,-76},{80,-60},{100,-60}},
-        color={0,127,255}));
+        color={162,29,33}));
   connect(senTem1.port_b, port_b2) annotation (Line(points={{130,-150},{130,-46},
-          {-100,-46},{-100,-60}},           color={0,127,255}));
+          {-100,-46},{-100,-60}},           color={255,170,170}));
   connect(cheVal1.port_a, port_a1) annotation (Line(points={{110,-250},{116,
           -250},{116,-80},{-120,-80},{-120,60},{-100,60}},
                                                      color={0,127,255}));
@@ -260,9 +260,9 @@ equation
   connect(mov2.port_b, hp.port_a2) annotation (Line(points={{60,-250},{48,-250},
           {48,-264},{40,-264}}, color={0,127,255}));
   connect(mov1.port_b, hp.port_a1) annotation (Line(points={{-20,-280},{12,-280},
-          {12,-276},{20,-276}}, color={0,127,255}));
+          {12,-276},{20,-276}}, color={162,29,33}));
   connect(hp.port_b1, senTem1.port_a) annotation (Line(points={{40,-276},{130,
-          -276},{130,-170}}, color={0,127,255}));
+          -276},{130,-170}}, color={255,170,170}));
   connect(hp.P, greThr2.u) annotation (Line(points={{41,-270},{54,-270},{54,
           -120},{88,-120}}, color={0,0,127}));
   connect(extIndInt.y, hp.mode) annotation (Line(points={{-298,-320},{4,-320},{
