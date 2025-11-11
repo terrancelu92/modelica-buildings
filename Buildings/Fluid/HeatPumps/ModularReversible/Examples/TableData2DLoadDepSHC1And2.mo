@@ -943,7 +943,7 @@ staging or unstaging the heat pump modules in various modes,
 actuating the corresponding isolation valves,
 </li>
 <li>
-staging and rotating the primary pumps,
+staging and rotating the primary pumps, and
 </li>
 <li>
 staging, rotating and controlling the secondary pumps to meet the

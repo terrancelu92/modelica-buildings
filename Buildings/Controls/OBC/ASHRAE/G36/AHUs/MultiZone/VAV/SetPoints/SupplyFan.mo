@@ -145,9 +145,6 @@ protected
   Buildings.Controls.OBC.CDL.Reals.Sources.Constant zerSpe(k=0)
     "Zero fan speed when it becomes OFF"
     annotation (Placement(transformation(extent={{20,-90},{40,-70}})));
-  Buildings.Controls.OBC.CDL.Reals.Switch swi
-    "If fan is OFF, fan speed outputs to zero"
-    annotation (Placement(transformation(extent={{80,-90},{100,-110}})));
   Buildings.Controls.OBC.CDL.Logical.Or or1
     "Check whether supply fan should be ON"
     annotation (Placement(transformation(extent={{80,60},{100,80}})));
@@ -223,17 +220,6 @@ equation
   connect(or1.y, staPreSetRes.uDevSta)
     annotation (Line(points={{102,70},{120,70},{120,-8},{-150,-8},{-150,-42},{-132,
           -42}},     color={255,0,255}));
-  connect(or1.y, swi.u2)
-    annotation (Line(points={{102,70},{120,70},{120,-8},{0,-8},{0,-100},{78,-100}},
-      color={255,0,255}));
-  connect(conSpe.y, swi.u1)
-    annotation (Line(points={{-18,-70},{-4,-70},{-4,-108},{78,-108}},
-      color={0,0,127}));
-  connect(zerSpe.y, swi.u3)
-    annotation (Line(points={{42,-80},{60,-80},{60,-92},{78,-92}},
-      color={0,0,127}));
-  connect(swi.y, ySupFan)
-    annotation (Line(points={{102,-100},{160,-100}}, color={0,0,127}));
   connect(uZonPreResReq, staPreSetRes.numOfReq)
     annotation (Line(points={{-180,-60},{-148,-60},{-148,-58},{-132,-58}},
       color={255,127,0}));
@@ -304,6 +290,8 @@ equation
     annotation (Line(points={{42,70},{78,70}}, color={255,0,255}));
   connect(or3.y, or4.u2) annotation (Line(points={{2,100},{10,100},{10,62},{18,62}},
         color={255,0,255}));
+  connect(conSpe.y, ySupFan) annotation (Line(points={{-18,-70},{14,-70},{14,
+          -100},{160,-100}}, color={0,0,127}));
 annotation (
   defaultComponentName="conSupFan",
   Diagram(coordinateSystem(preserveAspectRatio=false, extent={{-160,-140},{140,160}}),

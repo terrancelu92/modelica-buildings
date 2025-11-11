@@ -11,8 +11,11 @@ block OccupancySchedule "Occupancy schedule with look-ahead"
   Modelica.Blocks.Interfaces.RealOutput tNexNonOcc
     "Time until next non-occupancy"
     annotation (Placement(transformation(extent={{100,-10},{120,10}})));
-  Modelica.Blocks.Interfaces.RealOutput tNexOcc "Time until next occupancy"
+
+  Modelica.Blocks.Interfaces.RealOutput tNexOcc
+    "Time until next occupancy"
     annotation (Placement(transformation(extent={{100,50},{120,70}})));
+
   Modelica.Blocks.Interfaces.BooleanOutput occupied
     "Outputs true if occupied at current time"
     annotation (Placement(transformation(extent={{100,-70},{120,-50}})));

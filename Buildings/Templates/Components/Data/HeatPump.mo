@@ -100,7 +100,7 @@ record HeatPump "Record for heat pump model"
   final parameter Modelica.Units.SI.MassFlowRate mSouHea_flow_nominal=
     if typ==Buildings.Templates.Components.Types.HeatPump.WaterToWater then
       mSouWwHea_flow_nominal else
-      Buildings.Templates.Data.Defaults.mAirFloByCapChi * abs(capHea_nominal)
+      Buildings.Templates.Data.Defaults.ratMFloAirByCapChi * abs(capHea_nominal)
     "Source fluid mass flow rate in heating mode";
   final parameter Modelica.Units.SI.PressureDifference dpSouHea_nominal=
     if typ==Buildings.Templates.Components.Types.HeatPump.WaterToWater then
@@ -122,7 +122,7 @@ record HeatPump "Record for heat pump model"
   final parameter Modelica.Units.SI.MassFlowRate mSouCoo_flow_nominal=
     if typ==Buildings.Templates.Components.Types.HeatPump.WaterToWater then
       mSouWwCoo_flow_nominal else
-      Buildings.Templates.Data.Defaults.mAirFloByCapChi * abs(capCoo_nominal)
+      Buildings.Templates.Data.Defaults.ratMFloAirByCapChi * abs(capCoo_nominal)
     "Source fluid mass flow rate in cooling mode";
   final parameter Modelica.Units.SI.PressureDifference dpSouCoo_nominal=
     dpSouHea_nominal * (mSouCoo_flow_nominal/mSouHea_flow_nominal)^2
@@ -150,6 +150,7 @@ record HeatPump "Record for heat pump model"
       choicesAllMatching=true,
       Dialog(enable= not typ==Buildings.Templates.Components.Types.HeatPump.AirToWaterSHC),
       Placement(transformation(extent={{-38,0},{-22,16}})));
+
   replaceable parameter
     Fluid.Chillers.ModularReversible.Data.TableData2DLoadDep.Generic perCoo(
       mCon_flow_nominal=mSouCoo_flow_nominal,
@@ -157,7 +158,7 @@ record HeatPump "Record for heat pump model"
       dpCon_nominal=dpSouCoo_nominal,
       dpEva_nominal=dpChiWat_nominal,
       fileName="",
-    PLRSup={1},
+      PLRSup={1},
       tabLowBou=[TSouCoo_nominal-30, TChiWatSup_nominal-2;
         TSouCoo_nominal+10, TChiWatSup_nominal-2],
       devIde="",
@@ -188,7 +189,6 @@ record HeatPump "Record for heat pump model"
       choicesAllMatching=true,
       Dialog(enable=typ==Buildings.Templates.Components.Types.HeatPump.AirToWaterSHC),
       Placement(transformation(extent={{-8,-38},{8,-22}})));
-
   parameter Modelica.Units.SI.Power P_min(final min=0)=0
     "Minimum power when system is enabled with compressor cycled off";
 annotation (

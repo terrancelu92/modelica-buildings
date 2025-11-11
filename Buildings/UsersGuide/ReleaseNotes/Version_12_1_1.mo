@@ -81,6 +81,7 @@ have been <b style=\"color:blue\">improved</b> in a
 <b style=\"color:blue\">non-backward compatible</b> way:
 </p>
 <table class=\"releaseTable\" summary=\"summary\" border=\"1\" cellspacing=\"0\" cellpadding=\"2\" style=\"border-collapse:collapse;\">
+
 <tr><td colspan=\"2\"><b>Buildings.Templates</b>
     </td>
 </tr>
@@ -93,6 +94,7 @@ This is for
 <a href=\"https://github.com/lbl-srg/modelica-buildings/issues/4152\">#4152</a>.
     </td>
 </tr>
+
 <tr><td colspan=\"2\"><b>xxx</b>
     </td>
 </tr>

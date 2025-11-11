@@ -394,7 +394,7 @@ block Controller "Controller for room VAV box with reheat"
     annotation (Placement(transformation(extent={{200,-260},{240,-220}}),
         iconTransformation(extent={{100,-210},{140,-170}})));
 
-protected
+// protected
   final parameter Buildings.Controls.OBC.ASHRAE.G36.Types.HeatingCoil heaCoi=
     if have_hotWatCoi then Buildings.Controls.OBC.ASHRAE.G36.Types.HeatingCoil.WaterBased
     else Buildings.Controls.OBC.ASHRAE.G36.Types.HeatingCoil.Electric

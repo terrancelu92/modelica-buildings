@@ -150,6 +150,10 @@
   optimica:
     comment: timeout on travis after 600s, https://app.travis-ci.com/github/lbl-srg/modelica-buildings/jobs/630222413
     translate: false
+- model_name: Buildings.Examples.VAVReheat.Validation.TraceSubstance
+  openmodelica:
+    comment: CVode is around 10 times faster than dassl
+    solver: cvode
 - model_name: Buildings.Fluid.Chillers.ModularReversible.Validation.TableData2DLoadDep
   openmodelica:
     comment: 'Error in line 1 when reading numeric data of matrix "tab(532,1)"'
@@ -248,6 +252,8 @@
     translate: false
     comment: Singularity, likely related to Modelon ticket 956
 - model_name: Buildings.Fluid.Geothermal.ZonedBorefields.Validation.SteadyStateBoreholeDynamics
+  openmodelica:
+    time_out: 600
   optimica:
     translate: false
     comment: Compilation seems to hang, may be related to Modelon ticket 956
