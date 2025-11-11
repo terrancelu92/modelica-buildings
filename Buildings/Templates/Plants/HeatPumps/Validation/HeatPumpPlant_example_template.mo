@@ -1,28 +1,27 @@
 within Buildings.Templates.Plants.HeatPumps.Validation;
-model HeatPumpPlant_example
+model HeatPumpPlant_example_template
   extends Modelica.Icons.Example;
   Buildings.Controls.OBC.CDL.Integers.Sources.Constant conInt(k=0)
     annotation (Placement(transformation(extent={{-80,-10},{-60,10}})));
-  HHW_CHW_plant                                       hHW_CHW_plant(datAll(pla(
+  HHW_CHW_plant_template hHW_CHW_plant_template(datAll(pla(
         ctl(dpHeaWatRemSet_max(each displayUnit="Pa") = {110000},
             dpChiWatRemSet_max(each displayUnit="Pa") = {4000}),
         pumHeaWatPri(dp_nominal(each displayUnit="Pa") = fill(40500, 2)),
-        pumHeaWatSec(m_flow_nominal=fill(1.4, hHW_CHW_plant.pumHeaWatSec.nPum),
-            dp_nominal=fill(120000, hHW_CHW_plant.pumHeaWatSec.nPum)),
+        pumHeaWatSec(m_flow_nominal=fill(1.4, hHW_CHW_plant_template.pumHeaWatSec.nPum),
+            dp_nominal=fill(120000, hHW_CHW_plant_template.pumHeaWatSec.nPum)),
         hp(
           mHeaWatHp_flow_nominal=1.1*120000/(4200*12),
           capHeaHp_nominal=2e5/2,
           mChiWatHp_flow_nominal=1.1*120000/(4200*12),
           capCooHp_nominal=2e5/2),
         pumChiWatSec(dp_nominal(each displayUnit="Pa") = fill(10000,
-            hHW_CHW_plant.pumChiWatSec.nPum)))), ctl(
+            hHW_CHW_plant_template.pumChiWatSec.nPum)))), ctl(
       triHeaWat=-0.03,
       kCtlDpHeaWat=0.1,
       TiCtlDpHeaWat=60,
       ctlPumHeaWatSec(ctlDpRem(r=110000)),
       kCtlDpChiWat=1,
-      TiCtlDpChiWat=180),
-    fourPipeASHP_with_controls(QHea_flow_nominal=85E3, QCoo_flow_nominal=-65E3))
+      TiCtlDpChiWat=180))
     annotation (Placement(transformation(extent={{0,0},{20,20}})));
   Buildings.Controls.OBC.CDL.Integers.Sources.Constant conInt1(k=1)
     annotation (Placement(transformation(extent={{-40,-30},{-20,-10}})));
@@ -79,28 +78,28 @@ model HeatPumpPlant_example
   Buildings.Controls.OBC.CDL.Reals.Sources.Constant con(k=273.15 + 40)
     annotation (Placement(transformation(extent={{-80,30},{-60,50}})));
 equation
-  connect(conInt.y, hHW_CHW_plant.nReqResChiWat) annotation (Line(points={{-58,0},
-          {-14,0},{-14,14},{-4,14}}, color={255,127,0}));
-  connect(conInt.y, hHW_CHW_plant.nReqPlaChiWat) annotation (Line(points={{-58,0},
-          {-14,0},{-14,6},{-4,6}}, color={255,127,0}));
-  connect(conInt1.y, hHW_CHW_plant.nReqPlaHeaWat) annotation (Line(points={{-18,
-          -20},{-10,-20},{-10,0},{-4,0}}, color={255,127,0}));
+  connect(conInt.y, hHW_CHW_plant_template.nReqResChiWat) annotation (Line(
+        points={{-58,0},{-14,0},{-14,14},{-4,14}}, color={255,127,0}));
+  connect(conInt.y, hHW_CHW_plant_template.nReqPlaChiWat) annotation (Line(
+        points={{-58,0},{-14,0},{-14,6},{-4,6}}, color={255,127,0}));
+  connect(conInt1.y, hHW_CHW_plant_template.nReqPlaHeaWat) annotation (Line(
+        points={{-18,-20},{-10,-20},{-10,0},{-4,0}}, color={255,127,0}));
   connect(ram.y, reaToInt.u)
     annotation (Line(points={{-58,70},{-42,70}}, color={0,0,127}));
-  connect(reaToInt.y, hHW_CHW_plant.nReqResHeaWat) annotation (Line(points={{-18,
-          70},{-14,70},{-14,20},{-4,20}}, color={255,127,0}));
-  connect(weather.weaBus, hHW_CHW_plant.weaBus) annotation (Line(
+  connect(reaToInt.y, hHW_CHW_plant_template.nReqResHeaWat) annotation (Line(
+        points={{-18,70},{-14,70},{-14,20},{-4,20}}, color={255,127,0}));
+  connect(weather.weaBus, hHW_CHW_plant_template.weaBus) annotation (Line(
       points={{-60,-50},{-46,-50},{-46,8},{-22,8},{-22,27.5},{-30.1,27.5}},
       color={255,204,51},
       thickness=0.5));
-  connect(bou3.ports[1], hHW_CHW_plant.port_a1) annotation (Line(points={{30,60},
-          {30,64},{0,64},{0,16}}, color={0,127,255}));
-  connect(bou2.ports[1], hHW_CHW_plant.port_b1) annotation (Line(points={{56,60},
-          {56,64},{70,64},{70,16},{20,16}}, color={0,127,255}));
-  connect(hHW_CHW_plant.port_b2, coo.port_a)
+  connect(bou3.ports[1], hHW_CHW_plant_template.port_a1) annotation (Line(
+        points={{30,60},{30,64},{0,64},{0,16}}, color={0,127,255}));
+  connect(bou2.ports[1], hHW_CHW_plant_template.port_b1) annotation (Line(
+        points={{56,60},{56,64},{70,64},{70,16},{20,16}}, color={0,127,255}));
+  connect(hHW_CHW_plant_template.port_b2, coo.port_a)
     annotation (Line(points={{0,4},{0,-30},{20,-30}}, color={0,127,255}));
-  connect(coo.port_b, hHW_CHW_plant.port_a2) annotation (Line(points={{40,-30},{
-          48,-30},{48,4},{20,4}}, color={0,127,255}));
+  connect(coo.port_b, hHW_CHW_plant_template.port_a2) annotation (Line(points={
+          {40,-30},{48,-30},{48,4},{20,4}}, color={0,127,255}));
   connect(con.y, coo.TSet) annotation (Line(points={{-58,40},{-18,40},{-18,-14},
           {18,-14},{18,-22}}, color={0,0,127}));
   annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
@@ -116,4 +115,4 @@ equation
       Interval=60,
       Tolerance=1e-05,
       __Dymola_Algorithm="Dassl"));
-end HeatPumpPlant_example;
+end HeatPumpPlant_example_template;
