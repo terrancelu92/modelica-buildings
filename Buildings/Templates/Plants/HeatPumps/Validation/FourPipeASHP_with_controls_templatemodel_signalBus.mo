@@ -1,5 +1,5 @@
 within Buildings.Templates.Plants.HeatPumps.Validation;
-model FourPipeASHP_with_controls_templatemodel
+model FourPipeASHP_with_controls_templatemodel_signalBus
   "Validation of AWHP plant template"
   extends Buildings.Fluid.Interfaces.PartialFourPortInterface(
     redeclare final package Medium1 = Medium,
@@ -106,11 +106,11 @@ model FourPipeASHP_with_controls_templatemodel
   Buildings.Controls.OBC.CDL.Conversions.BooleanToReal booToRea1
     annotation (Placement(transformation(extent={{-78,-420},{-58,-400}})));
   Buildings.Controls.OBC.CDL.Routing.IntegerExtractor extIndInt(nin=3)
-    annotation (Placement(transformation(extent={{-320,-330},{-300,-310}})));
+    annotation (Placement(transformation(extent={{-296,-286},{-276,-266}})));
   Buildings.Controls.OBC.CDL.Integers.Sources.Constant conInt[3](k={Buildings.Fluid.HeatPumps.ModularReversible.Types.OperatingModes.cooling,
         Buildings.Fluid.HeatPumps.ModularReversible.Types.OperatingModes.heating,
         Buildings.Fluid.HeatPumps.ModularReversible.Types.OperatingModes.shc})
-    annotation (Placement(transformation(extent={{-358,-330},{-338,-310}})));
+    annotation (Placement(transformation(extent={{-334,-286},{-314,-266}})));
   Fluid.Sensors.TemperatureTwoPort senTem(redeclare package Medium = Medium,
       m_flow_nominal=datAll.pla.hp.mChiWatHp_flow_nominal) annotation (
       Placement(transformation(
@@ -132,34 +132,9 @@ model FourPipeASHP_with_controls_templatemodel
     annotation (Placement(transformation(extent={{122,-30},{142,-10}})));
   Buildings.Controls.OBC.CDL.Conversions.BooleanToReal booToRea10
     annotation (Placement(transformation(extent={{162,-30},{182,-10}})));
-  Buildings.Controls.OBC.CDL.Interfaces.IntegerInput uPlaOpeMod annotation (
-      Placement(transformation(extent={{-580,-320},{-540,-280}}),
-        iconTransformation(extent={{-140,20},{-100,60}})));
-  Buildings.Controls.OBC.CDL.Interfaces.BooleanInput u1PumEvaEna annotation (
-      Placement(transformation(extent={{-580,-260},{-540,-220}}),
-        iconTransformation(extent={{-140,-140},{-100,-100}})));
-  Buildings.Controls.OBC.CDL.Interfaces.BooleanInput u1PumConEna annotation (
-      Placement(transformation(extent={{-580,-360},{-540,-320}}),
-        iconTransformation(extent={{-140,-60},{-100,-20}})));
-  Buildings.Controls.OBC.CDL.Interfaces.BooleanInput uHeaPumEna annotation (
-      Placement(transformation(extent={{-580,-140},{-540,-100}}),
-        iconTransformation(extent={{-140,-20},{-100,20}})));
-  Buildings.Controls.OBC.CDL.Interfaces.RealInput TChiWatSupSet annotation (
-      Placement(transformation(extent={{-580,-480},{-540,-440}}),
-        iconTransformation(extent={{-140,80},{-100,120}})));
-  Buildings.Controls.OBC.CDL.Interfaces.BooleanOutput yHPEnaPro annotation (
-      Placement(transformation(extent={{182,-120},{222,-80}}),
-        iconTransformation(extent={{100,-60},{140,-20}})));
-  Buildings.Controls.OBC.CDL.Interfaces.BooleanOutput yPumEvaEnaPro annotation
-    (Placement(transformation(extent={{182,-180},{222,-140}}),
-        iconTransformation(extent={{100,-20},{140,20}})));
-  Buildings.Controls.OBC.CDL.Interfaces.BooleanOutput yPumConEnaPro annotation
-    (Placement(transformation(extent={{182,-240},{222,-200}}),
-        iconTransformation(extent={{100,20},{140,60}})));
   BoundaryConditions.WeatherData.Bus
-      weaBus "Weather data bus" annotation (Placement(transformation(extent={{-514,
-            -110},{-440,-40}}), iconTransformation(extent={{-424,-132},{-350,
-            -62}})));
+      weaBus "Weather data bus" annotation (Placement(transformation(extent={{-236,
+            -30},{-162,40}}),   iconTransformation(extent={{-114,-44},{-76,-6}})));
   Buildings.Templates.Components.HeatPumps.AirToWaterSHC hpSHC(
     redeclare package MediumHeaWat = Medium,
     redeclare package MediumSou = Medium,
@@ -167,15 +142,6 @@ model FourPipeASHP_with_controls_templatemodel
     nUni=3,
     final dat=datHpSHC) "Multipipe heat pump"
     annotation (Placement(transformation(extent={{6,-270},{26,-290}})));
-  Buildings.Controls.OBC.CDL.Interfaces.RealInput THotWatSupSet annotation (
-      Placement(transformation(extent={{-580,-520},{-540,-480}}),
-        iconTransformation(extent={{-140,120},{-100,160}})));
-  Buildings.Controls.OBC.CDL.Interfaces.RealInput uPumEvaSpe annotation (
-      Placement(transformation(extent={{-580,-220},{-540,-180}}),
-        iconTransformation(extent={{-140,-180},{-100,-140}})));
-  Buildings.Controls.OBC.CDL.Interfaces.RealInput uPumConSpe annotation (
-      Placement(transformation(extent={{-580,-420},{-540,-380}}),
-        iconTransformation(extent={{-140,-100},{-100,-60}})));
   Buildings.Controls.OBC.CDL.Reals.Multiply mul
     annotation (Placement(transformation(extent={{-66,-180},{-46,-160}})));
   Buildings.Controls.OBC.CDL.Reals.Multiply mul1
@@ -208,8 +174,8 @@ model FourPipeASHP_with_controls_templatemodel
   Buildings.Templates.Components.Interfaces.Bus busHpSHC
     "SHC air-to-water heat pump control bus" annotation (Placement(
         transformation(extent={{-240,-364},{-200,-324}}),
-                                                      iconTransformation(extent
-          ={{-230,-40},{-190,0}})));
+                                                      iconTransformation(extent={{-116,
+            -14},{-76,26}})));
 equation
   if have_chiWat then
   end if;
@@ -218,7 +184,7 @@ equation
   connect(cheVal1.port_b, mov2.port_a)
     annotation (Line(points={{92,-250},{82,-250}},   color={0,127,255}));
   connect(conInt.y, extIndInt.u)
-    annotation (Line(points={{-336,-320},{-322,-320}},
+    annotation (Line(points={{-312,-276},{-298,-276}},
                                                  color={255,127,0}));
 
   connect(mov2.y_actual, greThr.u) annotation (Line(points={{61,-243},{44,-243},
@@ -248,25 +214,8 @@ equation
   connect(senTem.port_b, port_b1)
     annotation (Line(points={{-38,-130},{-38,60},{100,60}},
                                                         color={0,127,255}));
-  connect(uPlaOpeMod, extIndInt.index) annotation (Line(points={{-560,-300},{-380,
-          -300},{-380,-354},{-310,-354},{-310,-332}}, color={255,127,0}));
-  connect(greThr2.y, yHPEnaPro) annotation (Line(points={{114,-120},{170,-120},
-          {170,-100},{202,-100}},color={255,0,255}));
-  connect(greThr1.y, yPumConEnaPro) annotation (Line(points={{84,-340},{162,
-          -340},{162,-220},{202,-220}},                 color={255,0,255}));
-  connect(greThr.y, yPumEvaEnaPro) annotation (Line(points={{162,-202},{170,
-          -202},{170,-160},{202,-160}},              color={255,0,255}));
-  connect(u1PumConEna, booToRea1.u) annotation (Line(points={{-560,-340},{-400,
-          -340},{-400,-410},{-80,-410}}, color={255,0,255}));
-  connect(u1PumEvaEna, booToRea.u) annotation (Line(points={{-560,-240},{-140,
-          -240},{-140,-210},{-120,-210}},
-                       color={255,0,255}));
   connect(booToRea1.y, mul1.u1) annotation (Line(points={{-56,-410},{-54,-410},
           {-54,-416},{-40,-416},{-40,-424}}, color={0,0,127}));
-  connect(uPumConSpe, mul1.u2) annotation (Line(points={{-560,-400},{-156,-400},
-          {-156,-436},{-40,-436}}, color={0,0,127}));
-  connect(uPumEvaSpe, mul.u1) annotation (Line(points={{-560,-200},{-276,-200},
-          {-276,-156},{-80,-156},{-80,-164},{-68,-164}}, color={0,0,127}));
   connect(mul1.y, mov1.y) annotation (Line(points={{-16,-430},{-10,-430},{-10,
           -344},{-14,-344},{-14,-300},{-28,-300},{-28,-292}}, color={0,0,127}));
   connect(booToRea.y, mul.u2) annotation (Line(points={{-96,-210},{-90,-210},{
@@ -282,7 +231,8 @@ equation
   connect(hpSHC.port_bSou, senTem.port_a) annotation (Line(points={{6,-270},{
           -38,-270},{-38,-150}}, color={0,127,255}));
   connect(weaBus, hpSHC.busWea) annotation (Line(
-      points={{-477,-75},{-477,-300},{10,-300},{10,-290}},
+      points={{-199,5},{-200,5},{-200,-228},{-4,-228},{-4,-300},{10,-300},{10,
+          -290}},
       color={255,204,51},
       thickness=0.5), Text(
       string="%first",
@@ -303,26 +253,61 @@ equation
       index=1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-  connect(uHeaPumEna, busHpSHC.y1) annotation (Line(points={{-560,-120},{-220,
-          -120},{-220,-344}}, color={255,0,255}), Text(
+  connect(extIndInt.y, busHpSHC.mode) annotation (Line(points={{-274,-276},{
+          -252,-276},{-252,-344},{-220,-344}}, color={255,127,0}), Text(
       string="%second",
       index=1,
       extent={{6,3},{6,3}},
       horizontalAlignment=TextAlignment.Left));
-  connect(extIndInt.y, busHpSHC.mode) annotation (Line(points={{-298,-320},{
-          -252,-320},{-252,-344},{-220,-344}}, color={255,127,0}), Text(
+  connect(mul1.u2, busHpSHC.uPumConSpe) annotation (Line(points={{-40,-436},{
+          -156,-436},{-156,-400},{-220,-400},{-220,-344}}, color={0,0,127}),
+      Text(
+      string="%second",
+      index=1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
+  connect(booToRea1.u, busHpSHC.u1PumConEna) annotation (Line(points={{-80,-410},
+          {-80,-342},{-122,-342},{-122,-344},{-220,-344}}, color={255,0,255}),
+      Text(
+      string="%second",
+      index=1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
+  connect(extIndInt.index, busHpSHC.uPlaOpeMod) annotation (Line(points={{-286,
+          -288},{-286,-398},{-220,-398},{-220,-344}}, color={255,127,0}), Text(
       string="%second",
       index=1,
       extent={{6,3},{6,3}},
       horizontalAlignment=TextAlignment.Left));
-  connect(TChiWatSupSet, busHpSHC.TChwSet) annotation (Line(points={{-560,-460},
-          {-220,-460},{-220,-344}}, color={0,0,127}), Text(
+  connect(booToRea.u, busHpSHC.u1PumEvaEna) annotation (Line(points={{-120,-210},
+          {-220,-210},{-220,-344}}, color={255,0,255}), Text(
+      string="%second",
+      index=1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
+  connect(mul.u1, busHpSHC.uPumEvaSpe) annotation (Line(points={{-68,-164},{
+          -220,-164},{-220,-344}}, color={0,0,127}), Text(
+      string="%second",
+      index=1,
+      extent={{-6,3},{-6,3}},
+      horizontalAlignment=TextAlignment.Right));
+  connect(greThr1.y, busHpSHC.yPumConEnaPro) annotation (Line(points={{84,-340},
+          {100,-340},{100,-376},{-220,-376},{-220,-344}}, color={255,0,255}),
+      Text(
       string="%second",
       index=1,
       extent={{6,3},{6,3}},
       horizontalAlignment=TextAlignment.Left));
-  connect(THotWatSupSet, busHpSHC.THwSet) annotation (Line(points={{-560,-500},
-          {-220,-500},{-220,-344}}, color={0,0,127}), Text(
+  connect(greThr.y, busHpSHC.yPumEvaEnaPro) annotation (Line(points={{162,-202},
+          {166,-202},{166,-370},{-220,-370},{-220,-344}}, color={255,0,255}),
+      Text(
+      string="%second",
+      index=1,
+      extent={{6,3},{6,3}},
+      horizontalAlignment=TextAlignment.Left));
+  connect(greThr2.y, busHpSHC.yHPEnaPro) annotation (Line(points={{114,-120},{
+          174,-120},{174,-390},{-220,-390},{-220,-344}}, color={255,0,255}),
+      Text(
       string="%second",
       index=1,
       extent={{6,3},{6,3}},
@@ -411,8 +396,11 @@ First implementation.
 </html>"),
     Diagram(
       coordinateSystem(
-        extent={{-540,-480},{180,80}})),
-    Icon(coordinateSystem(extent={{-100,-100},{100,100}}), graphics={Rectangle(
+        extent={{-340,-460},{240,80}},
+        preserveAspectRatio=false,
+        grid={2,2})),
+    Icon(coordinateSystem(extent={{-100,-100},{100,100}}, preserveAspectRatio=
+            false),                                        graphics={Rectangle(
           extent={{-100,100},{100,-100}},
           lineColor={0,0,0},
           fillColor={255,255,255},
@@ -427,4 +415,4 @@ First implementation.
           lineColor={0,0,0},
           fillColor={28,108,200},
           fillPattern=FillPattern.Solid)}));
-end FourPipeASHP_with_controls_templatemodel;
+end FourPipeASHP_with_controls_templatemodel_signalBus;
