@@ -20,7 +20,7 @@ model SimplifiedRoomVaryingLoad "Simplified data center room"
     V=rooLen*rooWid*rooHei,
     m_flow_nominal=m_flow_nominal,
     energyDynamics=Modelica.Fluid.Types.Dynamics.FixedInitial,
-    final T_start=297.15,
+    T_start=308.15,
     final prescribedHeatFlowRate=true) "Volume of air in the room" annotation (Placement(
         transformation(extent={{41,-40},{61,-20}})));
   Modelica.Fluid.Vessels.BaseClasses.VesselFluidPorts_b airPorts[nPorts](

@@ -18,32 +18,33 @@ model IntegratedPrimaryLoadSideEconomizerCustomized
     PIT(y=sum(rac.QSou.Q_flow)));
   extends
     Buildings.Applications.DataCenters.ChillerCooled.Examples.BaseClasses.PartialDataCenterAirSide(
-    redeclare Buildings.Applications.DataCenters.ChillerCooled.Equipment.IntegratedPrimaryLoadSide chiWSE(
-      addPowerToMedium=false,
-      perPum=perPumPri),
+    TRacDifSet(y={TRacDifSetRan[i].y for i in 1:numChiDor}),
+    XAirRetSet(y={0 for i in 1:numChiDor}),
+    redeclare
+      Buildings.Applications.DataCenters.ChillerCooled.Equipment.IntegratedPrimaryLoadSide
+      chiWSE(addPowerToMedium=false, perPum=perPumPri),
     weaData(filNam=Modelica.Utilities.Files.loadResource("modelica://Buildings/Resources/weatherdata/DRYCOLD.mos")),
     rac(QRoo_flow=sca.y),
     ahuValSig(
       k=0.01,
-      Ti=600,
+      Ti=120,
       yMin=0.05,
       initType=Modelica.Blocks.Types.Init.InitialOutput,
-      y_start=1),
+      y_start=0.3),
     ahuFanSpeCon(
-      Ti=3600,
+      Ti=120,
       yMin=0.05,
       initType=Modelica.Blocks.Types.Init.InitialOutput,
-      y_start=1),
+      y_start=0.3),
     ahu(yFan_start=1),
     varSpeCon(tWai=0),
-    TAirSupSet(y={TSupAirRan[i].y for i in 1:numChiDor}),
-    TAirRetSet(y={TRacTemRan[i].y for i in 1:numChiDor}),
-    phiAirRetSet(y={phiRan[i].y for i in 1:numChiDor}),
+    TAirSupSet(y={0 + 273.15 for i in 1:numChiDor}),
     hea(Q_flow_nominal=-150000),
-    TCHWSupOve(activate(y=true), uExt(y=TSupCHW.y)));
-
-
-
+    TCHWSupOve(activate(y=true),  uExt(y=TSupCHW.y)),
+    TCHWSupSet(k=18 + 273.15),
+    add(k1=-1),
+    TRoo(y=TRooSetRan.y),
+    TRacOut(y={TRacOutRan[i].y for i in 1:numChiDor}));
 
   parameter Buildings.Fluid.Movers.Data.Generic[numChi] perPumPri(
     each pressure=Buildings.Fluid.Movers.BaseClasses.Characteristics.flowParameters(
@@ -71,31 +72,29 @@ model IntegratedPrimaryLoadSideEconomizerCustomized
     y=-chiWSE.port_a2.m_flow*4180*(chiWSE.TCHWSupWSE - TCHWSupSet.y))
     "Cooling load in chillers"
     annotation (Placement(transformation(extent={{-320,130},{-300,150}})));
-  BaseClasses.SignalStep TSupAirRan[numChiDor](
-    yMin=12 + 273.15,
-    yMax=19 + 273.15,
-    sampleTime={3000,3000,2100,2700,2400,2400,3300,3000,3000,3300,3600,3300,3300,
-        3600,3300,3300,2100,2400,3000,2400}[1:numChiDor],
-    randomSeed={6,91,900,6138,80687,9,70,623,8472,60694,3,11,314,2045,96255,3,32,
-        398,7723,87754}[1:numChiDor],
+  BaseClasses.SignalStep TRacDifSetRan[numChiDor](
+    yMin=5,
+    yMax=15,
+    sampleTime={3000,3000,2100,2700,2400,2400,3300,3000,3000,3300,3600,3300,
+        3300,3600,3300,3300,2100,2400,3000,2400}[1:numChiDor],
+    randomSeed={6,91,900,6138,80687,9,70,623,8472,60694,3,11,314,2045,96255,3,
+        32,398,7723,87754}[1:numChiDor],
     usePredefPattern=false)
-    annotation (Placement(transformation(extent={{80,-140},{100,-120}})));
-  BaseClasses.SignalStep TRacTemRan[numChiDor](
-    yMin=23 + 273.15,
-    yMax=25 + 273.15,
+    annotation (Placement(transformation(extent={{78,-140},{98,-120}})));
+  BaseClasses.SignalStep TRacOutRan[numChiDor](
+    yMin=22 + 273.15,
+    yMax=26 + 273.15,
     sampleTime={3600,3600,2400,3600,3000,2100,3600,2100,3000,3600,3000,3300,2100,
         3300,2400,1800,3000,3600,2100,2400}[1:numChiDor],
     randomSeed={5,50,360,6914,55328,9,53,140,6088,99611,2,64,769,5453,71289,2,89,
         897,4447,71666}[1:numChiDor],
     usePredefPattern=false)
     annotation (Placement(transformation(extent={{80,-180},{100,-160}})));
-  BaseClasses.SignalStep phiRan[numChiDor](
-    yMin=0.4,
-    yMax=0.6,
-    sampleTime={3000,2100,3600,3300,2400,1800,2700,2100,2400,1800,2100,3600,2700,
-        3600,3000,3300,1800,2700,3000,2700}[1:numChiDor],
-    randomSeed={7,62,852,3444,53929,6,25,397,5451,89740,8,75,545,4886,88322,8,13,
-        898,2453,47133}[1:numChiDor],
+  BaseClasses.SignalStep TRooSetRan(
+    yMin=273.15 + 22,
+    yMax=273.15 + 26,
+    sampleTime=3600,
+    randomSeed=3444,
     usePredefPattern=false)
     annotation (Placement(transformation(extent={{80,-220},{100,-200}})));
   Modelica.Blocks.Sources.CombiTimeTable PCPU(
@@ -105,13 +104,13 @@ model IntegratedPrimaryLoadSideEconomizerCustomized
     columns=2:numChiDor + 1,
     startTime(displayUnit="d"),
     shiftTime(displayUnit="d") = 15552000)
-    annotation (Placement(transformation(extent={{-120,-220},{-100,-200}})));
+    annotation (Placement(transformation(extent={{-120,-240},{-100,-220}})));
 
   Modelica.Blocks.Math.Gain sca[numChiDor](k=1000)  "Gain effect"
-    annotation (Placement(transformation(extent={{-80,-220},{-60,-200}})));
+    annotation (Placement(transformation(extent={{-80,-240},{-60,-220}})));
   BaseClasses.SignalStep TSupCHW(
-    yMin=6 + 273.15,
-    yMax=10 + 273.15,
+    yMin=12 + 273.15,
+    yMax=20 + 273.15,
     sampleTime=9000,
     randomSeed=125,
     usePredefPattern=false)
@@ -152,7 +151,7 @@ equation
           -84,29.8},{-1.6,29.8}}, color={0,0,127}));
   for i in 1:numChiDor loop
   connect(PCPU.y[i], sca[i].u)
-    annotation (Line(points={{-99,-210},{-82,-210}}, color={0,0,127}));
+    annotation (Line(points={{-99,-230},{-82,-230}}, color={0,0,127}));
   end for;
   connect(cooModCon.y, intToBoo.u) annotation (Line(points={{-230.9,111},{-202.45,
           111},{-202.45,110},{-172,110}}, color={255,127,0}));
