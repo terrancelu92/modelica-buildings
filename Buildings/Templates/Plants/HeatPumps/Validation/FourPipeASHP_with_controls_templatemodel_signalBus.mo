@@ -214,8 +214,8 @@ equation
   connect(senTem.port_b, port_b1)
     annotation (Line(points={{-38,-130},{-38,60},{100,60}},
                                                         color={0,127,255}));
-  connect(booToRea1.y, mul1.u1) annotation (Line(points={{-56,-410},{-54,-410},
-          {-54,-416},{-40,-416},{-40,-424}}, color={0,0,127}));
+  connect(booToRea1.y, mul1.u1) annotation (Line(points={{-56,-410},{-48,-410},
+          {-48,-424},{-40,-424}},            color={0,0,127}));
   connect(mul1.y, mov1.y) annotation (Line(points={{-16,-430},{-10,-430},{-10,
           -344},{-14,-344},{-14,-300},{-28,-300},{-28,-292}}, color={0,0,127}));
   connect(booToRea.y, mul.u2) annotation (Line(points={{-96,-210},{-90,-210},{
@@ -267,14 +267,14 @@ equation
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
   connect(booToRea1.u, busHpSHC.u1PumConEna) annotation (Line(points={{-80,-410},
-          {-80,-342},{-122,-342},{-122,-344},{-220,-344}}, color={255,0,255}),
+          {-134,-410},{-134,-344},{-220,-344}},            color={255,0,255}),
       Text(
       string="%second",
       index=1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
   connect(extIndInt.index, busHpSHC.uPlaOpeMod) annotation (Line(points={{-286,
-          -288},{-286,-398},{-220,-398},{-220,-344}}, color={255,127,0}), Text(
+          -288},{-286,-378},{-220,-378},{-220,-344}}, color={255,127,0}), Text(
       string="%second",
       index=1,
       extent={{6,3},{6,3}},

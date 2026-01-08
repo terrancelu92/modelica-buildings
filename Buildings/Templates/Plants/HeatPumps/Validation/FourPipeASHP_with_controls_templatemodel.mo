@@ -142,7 +142,7 @@ model FourPipeASHP_with_controls_templatemodel
       Placement(transformation(extent={{-580,-360},{-540,-320}}),
         iconTransformation(extent={{-140,-60},{-100,-20}})));
   Buildings.Controls.OBC.CDL.Interfaces.BooleanInput uHeaPumEna annotation (
-      Placement(transformation(extent={{-580,-140},{-540,-100}}),
+      Placement(transformation(extent={{-578,-140},{-538,-100}}),
         iconTransformation(extent={{-140,-20},{-100,20}})));
   Buildings.Controls.OBC.CDL.Interfaces.RealInput TChiWatSupSet annotation (
       Placement(transformation(extent={{-580,-480},{-540,-440}}),
@@ -263,8 +263,8 @@ equation
                        color={255,0,255}));
   connect(booToRea1.y, mul1.u1) annotation (Line(points={{-56,-410},{-54,-410},
           {-54,-416},{-40,-416},{-40,-424}}, color={0,0,127}));
-  connect(uPumConSpe, mul1.u2) annotation (Line(points={{-560,-400},{-156,-400},
-          {-156,-436},{-40,-436}}, color={0,0,127}));
+  connect(uPumConSpe, mul1.u2) annotation (Line(points={{-560,-400},{-160,-400},
+          {-160,-436},{-40,-436}}, color={0,0,127}));
   connect(uPumEvaSpe, mul.u1) annotation (Line(points={{-560,-200},{-276,-200},
           {-276,-156},{-80,-156},{-80,-164},{-68,-164}}, color={0,0,127}));
   connect(mul1.y, mov1.y) annotation (Line(points={{-16,-430},{-10,-430},{-10,
@@ -303,7 +303,7 @@ equation
       index=1,
       extent={{-6,3},{-6,3}},
       horizontalAlignment=TextAlignment.Right));
-  connect(uHeaPumEna, busHpSHC.y1) annotation (Line(points={{-560,-120},{-220,
+  connect(uHeaPumEna, busHpSHC.y1) annotation (Line(points={{-558,-120},{-220,
           -120},{-220,-344}}, color={255,0,255}), Text(
       string="%second",
       index=1,
